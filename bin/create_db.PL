@@ -32,10 +32,14 @@ BEGIN {
 
 exit if($ENV{'AUTOMATED_TESTING'});
 
-my $filename = 'lib/Genealogy/ObituaryDailyTimes/database/obituaries.sqlite';
+my $dir = 'lib/Genealogy/ObituaryDailyTimes/database';
+my $filename = File::Spec->catdir($dir, 'obituaries.sqlite');
+
+if(!-d $dir) {
+	mkdir $dir;
+}
 
 if(-r $filename) {
-
 	# Don't bother downloading if the file is less than a day old
 	exit if(-M $filename < 1);
 }
