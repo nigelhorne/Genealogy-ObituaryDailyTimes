@@ -55,7 +55,7 @@ WriteMakefile(
 
 		},
 	},
-	PPM_INSTALL_EXEC	=> 'perl',
-	PPM_INSTALL_SCRIPT	=> 'bin/create_db.PL',
+	# PPM_INSTALL_EXEC	=> 'perl',
+	# PPM_INSTALL_SCRIPT	=> 'bin/create_db.PL',
 	MIN_PERL_VERSION	=> '5.6.2'	# Probably would work, but never tested on earlier versions than this
 );
