@@ -65,3 +65,5 @@
 \.releaserc
 \.lwpcookies
 Genealogy-.*
+\.sqlite$
+\.sqlite-journal$

@@ -1,6 +1,22 @@
+#!/usr/bin/env perl
+
 use strict;
 use warnings;
 use ExtUtils::MakeMaker 6.64;	# 6.64 for TEST_REQUIRES
+
+my $prereqs = { 'File::Spec' => 0, 'Module::Info' => 0 };
+
+unless(defined($ENV{'AUTOMATED_TESTING'})) {
+	$prereqs->{'Module::Info'} = 0;
+	$prereqs->{'DBI'} = 0;
+	$prereqs->{'File::HomeDir'} = 0;
+	$prereqs->{'HTML::Entities'} = 0;
+	$prereqs->{'HTTP::Cache::Transparent'} = 0;
+	$prereqs->{'LWP::ConnCache'} = 0;
+	$prereqs->{'LWP::UserAgent::WithCache'} = 0;
+	$prereqs->{'Lingua::EN::NameCase'} = 0;
+	$prereqs->{'Try::Tiny'} = 0;
+}
 
 WriteMakefile(
 	NAME		=> 'Genealogy::ObituaryDailyTimes',
@@ -14,24 +30,14 @@ WriteMakefile(
 	'LIBS' => [''],   # e.g., '-lm'
 	'DEFINE' => '',     # e.g., '-DHAVE_SOMETHING'
 	'INC' => '',     # e.g., '-I/usr/include/other'
-	PL_FILES	=> {},
+	PL_FILES	=> {'bin/create_db.PL' => 'bin/create_db'},
 	TEST_REQUIRES => {
 		'Test::Most' => 0,
 		'Test::NoWarnings' => 0,
 		# 'Test::Kwalitee' => 0,
 		'autodie' => 0,
 		'IPC::System::Simple' => 0,
-	}, PREREQ_PM => {
-		'DBI' => 0,
-		'File::HomeDir' => 0,
-		'File::Spec' => 0,
-		'HTML::Entities' => 0,
-		'HTTP::Cache::Transparent' => 0,
-		'LWP::ConnCache' => 0,
-		'LWP::UserAgent::WithCache' => 0,
-		'Lingua::EN::NameCase' => 0,
-		'Try::Tiny' => 0,
-	},
+	}, PREREQ_PM => $prereqs,
 	dist		=> { COMPRESS => 'gzip -9f', SUFFIX => 'gz', },
 	clean		=> { FILES => 'Genealogy-ObituaryDailyTimes-*' },
 	# META_ADD => {

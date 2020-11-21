@@ -2,6 +2,9 @@ package Genealogy::ObituaryDailyTimes;
 
 use warnings;
 use strict;
+use File::Spec;
+use Module::Info;
+use Genealogy::ObituaryDailyTimes::DB;
 
 =head1 NAME
 
@@ -30,15 +33,22 @@ Creates a Genealogy::ObituaryDailyTimes object.
 =cut
 
 sub new {
-	my $proto = shift;
+	my($proto, %param) = @_;
 	my $class = ref($proto) || $proto;
 
-	return unless(defined($class));
+	# Use Genealogy::ObituaryDailyTimes->new, not Genealogy::ObituaryDailyTimes::new
+	return unless($class);
 
-	my %args = (ref($_[0]) eq 'HASH') ? %{$_[0]} : @_;
+	my $directory = $param{'directory'} || Module::Info->new_from_loaded(__PACKAGE__)->file();
+	$directory =~ s/\.pm$//;
+	die unless(-r 'lib/Genealogy/ObituaryDailyTimes/database/obituaries.sqlite');
+
+	Genealogy::ObituaryDailyTimes::DB::init(directory => File::Spec->catfile($directory, 'databases'));
 
 	return bless { }, $class;
 }
+
+=head2 geocode
 
 =head1 AUTHOR
 

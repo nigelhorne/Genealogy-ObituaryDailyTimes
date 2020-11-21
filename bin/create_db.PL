@@ -30,7 +30,17 @@ BEGIN {
 	}
 }
 
-my $dbh = DBI->connect('dbi:SQLite:dbname=obituaries.sqlite', undef, undef, { RaiseError => 1, AutoCommit => 0, synchronous => 0, locking_mode => 'EXCLUSIVE' });
+exit if($ENV{'AUTOMATED_TESTING'});
+
+my $filename = 'lib/Genealogy/ObituaryDailyTimes/database/obituaries.sqlite';
+
+if(-r $filename) {
+
+	# Don't bother downloading if the file is less than a day old
+	exit if(-M $filename < 1);
+}
+
+my $dbh = DBI->connect("dbi:SQLite:dbname=$filename", undef, undef, { RaiseError => 1, AutoCommit => 0, synchronous => 0, locking_mode => 'EXCLUSIVE' });
 if($dbh) {
 	$dbh->do('CREATE TABLE obituaries(first VARCHAR, last VARCHAR NOT NULL, maiden, VARCHAR, age INTEGER, place VARCHAR, newspaper VARCHAR NOT NULL, date DATE NOT NULL)');
 	$dbh->do('PRAGMA cache_size = -65536');	# 64MB
