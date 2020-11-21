@@ -1,5 +1,4 @@
 bin/create_db.PL
-create_db.PL
 lib/Genealogy/ObituaryDailyTimes.pm
 lib/Genealogy/ObituaryDailyTimes/DB.pm
 lib/Genealogy/ObituaryDailyTimes/DB/obituaries.pm
