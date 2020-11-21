@@ -2,9 +2,11 @@ package Genealogy::ObituaryDailyTimes;
 
 use warnings;
 use strict;
+use Carp;
 use File::Spec;
 use Module::Info;
 use Genealogy::ObituaryDailyTimes::DB;
+use Genealogy::ObituaryDailyTimes::DB::obituaries;
 
 =head1 NAME
 
@@ -41,14 +43,37 @@ sub new {
 
 	my $directory = $param{'directory'} || Module::Info->new_from_loaded(__PACKAGE__)->file();
 	$directory =~ s/\.pm$//;
-	die unless(-r 'lib/Genealogy/ObituaryDailyTimes/database/obituaries.sqlite');
+	die unless(-r 'lib/Genealogy/ObituaryDailyTimes/databases/obituaries.sql');
 
 	Genealogy::ObituaryDailyTimes::DB::init(directory => File::Spec->catfile($directory, 'databases'));
 
 	return bless { }, $class;
 }
 
-=head2 geocode
+=head2 search
+
+=cut
+
+sub search {
+	my $self = shift;
+
+	my %param;
+	if(ref($_[0]) eq 'HASH') {
+		%param = %{$_[0]};
+	} elsif(@_ % 2 == 0) {
+		%param = @_;
+	}
+
+	return if(scalar keys %param == 0);
+
+	$self->{'obituaries'} //= Genealogy::ObituaryDailyTimes::DB::obituaries->new(no_entry => 1) or Carp::croak "Can't open the obituaries database";
+
+	if(wantarray) {
+		my @obituaries = $self->{'obituaries'}->selectall_hashref(\%param);
+		return @obituaries;
+	}
+	return $self->{'obituaries'}->fetchrow_hashref(\%param);
+}
 
 =head1 AUTHOR
 
