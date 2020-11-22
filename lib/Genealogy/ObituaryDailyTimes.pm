@@ -14,11 +14,11 @@ Genealogy::ObituaryDailyTimes - Compare a Gedcom against the Obituary Daily Time
 
 =head1 VERSION
 
-Version 0.01
+Version 0.02
 
 =cut
 
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 
 =head1 SYNOPSIS
 
@@ -57,6 +57,8 @@ sub new {
 
    my @smiths = $obits->search(last => 'Smith');
 
+   print $smiths[0]->{'first'}, "\n';
+
 =cut
 
 sub search {
@@ -74,7 +76,7 @@ sub search {
 	$self->{'obituaries'} //= Genealogy::ObituaryDailyTimes::DB::obituaries->new(no_entry => 1) or Carp::croak "Can't open the obituaries database";
 
 	if(wantarray) {
-		my @obituaries = $self->{'obituaries'}->selectall_hashref(\%param);
+		my @obituaries = @{$self->{'obituaries'}->selectall_hashref(\%param)};
 		return @obituaries;
 	}
 	return $self->{'obituaries'}->fetchrow_hashref(\%param);

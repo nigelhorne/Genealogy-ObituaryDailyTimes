@@ -3,7 +3,7 @@
 use strict;
 
 use lib 'lib';
-use Test::Most tests => 3;
+use Test::Most tests => 4;
 use lib 't/lib';
 use MyLogger;
 
@@ -21,9 +21,10 @@ SKIP: {
 
 	my @smiths = $search->search(last => 'Smith');
 
-	ok(scalar(@smiths) >= 1);
-
 	if($ENV{'TEST_VERBOSE'}) {
 		diag(Data::Dumper->new([\@smiths])->Dump());
 	}
+
+	ok(scalar(@smiths) >= 1);
+	is($smiths[0]->{'last'}, 'Smith', 'Returned Smiths');
 }
