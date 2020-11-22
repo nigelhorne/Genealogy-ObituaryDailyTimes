@@ -15,14 +15,17 @@ SEARCH: {
 	if($ENV{'TEST_VERBOSE'}) {
 		Genealogy::ObituaryDailyTimes::DB::init(logger => MyLogger->new());
 	}
+	SKIP: {
+		skip 'Database not installed', 2, if(!-r 'lib/Genealogy/ObituaryDailyTimes/database/obituaries.sql');
 
-	my $search = new_ok('Genealogy::ObituaryDailyTimes');
+		my $search = new_ok('Genealogy::ObituaryDailyTimes');
 
-	my @smiths = $search->search(last => 'Smith');
+		my @smiths = $search->search(last => 'Smith');
 
-	ok(scalar(@smiths) >= 1);
+		ok(scalar(@smiths) >= 1);
 
-	if($ENV{'TEST_VERBOSE'}) {
-		diag(Data::Dumper->new([\@smiths])->Dump());
+		if($ENV{'TEST_VERBOSE'}) {
+			diag(Data::Dumper->new([\@smiths])->Dump());
+		}
 	}
 }

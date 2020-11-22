@@ -18,7 +18,7 @@ Version 0.01
 
 Creates a Genealogy::ObituaryDailyTimes object.
 
-Takes an option argument, directory, that is the directory containing obituaries.sql.
+Takes an optional argument, directory, that is the directory containing obituaries.sql.
 
 ## search
 
