@@ -26,5 +26,6 @@ SKIP: {
 	}
 
 	ok(scalar(@smiths) >= 1);
+	# FIXME, test either last == Smith or maiden == Smith
 	is($smiths[0]->{'last'}, 'Smith', 'Returned Smiths');
 }
