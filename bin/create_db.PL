@@ -33,7 +33,7 @@ BEGIN {
 exit if($ENV{'AUTOMATED_TESTING'});
 
 my $dir = 'lib/Genealogy/ObituaryDailyTimes/database';
-my $filename = File::Spec->catdir($dir, 'obituaries.sqlite');
+my $filename = File::Spec->catdir($dir, 'obituaries.sql');
 
 if(!-d $dir) {
 	mkdir $dir;
@@ -50,7 +50,7 @@ if($dbh) {
 	$dbh->do('PRAGMA cache_size = -65536');	# 64MB
 	$dbh->do('PRAGMA journal_mode = OFF');
 } else {
-	die "obituaries.sqlite: $!";
+	die "obituaries.sql: $!";
 }
 
 my $cachedir = $ENV{'CACHEDIR'};
@@ -188,7 +188,6 @@ sub mlarchives($$) {
 		queue($first, $last, $maiden, $age, $place, $date, $newspaper) if($last =~ /^[A-Z]/);
 		# print "\"$last\",\"$first\",\"$maiden\",\"$age\",\"$place\",\"$date\",\"$newspaper\"\n" if($last =~ /^[A-Z]/);
 	}
-	flush($dbh);
 	return 1;
 }
 
@@ -270,7 +269,6 @@ sub freelists($$) {
 		# print "\"$last\",\"$first\",\"$maiden\",\"$age\",\"$place\",\"$date\",\"$newspaper\"\n" if($last =~ /^[A-Z]/);
 		queue($first, $last, $maiden, $age, $place, $date, $newspaper) if($last =~ /^[A-Z]/);
 	}
-	flush($dbh);
 	return 1;
 }
 
