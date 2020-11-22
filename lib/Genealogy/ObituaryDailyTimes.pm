@@ -57,7 +57,7 @@ sub new {
 
    my @smiths = $obits->search(last => 'Smith');
 
-   print $smiths[0]->{'first'}, "\n';
+   print $smiths[0]->{'first'}, "\n";
 
 =cut
 
