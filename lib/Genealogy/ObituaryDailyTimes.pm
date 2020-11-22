@@ -32,6 +32,8 @@ our $VERSION = '0.01';
 
 Creates a Genealogy::ObituaryDailyTimes object.
 
+Takes an option argument, directory, that is the directory containing obituaries.sql.
+
 =cut
 
 sub new {
@@ -43,14 +45,17 @@ sub new {
 
 	my $directory = $param{'directory'} || Module::Info->new_from_loaded(__PACKAGE__)->file();
 	$directory =~ s/\.pm$//;
-	die unless(-r 'lib/Genealogy/ObituaryDailyTimes/databases/obituaries.sql');
 
-	Genealogy::ObituaryDailyTimes::DB::init(directory => File::Spec->catfile($directory, 'databases'));
+	Genealogy::ObituaryDailyTimes::DB::init(directory => File::Spec->catfile($directory, 'database'));
 
 	return bless { }, $class;
 }
 
 =head2 search
+
+   my $obits = Genealogy::ObituaryDailyTimes->new();
+
+   my @smiths = $obits->search(last => 'Smith');
 
 =cut
 
@@ -82,6 +87,8 @@ Nigel Horne, C<< <njh at bandsman.co.uk> >>
 =head1 BUGS
 
 =head1 SEE ALSO
+
+The Obituary Daily Times, L<https://sites.rootsweb.com/~obituary/>
 
 =head1 SUPPORT
 
@@ -121,7 +128,7 @@ L<http://deps.cpantesters.org/?module=Genealogy::ObituaryDailyTimes>
 
 =head1 LICENSE AND COPYRIGHT
 
-Copyright 2010-2019 Nigel Horne.
+Copyright 2020 Nigel Horne.
 
 This program is released under the following licence: GPL2
 

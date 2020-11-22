@@ -10,4 +10,6 @@ README.md
 t/00-load.t
 t/10-new.t
 t/lib/MyLogger.pm
+t/pod-cm.t
+t/pod.t
 t/search.t

@@ -251,7 +251,7 @@ sub freelists($$) {
 		# e.g. https://www.freelists.org/post/obitdailytimes/Obituary-Daily-Times-v25no010
 		last unless(defined($newspaper));
 
-		my $maiden = '';
+		my $maiden;
 		if($first) {
 			if($first =~ /(.+)\s\((.+)\)$/) {
 				$first = nc($1);

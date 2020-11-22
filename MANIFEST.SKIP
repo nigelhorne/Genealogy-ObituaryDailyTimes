@@ -67,3 +67,5 @@
 Genealogy-.*
 \.sqlite$
 \.sqlite-journal$
+\.sql$
+\.sql-journal$
