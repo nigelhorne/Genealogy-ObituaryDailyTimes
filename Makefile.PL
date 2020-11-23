@@ -64,9 +64,8 @@ WriteMakefile(
 				# web => 'https://rt.cpan.org/Public/Dist/Display.html?Name=Genealogy-ObituaryDailyTimes',
 				# mailto => 'bug-Genealogy-ObituaryDailyTimes@rt.cpan.org'
 				web => 'https://github.com/nigelhorne/Genealogy-ObituaryDailyTimes/issues',
-				url => 'https://github.com/nigelhorne/Genealogy-ObituaryDailyTimes/issues',
-			}
-
+				mailto => 'bug-Genealogy-ObituaryDailyTimes@rt.cpan.org'
+			}, homepage => 'https://sites.rootsweb.com/~obituary',
 		},
 	},
 	# PPM_INSTALL_EXEC	=> 'perl',
