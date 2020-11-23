@@ -4,7 +4,7 @@ Genealogy::ObituaryDailyTimes - Compare a Gedcom against the Obituary Daily Time
 
 # VERSION
 
-Version 0.02
+Version 0.03
 
 # SYNOPSIS
 
@@ -26,7 +26,7 @@ Takes an optional argument, directory, that is the directory containing obituari
 
     my @smiths = $obits->search(last => 'Smith');
 
-    print $smiths[0]->{'first'}, "\n';
+    print $smiths[0]->{'first'}, "\n";
 
 # AUTHOR
 
