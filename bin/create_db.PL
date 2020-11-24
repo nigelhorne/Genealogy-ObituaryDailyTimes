@@ -15,6 +15,7 @@ use LWP::ConnCache;
 use LWP::UserAgent::WithCache;
 use Lingua::EN::NameCase qw(nc);
 use Try::Tiny;
+use autodie qw(:all);
 
 sub freelists($$);
 sub mlarchives($$);
@@ -44,6 +45,7 @@ if(!-d $dir) {
 if(-r $filename) {
 	# Don't bother downloading if the file is less than a day old
 	exit if(-M $filename < 1);
+	unlink $filename;
 }
 
 my $dbh = DBI->connect("dbi:SQLite:dbname=$filename", undef, undef, { RaiseError => 1, AutoCommit => 0, synchronous => 0, locking_mode => 'EXCLUSIVE' });
