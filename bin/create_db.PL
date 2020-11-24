@@ -20,6 +20,7 @@ sub freelists($$);
 sub mlarchives($$);
 sub queue($$$$$$$);
 sub flush($);
+sub normalise_name($);
 
 BEGIN {
 	$SIG{__WARN__} = sub {
@@ -34,6 +35,7 @@ exit if($ENV{'AUTOMATED_TESTING'});
 
 my $dir = 'lib/Genealogy/ObituaryDailyTimes/database';
 my $filename = File::Spec->catdir($dir, 'obituaries.sql');
+my %normalised;
 
 if(!-d $dir) {
 	mkdir $dir;
@@ -177,17 +179,16 @@ sub mlarchives($$) {
 		my $maiden;
 		if($first) {
 			if($first =~ /(.+)\s\((.+)\)$/) {
-				$first = nc($1);
-				$maiden = nc($2);
+				$first = normalise_name($1);
+				$maiden = normalise_name($2);
 			} else {
-				$first = nc($first);
+				$first = normalise_name($first);
 			}
 		}
-		$last = nc($last);
 		# $age //= '';
 
 		# print "$line->>>>>>>>>>\n";
-		queue($first, $last, $maiden, $age, $place, $date, $newspaper) if($last =~ /^[A-Z]/);
+		queue($first, normalise_name($last), $maiden, $age, $place, $date, $newspaper) if($last =~ /^[A-Z]/);
 		# print "\"$last\",\"$first\",\"$maiden\",\"$age\",\"$place\",\"$date\",\"$newspaper\"\n" if($last =~ /^[A-Z]/);
 	}
 	return 1;
@@ -256,20 +257,17 @@ sub freelists($$) {
 		my $maiden;
 		if($first) {
 			if($first =~ /(.+)\s\((.+)\)$/) {
-				$first = nc($1);
-				$maiden = nc($2);
+				$first = normalise_name($1);
+				$maiden = normalise_name($2);
 			} else {
-				$first = nc($first);
+				$first = normalise_name($first);
 			}
-		} else {
-			$first = '';
 		}
-		$last = nc($last);
 		# $age //= '';
 
 		# print "$line->>>>>>>>>>\n";
 		# print "\"$last\",\"$first\",\"$maiden\",\"$age\",\"$place\",\"$date\",\"$newspaper\"\n" if($last =~ /^[A-Z]/);
-		queue($first, $last, $maiden, $age, $place, $date, $newspaper) if($last =~ /^[A-Z]/);
+		queue($first, normalise_name($last), $maiden, $age, $place, $date, $newspaper) if($last =~ /^[A-Z]/);
 	}
 	return 1;
 }
@@ -352,4 +350,18 @@ sub flush($)
 		die "\nError in insert ($query) called from line ",
 			$call_details[2], ': ', $dbh->errstr(), "\n";
 	};
+}
+
+# Reduce the very large number of calls to Lingua::EN::NameCase
+sub normalise_name($)
+{
+	my $name = shift;
+	my $key = lc($name);
+
+	if($normalised{$key}) {
+		return $normalised{$key};
+	}
+	my $value = nc($name);
+	$normalised{$key} = $value;
+	return $value;
 }
