@@ -83,10 +83,10 @@ $ua->conn_cache()->total_capacity(undef);
 
 my $page = 1;
 my @queue;
-while(1) {
+do {
 	last if(!mlarchives($ua, $page));
 	$page++;
-}
+} while($page < 200);
 
 my $issue = 9;
 while(1) {
