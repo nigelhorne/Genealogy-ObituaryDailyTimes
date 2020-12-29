@@ -19,4 +19,6 @@ t/noplan.t
 t/pod-cm.t
 t/pod.t
 t/search.t
+t/snippets.t
+t/strict.t
 t/unused.t
