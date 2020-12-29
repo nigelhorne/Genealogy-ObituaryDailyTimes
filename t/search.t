@@ -1,5 +1,8 @@
 #!perl -wT
 
+# TODO: Find something in both of the archives and see if a search finds it
+#	in the correct URL
+
 use strict;
 
 use lib 'lib';
