@@ -50,7 +50,7 @@ if(-r $filename) {
 
 my $dbh = DBI->connect("dbi:SQLite:dbname=$filename", undef, undef, { RaiseError => 1, AutoCommit => 0, synchronous => 0, locking_mode => 'EXCLUSIVE' });
 if($dbh) {
-	$dbh->do('CREATE TABLE obituaries(first VARCHAR, last VARCHAR NOT NULL, maiden VARCHAR, age INTEGER, place VARCHAR, newspaper VARCHAR NOT NULL, date DATE NOT NULL, url VARCHAR)');
+	$dbh->do('CREATE TABLE obituaries(first VARCHAR, last VARCHAR NOT NULL, maiden VARCHAR, age INTEGER, place VARCHAR, newspaper VARCHAR NOT NULL, date DATE NOT NULL, url VARCHAR NOT NULL)');
 	$dbh->do('PRAGMA cache_size = -65536');	# 64MB
 	$dbh->do('PRAGMA journal_mode = OFF');
 } else {
@@ -339,7 +339,7 @@ sub flush($)
 		} else {
 			$query .= 'NULL,';
 		}
-		$query .= "'" . $columns{'newspaper'} . "','", $columns{'url'}, "')";
+		$query .= "'" . $columns{'newspaper'} . "','" . $columns{'url'} . "')";
 	}
 
 	# $| = 1;
