@@ -129,6 +129,7 @@ sub mlarchives($$) {
 	my @lines = split(/$/ms, $data);
 
 	my $last_line;
+	my $rc;
 
 	while(my $line = shift(@lines)) {
 		# LAST NAME, First Name (MAIDEN); Age; Place of Death; Newspaper Name; Newspaper date; tagname
@@ -192,7 +193,9 @@ sub mlarchives($$) {
 		# print "$line->>>>>>>>>>\n";
 		queue($first, normalise_name($last), $maiden, $age, $place, $date, $newspaper, $url) if($last =~ /^[A-Z]/);
 		# print "\"$last\",\"$first\",\"$maiden\",\"$age\",\"$place\",\"$date\",\"$newspaper\"\n" if($last =~ /^[A-Z]/);
+		$rc = 1;
 	}
+	die "Couldn't parse $url" if(!defined($rc));
 	return 1;
 }
 
@@ -225,6 +228,7 @@ sub freelists($$) {
 	# $data =~ s/(.*?)^\-\-\-\-+<br>$/$1/ms;
 
 	my @lines = split(/<br>$/ms, $data);
+	my $rc;
 
 	while(my $line = shift(@lines)) {
 		# LAST NAME, First Name (MAIDEN); Age; Place of Death; Newspaper Name; Newspaper date; tagname
@@ -270,7 +274,9 @@ sub freelists($$) {
 		# print "$line->>>>>>>>>>\n";
 		# print "\"$last\",\"$first\",\"$maiden\",\"$age\",\"$place\",\"$date\",\"$newspaper\"\n" if($last =~ /^[A-Z]/);
 		queue($first, normalise_name($last), $maiden, $age, $place, $date, $newspaper, $url) if($last =~ /^[A-Z]/);
+		$rc = 1;
 	}
+	die "Couldn't parse $url" if(!defined($rc));
 	return 1;
 }
 
