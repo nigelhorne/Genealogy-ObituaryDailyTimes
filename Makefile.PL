@@ -22,6 +22,7 @@ unless(defined($ENV{'AUTOMATED_TESTING'})) {
 	$prereqs->{'HTML::Entities'} = 0;
 	$prereqs->{'HTTP::Cache::Transparent'} = 0;
 	$prereqs->{'LWP::ConnCache'} = 0;
+	$prereqs->{'LWP::Protocol::https'} = 0;
 	$prereqs->{'LWP::UserAgent::WithCache'} = 0;
 	$prereqs->{'Lingua::EN::NameCase'} = 0;
 	$prereqs->{'Try::Tiny'} = 0;

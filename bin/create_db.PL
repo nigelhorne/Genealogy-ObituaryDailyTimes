@@ -19,7 +19,7 @@ use autodie qw(:all);
 
 sub freelists($$);
 sub mlarchives($$);
-sub queue($$$$$$$);
+sub queue($$$$$$$$);
 sub flush($);
 sub normalise_name($);
 
@@ -50,7 +50,7 @@ if(-r $filename) {
 
 my $dbh = DBI->connect("dbi:SQLite:dbname=$filename", undef, undef, { RaiseError => 1, AutoCommit => 0, synchronous => 0, locking_mode => 'EXCLUSIVE' });
 if($dbh) {
-	$dbh->do('CREATE TABLE obituaries(first VARCHAR, last VARCHAR NOT NULL, maiden VARCHAR, age INTEGER, place VARCHAR, newspaper VARCHAR NOT NULL, date DATE NOT NULL)');
+	$dbh->do('CREATE TABLE obituaries(first VARCHAR, last VARCHAR NOT NULL, maiden VARCHAR, age INTEGER, place VARCHAR, newspaper VARCHAR NOT NULL, date DATE NOT NULL, url VARCHAR)');
 	$dbh->do('PRAGMA cache_size = -65536');	# 64MB
 	$dbh->do('PRAGMA journal_mode = OFF');
 } else {
@@ -116,7 +116,7 @@ sub mlarchives($$) {
 		$data = $response->decoded_content();
 	} else {
 		if($response->status_line() ne '404 Not Found') {
-			warn "\n$url: ", $response->status_line();
+			die "\n$url: ", $response->status_line();
 		}
 		return 0;
 	}
@@ -190,7 +190,7 @@ sub mlarchives($$) {
 		# $age //= '';
 
 		# print "$line->>>>>>>>>>\n";
-		queue($first, normalise_name($last), $maiden, $age, $place, $date, $newspaper) if($last =~ /^[A-Z]/);
+		queue($first, normalise_name($last), $maiden, $age, $place, $date, $newspaper, $url) if($last =~ /^[A-Z]/);
 		# print "\"$last\",\"$first\",\"$maiden\",\"$age\",\"$place\",\"$date\",\"$newspaper\"\n" if($last =~ /^[A-Z]/);
 	}
 	return 1;
@@ -212,7 +212,7 @@ sub freelists($$) {
 		$data = $response->decoded_content();
 	} else {
 		if($response->status_line() ne '404 Not Found') {
-			warn "\n$url: ", $response->status_line();
+			die "\n$url: ", $response->status_line();
 		}
 		return 0;
 	}
@@ -269,14 +269,14 @@ sub freelists($$) {
 
 		# print "$line->>>>>>>>>>\n";
 		# print "\"$last\",\"$first\",\"$maiden\",\"$age\",\"$place\",\"$date\",\"$newspaper\"\n" if($last =~ /^[A-Z]/);
-		queue($first, normalise_name($last), $maiden, $age, $place, $date, $newspaper) if($last =~ /^[A-Z]/);
+		queue($first, normalise_name($last), $maiden, $age, $place, $date, $newspaper, $url) if($last =~ /^[A-Z]/);
 	}
 	return 1;
 }
 
-sub queue($$$$$$$)
+sub queue($$$$$$$$)
 {
-	my ($first, $last, $maiden, $age, $place, $date, $newspaper) = @_;
+	my ($first, $last, $maiden, $age, $place, $date, $newspaper, $url) = @_;
 
 	my %columns;
 	$columns{'first'} = $first;
@@ -295,6 +295,7 @@ sub queue($$$$$$$)
 		return;	# If we don't know the date of publication, it's not easy to find
 	}
 	$columns{'newspaper'} = $newspaper;
+	$columns{'url'} = $url;
 
 	push @queue, \%columns;
 }
@@ -307,7 +308,7 @@ sub flush($)
 
 	while(my $row = pop @queue) {
 		if(!defined($query)) {
-			$query = 'INSERT INTO obituaries(first, last, maiden, age, place, date, newspaper) VALUES (';
+			$query = 'INSERT INTO obituaries(first, last, maiden, age, place, date, newspaper, url) VALUES (';
 		} else {
 			$query .= ',(';
 		}
@@ -338,7 +339,7 @@ sub flush($)
 		} else {
 			$query .= 'NULL,';
 		}
-		$query .= "'" . $columns{'newspaper'} . "')";
+		$query .= "'" . $columns{'newspaper'} . "','", $columns{'url'}, "')";
 	}
 
 	# $| = 1;
