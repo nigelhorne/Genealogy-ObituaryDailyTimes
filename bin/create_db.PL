@@ -142,7 +142,7 @@ sub mlarchives($$) {
 		if($line =~ /^------/) {
 			if($stage == -1) {
 				if($line =~ /No Results/) {
-					# last page
+					# Last page
 					return 0;
 				}
 				# Introduction to a post about to start
@@ -164,6 +164,9 @@ sub mlarchives($$) {
 				# It's a reply to a post, not an actual post
 				# e.g. https://mlarchives.rootsweb.com/listindexes/emails?listname=gen-obit&page=46
 				return 1;
+			} elsif($line =~ /No Results/) {
+				# Last page
+				return 0;
 			}
 		}
 		next unless($stage == 1);
