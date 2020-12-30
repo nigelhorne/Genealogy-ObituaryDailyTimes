@@ -155,6 +155,10 @@ sub mlarchives($$) {
 				$stage = 0;
 			}
 			next;
+		} elsif(($line =~ /^LAST NAME/) && ($stage == -1)) {
+			# The ----- probably didn't start a line
+			# e.g. https://mlarchives.rootsweb.com/listindexes/emails?listname=gen-obit&page=41
+			$stage = 0;
 		}
 		next unless($stage == 1);
 
