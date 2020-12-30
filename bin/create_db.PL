@@ -80,7 +80,7 @@ while(mlarchives($ua, $page)) {
 	$page++;
 };
 
-print ' ' x 78;
+print ' ' x 78, "\r";
 
 my $issue = 9;
 while(freelists($ua, 'v25no' . sprintf('%03d', $issue))) {
