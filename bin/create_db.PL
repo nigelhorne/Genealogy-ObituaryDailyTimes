@@ -43,8 +43,10 @@ if(!-d $dir) {
 }
 
 if(-r $filename) {
-	# Don't bother downloading if the file is less than a day old
-	exit if(-M $filename < 1);
+	if((-s $filename) > 0) {
+		# Don't bother downloading if the file is less than a day old
+		exit if(-M $filename < 1);
+	}
 	unlink $filename;
 }
 
@@ -88,13 +90,13 @@ while(freelists($ua, 'v25no' . sprintf('%03d', $issue))) {
 print "\n";
 
 if(my $dbh = DBI->connect("dbi:SQLite:dbname=$filename", undef, undef, { RaiseError => 1, AutoCommit => 0, synchronous => 0, locking_mode => 'EXCLUSIVE' })) {
-	flush($dbh);
-	$dbh->commit();
-	$dbh->disconnect();
-
 	$dbh->do('CREATE TABLE obituaries(first VARCHAR, last VARCHAR NOT NULL, maiden VARCHAR, age INTEGER, place VARCHAR, newspaper VARCHAR NOT NULL, date DATE NOT NULL, url VARCHAR NOT NULL)');
 	$dbh->do('PRAGMA cache_size = -65536');	# 64MB
 	$dbh->do('PRAGMA journal_mode = OFF');
+
+	flush($dbh);
+	$dbh->commit();
+	$dbh->disconnect();
 } else {
 	die "obituaries.sql: $!";
 }
