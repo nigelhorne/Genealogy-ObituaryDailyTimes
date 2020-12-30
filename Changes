@@ -1,6 +1,6 @@
 Revision history for Genealogy::ObituaryDailyTimes
 
-0.04
+0.04	Wed Dec 30 09:45:11 EST 2020
 	Remove old sqlite file before re-creating it
 	Stash the URL in the database
 	Improved parser imports more data and dies on failure
