@@ -81,16 +81,14 @@ $ua->conn_cache()->total_capacity(undef);
 
 # print '"last","first","maiden","age","place","newspapername","newspaperdate","tag"', "\n";
 
-my $page = 1;
 my @queue;
-do {
-	last if(!mlarchives($ua, $page));
+my $page = 1;
+while(mlarchives($ua, $page)) {
 	$page++;
-} while($page < 200);
+};
 
 my $issue = 9;
-while(1) {
-	last if(!freelists($ua, 'v25no' . sprintf('%03d', $issue)));
+while(freelists($ua, 'v25no' . sprintf('%03d', $issue))) {
 	$issue++;
 }
 
