@@ -48,15 +48,6 @@ if(-r $filename) {
 	unlink $filename;
 }
 
-my $dbh = DBI->connect("dbi:SQLite:dbname=$filename", undef, undef, { RaiseError => 1, AutoCommit => 0, synchronous => 0, locking_mode => 'EXCLUSIVE' });
-if($dbh) {
-	$dbh->do('CREATE TABLE obituaries(first VARCHAR, last VARCHAR NOT NULL, maiden VARCHAR, age INTEGER, place VARCHAR, newspaper VARCHAR NOT NULL, date DATE NOT NULL, url VARCHAR NOT NULL)');
-	$dbh->do('PRAGMA cache_size = -65536');	# 64MB
-	$dbh->do('PRAGMA journal_mode = OFF');
-} else {
-	die "obituaries.sql: $!";
-}
-
 my $cachedir = $ENV{'CACHEDIR'};
 if($cachedir) {
 	mkdir $cachedir, 0700 if(!-d $cachedir);
@@ -87,6 +78,8 @@ while(mlarchives($ua, $page)) {
 	$page++;
 };
 
+print ' ' x 78;
+
 my $issue = 9;
 while(freelists($ua, 'v25no' . sprintf('%03d', $issue))) {
 	$issue++;
@@ -94,9 +87,17 @@ while(freelists($ua, 'v25no' . sprintf('%03d', $issue))) {
 
 print "\n";
 
-flush($dbh);
-$dbh->commit();
-$dbh->disconnect();
+if(my $dbh = DBI->connect("dbi:SQLite:dbname=$filename", undef, undef, { RaiseError => 1, AutoCommit => 0, synchronous => 0, locking_mode => 'EXCLUSIVE' })) {
+	flush($dbh);
+	$dbh->commit();
+	$dbh->disconnect();
+
+	$dbh->do('CREATE TABLE obituaries(first VARCHAR, last VARCHAR NOT NULL, maiden VARCHAR, age INTEGER, place VARCHAR, newspaper VARCHAR NOT NULL, date DATE NOT NULL, url VARCHAR NOT NULL)');
+	$dbh->do('PRAGMA cache_size = -65536');	# 64MB
+	$dbh->do('PRAGMA journal_mode = OFF');
+} else {
+	die "obituaries.sql: $!";
+}
 
 sub mlarchives($$) {
 	my $ua = shift;
