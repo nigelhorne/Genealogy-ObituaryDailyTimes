@@ -155,10 +155,16 @@ sub mlarchives($$) {
 				$stage = 0;
 			}
 			next;
-		} elsif(($line =~ /^LAST NAME/) && ($stage == -1)) {
-			# The ----- probably didn't start a line
-			# e.g. https://mlarchives.rootsweb.com/listindexes/emails?listname=gen-obit&page=41
-			$stage = 0;
+		} elsif($stage == -1) {
+			if($line =~ /^LAST NAME/) {
+				# The ----- probably didn't start a line
+				# e.g. https://mlarchives.rootsweb.com/listindexes/emails?listname=gen-obit&page=41
+				$stage = 0;
+			} elsif($line =~ /Re: \[GEN-OBIT\]/) {
+				# It's a reply to a post, not an actual post
+				# e.g. https://mlarchives.rootsweb.com/listindexes/emails?listname=gen-obit&page=46
+				return 1;
+			}
 		}
 		next unless($stage == 1);
 
