@@ -61,7 +61,7 @@ if($cachedir) {
 HTTP::Cache::Transparent::init({
 	BasePath => $cachedir,
 	Verbose => 0,
-	NoUpdate => 60 * 60 * 24,
+	NoUpdate => 60 * 60 * 24 * 7 * 31,	# The archive never changes
 	MaxAge => 30 * 24
 }) || die "$0: $cachedir: $!";
 
