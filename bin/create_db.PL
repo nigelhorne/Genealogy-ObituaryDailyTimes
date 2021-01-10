@@ -87,6 +87,11 @@ while(freelists($ua, 'v25no' . sprintf('%03d', $issue))) {
 	$issue++;
 }
 
+$issue = 1;
+while(freelists($ua, 'v26no' . sprintf('%03d', $issue))) {
+	$issue++;
+}
+
 print "\n";
 
 if(my $dbh = DBI->connect("dbi:SQLite:dbname=$filename", undef, undef, { RaiseError => 1, AutoCommit => 0, synchronous => 0, locking_mode => 'EXCLUSIVE' })) {

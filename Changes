@@ -1,5 +1,8 @@
 Revision history for Genealogy::ObituaryDailyTimes
 
+0.05
+	2021 is v26 on freelists
+
 0.04	Wed Dec 30 09:45:11 EST 2020
 	Remove old sqlite file before re-creating it
 	Stash the URL in the database
