@@ -46,8 +46,7 @@ sub new {
 	my $directory = $param{'directory'} || Module::Info->new_from_loaded(__PACKAGE__)->file();
 	$directory =~ s/\.pm$//;
 
-	Genealogy::ObituaryDailyTimes::DB::init(directory => File::Spec->catfile($directory, 'database'));
-
+	Genealogy::ObituaryDailyTimes::DB::init(directory => File::Spec->catfile($directory, 'database'), %param);
 	return bless { }, $class;
 }
 
