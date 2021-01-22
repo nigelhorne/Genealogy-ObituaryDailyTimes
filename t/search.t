@@ -3,7 +3,7 @@
 use strict;
 
 use lib 'lib';
-use Test::Most tests => 5;
+use Test::Most tests => 6;
 use lib 't/lib';
 use MyLogger;
 
@@ -31,4 +31,7 @@ SKIP: {
 
 	my $baal = $search->search({ first => 'Eric', last => 'Baal' });
 	is($baal->{'url'}, 'https://mlarchives.rootsweb.com/listindexes/emails?listname=gen-obit&page=96', 'Check URL');
+
+	my @empty = $search->search(last => 'xyzzy');
+	is(scalar(@empty), 0, 'Search for xyzzy should return an empty list');
 }
