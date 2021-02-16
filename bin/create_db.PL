@@ -303,24 +303,25 @@ sub queue($$$$$$$$)
 {
 	my ($first, $last, $maiden, $age, $place, $date, $newspaper, $url) = @_;
 
-	my %columns;
-	$columns{'first'} = $first;
-	$columns{'last'} = $last;
+	my %columns = (
+		first => $first,
+		last => $last,
+		newspaper => $newspaper,
+		place => $place,
+		url => $url
+	);
 	if($maiden) {
 		$columns{'maiden'} = $maiden;
 	}
 	if(defined($age) && ($age ne '')) {
 		$columns{'age'} = $age;
 	}
-	$columns{'place'} = $place;
 	if($date) {
 		return unless($date =~ /^\d/);
 		$columns{'date'} = $date;
 	} else {
 		return;	# If we don't know the date of publication, it's not easy to find
 	}
-	$columns{'newspaper'} = $newspaper;
-	$columns{'url'} = $url;
 
 	push @queue, \%columns;
 }
