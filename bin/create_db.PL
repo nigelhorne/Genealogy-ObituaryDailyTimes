@@ -377,7 +377,7 @@ sub flush($)
 	} catch {
 		my @call_details = caller(0);
 		die "\nError in insert ($query) called from line ",
-			$call_details[2], ': ', $dbh->errstr(), "\n";
+			$call_details[2], ': ', $dbh->errstr();
 	};
 }
 
