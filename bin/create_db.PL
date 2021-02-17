@@ -103,7 +103,7 @@ if(my $dbh = DBI->connect("dbi:SQLite:dbname=$filename", undef, undef, { RaiseEr
 	$dbh->commit();
 	$dbh->disconnect();
 } else {
-	die "obituaries.sql: $!";
+	die "$filename: $!";
 }
 
 sub mlarchives($$) {
