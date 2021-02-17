@@ -1,6 +1,6 @@
 #!/usr/bin/env perl
 
-# Create CSV from https://sites.rootsweb.com/~obituary/ and
+# Create SQLite3 from https://sites.rootsweb.com/~obituary/ and
 #	https://mlarchives.rootsweb.com/listindexes/emails?listname=gen-obit
 
 use strict;
