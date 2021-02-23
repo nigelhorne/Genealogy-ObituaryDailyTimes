@@ -310,20 +310,18 @@ sub queue($$$$$$$$)
 		place => $place,
 		url => $url
 	);
-	if($maiden) {
-		$columns{'maiden'} = $maiden;
-	}
-	if(defined($age) && ($age ne '')) {
-		$columns{'age'} = $age;
-	}
+	# If we don't know the date of publication, it's not easy to find
 	if($date) {
 		return unless($date =~ /^\d/);
 		$columns{'date'} = $date;
-	} else {
-		return;	# If we don't know the date of publication, it's not easy to find
+		if(defined($age) && ($age ne '')) {
+			$columns{'age'} = $age;
+		}
+		if($maiden) {
+			$columns{'maiden'} = $maiden;
+		}
+		push @queue, \%columns;
 	}
-
-	push @queue, \%columns;
 }
 
 sub flush($)
