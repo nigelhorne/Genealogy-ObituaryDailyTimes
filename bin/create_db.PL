@@ -1,6 +1,6 @@
 #!/usr/bin/env perl
 
-# Create CSV from https://sites.rootsweb.com/~obituary/ and
+# Create SQLite3 from https://sites.rootsweb.com/~obituary/ and
 #	https://mlarchives.rootsweb.com/listindexes/emails?listname=gen-obit
 
 use strict;
@@ -71,6 +71,7 @@ my $ua = LWP::UserAgent::WithCache->new(timeout => 10, keep_alive => 1);
 $ua->env_proxy(1);
 $ua->agent('Mozilla/5.0');
 $ua->conn_cache()->total_capacity(undef);
+$Lingua::EN::NameCase::POSTNOMINAL = 0;
 
 # print '"last","first","maiden","age","place","newspapername","newspaperdate","tag"', "\n";
 
@@ -103,7 +104,7 @@ if(my $dbh = DBI->connect("dbi:SQLite:dbname=$filename", undef, undef, { RaiseEr
 	$dbh->commit();
 	$dbh->disconnect();
 } else {
-	die "obituaries.sql: $!";
+	die "$filename: $!";
 }
 
 sub mlarchives($$) {
@@ -303,26 +304,25 @@ sub queue($$$$$$$$)
 {
 	my ($first, $last, $maiden, $age, $place, $date, $newspaper, $url) = @_;
 
-	my %columns;
-	$columns{'first'} = $first;
-	$columns{'last'} = $last;
-	if($maiden) {
-		$columns{'maiden'} = $maiden;
-	}
-	if(defined($age) && ($age ne '')) {
-		$columns{'age'} = $age;
-	}
-	$columns{'place'} = $place;
+	my %columns = (
+		first => $first,
+		last => $last,
+		newspaper => $newspaper,
+		place => $place,
+		url => $url
+	);
+	# If we don't know the date of publication, it's not easy to find
 	if($date) {
 		return unless($date =~ /^\d/);
 		$columns{'date'} = $date;
-	} else {
-		return;	# If we don't know the date of publication, it's not easy to find
+		if(defined($age) && ($age ne '')) {
+			$columns{'age'} = $age;
+		}
+		if($maiden) {
+			$columns{'maiden'} = $maiden;
+		}
+		push @queue, \%columns;
 	}
-	$columns{'newspaper'} = $newspaper;
-	$columns{'url'} = $url;
-
-	push @queue, \%columns;
 }
 
 sub flush($)
@@ -376,7 +376,7 @@ sub flush($)
 	} catch {
 		my @call_details = caller(0);
 		die "\nError in insert ($query) called from line ",
-			$call_details[2], ': ', $dbh->errstr(), "\n";
+			$call_details[2], ': ', $dbh->errstr();
 	};
 }
 

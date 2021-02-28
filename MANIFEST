@@ -16,6 +16,7 @@ t/eol.t
 t/lib/MyLogger.pm
 t/links.t
 t/no404s.t
+t/noopentickets.t
 t/noplan.t
 t/pod-cm.t
 t/pod.t
