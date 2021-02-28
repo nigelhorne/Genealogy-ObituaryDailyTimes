@@ -21,5 +21,6 @@ t/pod-cm.t
 t/pod.t
 t/search.t
 t/snippets.t
+t/spelling.t
 t/strict.t
 t/unused.t
