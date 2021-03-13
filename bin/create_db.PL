@@ -96,9 +96,9 @@ while(freelists($ua, 'v26no' . sprintf('%03d', $issue))) {
 print "\n";
 
 if(my $dbh = DBI->connect("dbi:SQLite:dbname=$filename", undef, undef, { RaiseError => 1, AutoCommit => 0, synchronous => 0, locking_mode => 'EXCLUSIVE' })) {
-	$dbh->do('CREATE TABLE obituaries(first VARCHAR, last VARCHAR NOT NULL, maiden VARCHAR, age INTEGER, place VARCHAR, newspaper VARCHAR NOT NULL, date DATE NOT NULL, url VARCHAR NOT NULL)');
 	$dbh->do('PRAGMA cache_size = -65536');	# 64MB
 	$dbh->do('PRAGMA journal_mode = OFF');
+	$dbh->do('CREATE TABLE obituaries(first VARCHAR, last VARCHAR NOT NULL, maiden VARCHAR, age INTEGER, place VARCHAR, newspaper VARCHAR NOT NULL, date DATE NOT NULL, url VARCHAR NOT NULL)');
 
 	flush($dbh);
 	$dbh->commit();
