@@ -63,22 +63,21 @@ sub new {
 sub search {
 	my $self = shift;
 
-	my %param;
-	if(ref($_[0]) eq 'HASH') {
-		%param = %{$_[0]};
-	} elsif(@_ % 2 == 0) {
-		%param = @_;
+	my %params = (ref($_[0]) eq 'HASH') ? %{$_[0]} : @_;
+
+	return if(scalar keys %params == 0);
+
+	$self->{'obituaries'} ||= Genealogy::ObituaryDailyTimes::DB::obituaries->new(no_entry => 1);
+
+	if(!defined($self->{'obituaries'})) {
+		Carp::croak "Can't open the obituaries database";
 	}
-
-	return if(scalar keys %param == 0);
-
-	$self->{'obituaries'} //= Genealogy::ObituaryDailyTimes::DB::obituaries->new(no_entry => 1) or Carp::croak "Can't open the obituaries database";
 
 	if(wantarray) {
-		my @obituaries = @{$self->{'obituaries'}->selectall_hashref(\%param)};
+		my @obituaries = @{$self->{'obituaries'}->selectall_hashref(\%params)};
 		return @obituaries;
 	}
-	return $self->{'obituaries'}->fetchrow_hashref(\%param);
+	return $self->{'obituaries'}->fetchrow_hashref(\%params);
 }
 
 =head1 AUTHOR
