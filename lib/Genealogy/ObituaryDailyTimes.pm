@@ -54,7 +54,7 @@ sub new {
 
    my $obits = Genealogy::ObituaryDailyTimes->new();
 
-   my @smiths = $obits->search(last => 'Smith');
+   my @smiths = $obits->search(last => 'Smith');	# You must at least define the last name to search for
 
    print $smiths[0]->{'first'}, "\n";
 
@@ -67,10 +67,15 @@ sub search {
 
 	return if(scalar keys %params == 0);
 
+	if(!defined($params{'last'})) {
+		Carp::carp("Value for 'last' is mandatory");
+		return;
+	}
+
 	$self->{'obituaries'} ||= Genealogy::ObituaryDailyTimes::DB::obituaries->new(no_entry => 1);
 
 	if(!defined($self->{'obituaries'})) {
-		Carp::croak "Can't open the obituaries database";
+		Carp::croak("Can't open the obituaries database");
 	}
 
 	if(wantarray) {

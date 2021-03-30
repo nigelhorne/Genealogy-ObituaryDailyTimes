@@ -83,29 +83,33 @@ while(mlarchives($ua, $page)) {
 
 print ' ' x 78, "\r";
 
+my $dbh = DBI->connect("dbi:SQLite:dbname=$filename", undef, undef, { RaiseError => 1, AutoCommit => 0, synchronous => 0, locking_mode => 'EXCLUSIVE' });
+die "$filename: $!" if(!defined($dbh));
+
+$dbh->do('PRAGMA cache_size = -65536');	# 64MB
+$dbh->do('PRAGMA journal_mode = OFF');
+$dbh->do('CREATE TABLE obituaries(first VARCHAR, last VARCHAR NOT NULL, maiden VARCHAR, age INTEGER, place VARCHAR, newspaper VARCHAR NOT NULL, date DATE NOT NULL, url VARCHAR NOT NULL)');
+
+flush($dbh);
+
 my $issue = 9;
 while(freelists($ua, 'v25no' . sprintf('%03d', $issue))) {
 	$issue++;
 }
+
+flush($dbh);
 
 $issue = 1;
 while(freelists($ua, 'v26no' . sprintf('%03d', $issue))) {
 	$issue++;
 }
 
+flush($dbh);
+
 print "\n";
 
-if(my $dbh = DBI->connect("dbi:SQLite:dbname=$filename", undef, undef, { RaiseError => 1, AutoCommit => 0, synchronous => 0, locking_mode => 'EXCLUSIVE' })) {
-	$dbh->do('PRAGMA cache_size = -65536');	# 64MB
-	$dbh->do('PRAGMA journal_mode = OFF');
-	$dbh->do('CREATE TABLE obituaries(first VARCHAR, last VARCHAR NOT NULL, maiden VARCHAR, age INTEGER, place VARCHAR, newspaper VARCHAR NOT NULL, date DATE NOT NULL, url VARCHAR NOT NULL)');
-
-	flush($dbh);
-	$dbh->commit();
-	$dbh->disconnect();
-} else {
-	die "$filename: $!";
-}
+$dbh->commit();
+$dbh->disconnect();
 
 sub mlarchives($$) {
 	my $ua = shift;
@@ -380,6 +384,7 @@ sub flush($)
 		die "\nError in insert ($query) called from line ",
 			$call_details[2], ': ', $dbh->errstr();
 	};
+	@queue = ();	# Make sure Perl really frees all memory
 }
 
 # Reduce the very large number of calls to Lingua::EN::NameCase

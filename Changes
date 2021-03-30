@@ -1,5 +1,9 @@
 Revision history for Genealogy::ObituaryDailyTimes
 
+0.06
+	Reduce the amount of memory that bin/create_db uses
+	Error if 'last' is not given to search()
+
 0.05	Thu Mar 25 18:02:30 EDT 2021
 	2021 is v26 on freelists
 	Faster database import
