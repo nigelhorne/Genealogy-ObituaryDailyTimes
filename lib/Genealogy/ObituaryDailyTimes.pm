@@ -65,8 +65,6 @@ sub search {
 
 	my %params = (ref($_[0]) eq 'HASH') ? %{$_[0]} : @_;
 
-	return if(scalar keys %params == 0);
-
 	if(!defined($params{'last'})) {
 		Carp::carp("Value for 'last' is mandatory");
 		return;
