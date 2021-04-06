@@ -75,20 +75,21 @@ $Lingua::EN::NameCase::POSTNOMINAL = 0;
 
 # print '"last","first","maiden","age","place","newspapername","newspaperdate","tag"', "\n";
 
-my @queue;
-my $page = 1;
-while(mlarchives($ua, $page)) {
-	$page++;
-};
-
-print ' ' x 78, "\r";
-
 my $dbh = DBI->connect("dbi:SQLite:dbname=$filename", undef, undef, { RaiseError => 1, AutoCommit => 0, synchronous => 0, locking_mode => 'EXCLUSIVE' });
 die "$filename: $!" if(!defined($dbh));
 
 $dbh->do('PRAGMA cache_size = -65536');	# 64MB
 $dbh->do('PRAGMA journal_mode = OFF');
 $dbh->do('CREATE TABLE obituaries(first VARCHAR, last VARCHAR NOT NULL, maiden VARCHAR, age INTEGER, place VARCHAR, newspaper VARCHAR NOT NULL, date DATE NOT NULL, url VARCHAR NOT NULL)');
+
+my @queue;
+my $page = 1;
+while(mlarchives($ua, $page)) {
+	$page++;
+	flush($dbh) if(scalar(@queue) > 200_000);
+};
+
+print ' ' x 78, "\r";
 
 flush($dbh);
 
