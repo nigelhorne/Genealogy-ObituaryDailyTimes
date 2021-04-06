@@ -52,11 +52,12 @@ sub new {
 
 =head2 search
 
-   my $obits = Genealogy::ObituaryDailyTimes->new();
+    my $obits = Genealogy::ObituaryDailyTimes->new();
 
-   my @smiths = $obits->search(last => 'Smith');	# You must at least define the last name to search for
+    # Returns an array of hashrefs
+    my @smiths = $obits->search(last => 'Smith');	# You must at least define the last name to search for
 
-   print $smiths[0]->{'first'}, "\n";
+    print $smiths[0]->{'first'}, "\n";
 
 =cut
 

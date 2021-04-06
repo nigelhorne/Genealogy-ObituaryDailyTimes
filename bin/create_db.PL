@@ -84,10 +84,10 @@ $dbh->do('CREATE TABLE obituaries(first VARCHAR, last VARCHAR NOT NULL, maiden V
 
 my @queue;
 my $page = 1;
-while(mlarchives($ua, $page)) {
-	$page++;
-	flush($dbh) if(scalar(@queue) > 200_000);
-};
+# while(mlarchives($ua, $page)) {
+	# $page++;
+	# flush($dbh) if(scalar(@queue) > 200_000);
+# };
 
 print ' ' x 78, "\r";
 
@@ -103,6 +103,9 @@ flush($dbh);
 $issue = 1;
 while(freelists($ua, 'v26no' . sprintf('%03d', $issue))) {
 	$issue++;
+	if($issue == 52) {
+		$issue++;	# https://www.freelists.org/post/obitdailytimes/Obituary-Daily-Times-v26no052 doesn't exist
+	}
 }
 
 flush($dbh);
@@ -248,22 +251,29 @@ sub freelists($$) {
 	# print $data;
 	# exit;
 
-	$data =~ s/.*?^\-\-\-\-+<br>$//ms;
-	$data =~ s/.*?^\-\-\-\-+<br>$//ms;
-	# $data =~ s/(.*?)^\-\-\-\-+<br>$/$1/ms;
+	my @lines = split(/\n|<br>|<br \/>$/ms, $data);
 
-	my @lines = split(/<br>$/ms, $data);
+use Data::Dumper;
+print Data::Dumper->new([\@lines])->Dump();
+exit;
 	my $rc;
 
+	my $stage = 0;
 	while(my $line = shift(@lines)) {
 		# LAST NAME, First Name (MAIDEN); Age; Place of Death; Newspaper Name; Newspaper date; tagname
 
 		$line =~ s/^\n//;
-		last if($line =~ /^\-\-\-\-\-\-\-\-/);
+		if($line =~ /\-\-\-\-\-\-\-\-/) {
+			$stage++;
+			last if($stage >= 3);
+			next if($stage != 2);
+		}
 		$line =~ s/&nbsp;/ /g;
 		$line = decode_entities($line);
 		$line =~ s/'/''/g;
 		my ($name, $age, $place, $newspaper, $date, $tag) = split(/;\s?/, $line);
+		# print __LINE__, ": $name, $age, $place, $newspaper, $date, $tag\n";
+		print __LINE__, "($stage): $line\n";
 		if((!defined($tag)) || ($tag eq '')) {
 			my $cont = shift(@lines);
 
@@ -275,7 +285,7 @@ sub freelists($$) {
 			$line .= $cont;
 			($name, $age, $place, $newspaper, $date, $tag) = split(/;\s?/, $line);
 		}
-		# use Data::Dumper;
+		use Data::Dumper;
 		# print __LINE__, ": $issue: ", Data::Dumper->new([split(/;\s?/, $line)])->Dump();
 		next unless(defined($name));
 		my ($last, $first) = split(',\s', $name);
@@ -284,6 +294,8 @@ sub freelists($$) {
 		# Parsing completely broken
 		# e.g. https://www.freelists.org/post/obitdailytimes/Obituary-Daily-Times-v25no010
 		last unless(defined($newspaper));
+
+		print __LINE__, "\n";
 
 		my $maiden;
 		if($first) {
@@ -296,8 +308,8 @@ sub freelists($$) {
 		}
 		# $age //= '';
 
-		# print "$line->>>>>>>>>>\n";
-		# print "\"$last\",\"$first\",\"$maiden\",\"$age\",\"$place\",\"$date\",\"$newspaper\"\n" if($last =~ /^[A-Z]/);
+		print "$line->>>>>>>>>>\n",
+			"\"$last\",\"$first\",\"$maiden\",\"$age\",\"$place\",\"$date\",\"$newspaper\"\n" if($last =~ /^[A-Z]/);
 		queue($first, normalise_name($last), $maiden, $age, $place, $date, $newspaper, $url) if($last =~ /^[A-Z]/);
 		$rc = 1;
 	}

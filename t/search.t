@@ -32,6 +32,11 @@ SKIP: {
 	my $baal = $search->search({ first => 'Eric', last => 'Baal' });
 	is($baal->{'url'}, 'https://mlarchives.rootsweb.com/listindexes/emails?listname=gen-obit&page=96', 'Check URL');
 
+	my $coppage = $search->search({ first => 'John', last => 'Coppage' });
+
+	use Data::Dumper;
+	diag(Data::Dumper->new([$coppage])->Dump());
+
 	my @empty = $search->search(last => 'xyzzy');
 	is(scalar(@empty), 0, 'Search for xyzzy should return an empty list');
 }
