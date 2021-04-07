@@ -285,8 +285,7 @@ sub freelists($$) {
 			$line .= $cont;
 			($name, $age, $place, $newspaper, $date, $tag) = split(/;\s?/, $line);
 		}
-		# print "$line\n";
-		# print __LINE__, "($stage): $line: $name, $age, $place, $newspaper, $date, $tag\n";
+		# print __LINE__, ": $line: ($stage): $name, $age, $place, $newspaper, $date, $tag\n";
 		# use Data::Dumper;
 		# print __LINE__, ": $issue: ", Data::Dumper->new([split(/;\s?/, $line)])->Dump();
 		next unless(defined($name));

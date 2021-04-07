@@ -3,7 +3,7 @@
 use strict;
 
 use lib 'lib';
-use Test::Most tests => 8;
+use Test::Most tests => 10;
 use lib 't/lib';
 use MyLogger;
 
@@ -39,6 +39,11 @@ SKIP: {
 	if($ENV{'TEST_VERBOSE'}) {
 		diag(Data::Dumper->new([$coppage])->Dump());
 	}
+
+	# Continuity line
+	my $ackles = $search->search({ first => 'Almetta', middle => 'Ivaleen', last => 'Adams' });
+	is($ackles->{'maiden'}, 'Paterson', 'Picks up maiden name');
+	is($ackles->{'url'}, 'https://www.freelists.org/post/obitdailytimes/Obituary-Daily-Times-v25no101', 'Check Coppage URL');
 
 	my @empty = $search->search(last => 'xyzzy');
 	is(scalar(@empty), 0, 'Search for xyzzy should return an empty list');
