@@ -80,14 +80,14 @@ die "$filename: $!" if(!defined($dbh));
 
 $dbh->do('PRAGMA cache_size = -65536');	# 64MB
 $dbh->do('PRAGMA journal_mode = OFF');
-$dbh->do('CREATE TABLE obituaries(first VARCHAR, last VARCHAR NOT NULL, maiden VARCHAR, age INTEGER, place VARCHAR, newspaper VARCHAR NOT NULL, date DATE NOT NULL, url VARCHAR NOT NULL)');
+$dbh->do('CREATE TABLE obituaries(first VARCHAR, middle, VARCHAR, last VARCHAR NOT NULL, maiden VARCHAR, age INTEGER, place VARCHAR, newspaper VARCHAR NOT NULL, date DATE NOT NULL, url VARCHAR NOT NULL)');
 
 my @queue;
 my $page = 1;
-# while(mlarchives($ua, $page)) {
-	# $page++;
-	# flush($dbh) if(scalar(@queue) > 200_000);
-# };
+while(mlarchives($ua, $page)) {
+	$page++;
+	flush($dbh) if(scalar(@queue) > 200_000);
+};
 
 print ' ' x 78, "\r";
 
@@ -251,11 +251,8 @@ sub freelists($$) {
 	# print $data;
 	# exit;
 
-	my @lines = split(/\n|<br>|<br \/>$/ms, $data);
+	my @lines = split(/<br>|<br \/>$/ms, $data);
 
-use Data::Dumper;
-print Data::Dumper->new([\@lines])->Dump();
-exit;
 	my $rc;
 
 	my $stage = 0;
@@ -263,39 +260,43 @@ exit;
 		# LAST NAME, First Name (MAIDEN); Age; Place of Death; Newspaper Name; Newspaper date; tagname
 
 		$line =~ s/^\n//;
+		next if($line eq '');
 		if($line =~ /\-\-\-\-\-\-\-\-/) {
 			$stage++;
 			last if($stage >= 3);
-			next if($stage != 2);
+			$line =~ s/^.*\-+//;
+			next if($line eq '');
 		}
+		next if($stage != 2);
 		$line =~ s/&nbsp;/ /g;
+		$line =~ s/\x{a0}/ /g;
 		$line = decode_entities($line);
 		$line =~ s/'/''/g;
 		my ($name, $age, $place, $newspaper, $date, $tag) = split(/;\s?/, $line);
-		# print __LINE__, ": $name, $age, $place, $newspaper, $date, $tag\n";
-		print __LINE__, "($stage): $line\n";
 		if((!defined($tag)) || ($tag eq '')) {
 			my $cont = shift(@lines);
 
 			$cont =~ s/^\n//;
 			last if($cont =~ /^\-\-\-\-\-\-\-\-/);
 			$cont =~ s/&nbsp;/ /g;
+			$cont =~ s/\x{a0}/ /g;
 			$cont =~ s/&gt;/>/g;
 			$line =~ s/&quot;/"/g;
 			$line .= $cont;
 			($name, $age, $place, $newspaper, $date, $tag) = split(/;\s?/, $line);
 		}
-		use Data::Dumper;
+		# print "$line\n";
+		# print __LINE__, "($stage): $line: $name, $age, $place, $newspaper, $date, $tag\n";
+		# use Data::Dumper;
 		# print __LINE__, ": $issue: ", Data::Dumper->new([split(/;\s?/, $line)])->Dump();
 		next unless(defined($name));
 		my ($last, $first) = split(',\s', $name);
 		next unless(defined($last));
+		next unless(defined($first));
 
 		# Parsing completely broken
 		# e.g. https://www.freelists.org/post/obitdailytimes/Obituary-Daily-Times-v25no010
 		last unless(defined($newspaper));
-
-		print __LINE__, "\n";
 
 		my $maiden;
 		if($first) {
@@ -308,8 +309,9 @@ exit;
 		}
 		# $age //= '';
 
-		print "$line->>>>>>>>>>\n",
-			"\"$last\",\"$first\",\"$maiden\",\"$age\",\"$place\",\"$date\",\"$newspaper\"\n" if($last =~ /^[A-Z]/);
+		# print "$line:\n",
+			# "\t\"$last\",\"$first\",\"$age\",\"$place\",\"$date\",\"$newspaper\"\n" if($last =~ /^[A-Z]/);
+			# # "\t\"$last\",\"$first\",\"$maiden\",\"$age\",\"$place\",\"$date\",\"$newspaper\"\n" if($last =~ /^[A-Z]/);
 		queue($first, normalise_name($last), $maiden, $age, $place, $date, $newspaper, $url) if($last =~ /^[A-Z]/);
 		$rc = 1;
 	}
@@ -352,16 +354,21 @@ sub flush($)
 
 	while(my $row = pop @queue) {
 		if(!defined($query)) {
-			$query = 'INSERT INTO obituaries(first, last, maiden, age, place, date, newspaper, url) VALUES (';
+			$query = 'INSERT INTO obituaries(first, middle, last, maiden, age, place, date, newspaper, url) VALUES (';
 		} else {
 			$query .= ',(';
 		}
 		my %columns = %{$row};
 
 		if($columns{'first'}) {
-			$query .= "'" . $columns{'first'} . "','" . $columns{'last'} . "',";
+			if($columns{'first'} =~ /(.+)\s(.+)/) {
+				# Has a middle name
+				$query .= "'$1','$2','" . $columns{'last'} . "',";
+			} else {
+				$query .= "'" . $columns{'first'} . "',NULL,'" . $columns{'last'} . "',";
+			}
 		} else {
-			$query .= "NULL,'" . $columns{'last'} . "',";
+			$query .= "NULL,NULL,'" . $columns{'last'} . "',";
 		}
 		if($columns{'maiden'} && ($columns{'maiden'} ne ' ')) {
 			$query .= "'" . $columns{'maiden'} . "',";
