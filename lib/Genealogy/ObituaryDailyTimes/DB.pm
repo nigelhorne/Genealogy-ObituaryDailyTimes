@@ -542,7 +542,7 @@ sub AUTOLOAD {
 
 	return if($column eq 'DESTROY');
 
-	my $self = shift or return undef;
+	my $self = shift or return;
 
 	my $table = $self->{table} || ref($self);
 	$table =~ s/.*:://;
