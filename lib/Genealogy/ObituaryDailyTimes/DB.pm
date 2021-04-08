@@ -1,7 +1,7 @@
 package Genealogy::ObituaryDailyTimes::DB;
 
 # Author Nigel Horne: njh@bandsman.co.uk
-# Copyright (C) 2015-2020, Nigel Horne
+# Copyright (C) 2015-2021, Nigel Horne
 
 # Usage is subject to licence terms.
 # The licence terms of this software are as follows:

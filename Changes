@@ -1,6 +1,6 @@
 Revision history for Genealogy::ObituaryDailyTimes
 
-0.06
+0.06	Thu Apr  8 09:00:35 EDT 2021
 	Reduce the amount of memory that bin/create_db uses
 	Error if 'last' is not given to search()
 	Latest freelists were not being imported

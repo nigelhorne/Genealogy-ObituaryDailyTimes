@@ -12,7 +12,7 @@ Genealogy::ObituaryDailyTimes - Compare a Gedcom against the Obituary Daily Time
 
 # VERSION
 
-Version 0.05
+Version 0.06
 
 # SYNOPSIS
 
