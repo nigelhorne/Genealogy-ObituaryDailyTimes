@@ -8,6 +8,7 @@ my $prereqs = {
 	'autodie' => 0,
 	'Carp' => 0,
 	'DBD::SQLite' => 0,
+	'DBD::SQLite::Constants' => 0,
 	'Error::Simple' => 0,
 	'File::Basename' => 0,
 	'File::pfopen' => 0,
@@ -48,8 +49,8 @@ WriteMakefile(
 		# 'Test::Kwalitee' => 0,
 		'IPC::System::Simple' => 0,
 	}, PREREQ_PM => $prereqs,
-	dist		=> { COMPRESS => 'gzip -9f', SUFFIX => 'gz', },
-	clean		=> { FILES => 'Genealogy-ObituaryDailyTimes-*' },
+	dist => { COMPRESS => 'gzip -9f', SUFFIX => 'gz', },
+	clean => { FILES => 'Genealogy-ObituaryDailyTimes-*' },
 	# META_ADD => {
 		# provides => {}
 	# },
