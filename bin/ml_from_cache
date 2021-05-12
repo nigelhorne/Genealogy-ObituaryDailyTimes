@@ -6,7 +6,7 @@
 #	on my phone it redirects to ancestry.com
 # So this file looks through the cache and retrieves the files
 #	ready to import using create_db.PL
-#	
+# Once you've done this, set MLARCHIVE_DIR in your environment and run "make"
 
 use strict;
 use warnings;

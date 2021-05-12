@@ -39,7 +39,7 @@ package Genealogy::ObituaryDailyTimes::DB;
 # reasons it's enabled by default
 # TODO: Switch that to off by default, and enable by passing 'entry'
 
-# TODO: support a directory hierachy of databases
+# TODO: support a directory hierarchy of databases
 # TODO: consider returning an object or array of objects, rather than hashes
 # TODO:	Add redis database - could be of use for Geo::Coder::Free
 #	use select() to select a database - use the table arg
@@ -75,7 +75,7 @@ sub new {
 
 	return bless {
 		logger => $args{'logger'} || $logger,
-		directory => $args{'directory'} || $directory,	# The directory conainting the tables in XML, SQLite or CSV format
+		directory => $args{'directory'} || $directory,	# The directory containing the tables in XML, SQLite or CSV format
 		cache => $args{'cache'} || $cache,
 		table => $args{'table'},	# The name of the file containing the table, defaults to the class name
 		no_entry => $args{'no_entry'} || 0,
@@ -461,13 +461,13 @@ sub fetchrow_hashref {
 		}
 	}
 	my $key;
+	if(defined($query_args[0])) {
+		$key = "fetchrow $query " . join(', ', @query_args);
+	} else {
+		$key = "fetchrow $query";
+	}
 	my $c;
 	if($c = $self->{cache}) {
-		if(defined($query_args[0])) {
-			$key = "fetchrow $query " . join(', ', @query_args);
-		} else {
-			$key = "fetchrow $query";
-		}
 		if(my $rc = $c->get($key)) {
 			return $rc;
 		}
@@ -528,12 +528,12 @@ sub updated {
 	return $self->{'_updated'};
 }
 
-# Return the contents of an arbiratary column in the database which match the
+# Return the contents of an arbitrary column in the database which match the
 #	given criteria
 # Returns an array of the matches, or just the first entry when called in
 #	scalar context
 
-# Set distinct to 1 if you're after a uniq list
+# Set distinct to 1 if you're after a unique list
 sub AUTOLOAD {
 	our $AUTOLOAD;
 	my $column = $AUTOLOAD;

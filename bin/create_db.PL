@@ -3,11 +3,14 @@
 # Create SQLite3 from https://sites.rootsweb.com/~obituary/ and
 #	https://mlarchives.rootsweb.com/listindexes/emails?listname=gen-obit
 
+# If mlarchives starts to fail to download, try looking at bin/ml_from_cache
+
 use strict;
 use warnings;
 use DBI;
 # use DBD::SQLite::Constants qw/:file_open/;	# For SQLITE_OPEN_READONLY
 use File::HomeDir;
+use File::Slurp;
 use File::Spec;
 use HTML::Entities;
 use HTTP::Cache::Transparent;
@@ -116,32 +119,39 @@ $dbh->commit();
 $dbh->disconnect();
 
 sub mlarchives($$) {
-	my $ua = shift;
-	my $page = shift;
+	my @lines;
+
 	my $url = "https://mlarchives.rootsweb.com/listindexes/emails?listname=gen-obit&page=$page";
-
-	$| = 1;
-	printf "%-70s\r", $url;
-	$| = 0;
-
-	my $response = $ua->get($url);
-
-	my $data;
-	if($response->is_success) {
-		$data = $response->decoded_content();
+	if($ENV{'MLARCHIVE_DIR'}) {
+		@lines = read_file(File::Spec->catfile($ENV{'MLARCHIVE_DIR'}, "emails?listname=gen-obit&page=$page"));
 	} else {
-		if($response->status_line() ne '404 Not Found') {
-			die "\n$url: ", $response->status_line();
-		}
-		return 0;
-	}
+		my $ua = shift;
+		my $page = shift;
 
-	# mlarchive data is much easier to parse because it's nicely all on one line
-	$data =~ s/\r//g;
+		$| = 1;
+		printf "%-70s\r", $url;
+		$| = 0;
+
+		my $response = $ua->get($url);
+
+		my $data;
+		if($response->is_success) {
+			$data = $response->decoded_content();
+		} else {
+			if($response->status_line() ne '404 Not Found') {
+				print STDERR "You may need to run bin/ml_from_cache\n";
+				die "\n$url: ", $response->status_line();
+			}
+			return 0;
+		}
+
+		# mlarchive data is much easier to parse because it's nicely all on one line
+		$data =~ s/\r//g;
+		@lines = split(/$/ms, $data);
+	}
 
 	# -1 => header, 0 => post-preamble, 1 => post
 	my $stage = -1;
-	my @lines = split(/$/ms, $data);
 
 	my $last_line;
 	my $rc;
