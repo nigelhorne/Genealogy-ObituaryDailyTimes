@@ -122,15 +122,16 @@ sub mlarchives($$) {
 	my @lines;
 
 	my $url = "https://mlarchives.rootsweb.com/listindexes/emails?listname=gen-obit&page=$page";
+
+	$| = 1;
+	printf "%-70s\r", $url;
+	$| = 0;
+
 	if($ENV{'MLARCHIVE_DIR'}) {
 		@lines = read_file(File::Spec->catfile($ENV{'MLARCHIVE_DIR'}, "emails?listname=gen-obit&page=$page"));
 	} else {
 		my $ua = shift;
 		my $page = shift;
-
-		$| = 1;
-		printf "%-70s\r", $url;
-		$| = 0;
 
 		my $response = $ua->get($url);
 
