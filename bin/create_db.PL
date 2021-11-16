@@ -127,7 +127,9 @@ sub mlarchives($$) {
 	printf "%-70s\r", $url;
 	$| = 0;
 
-	if($ENV{'MLARCHIVE_DIR'}) {
+	if($ENV{'MLARCHIVEDIR'}) {
+		@lines = read_file(File::Spec->catfile($ENV{'MLARCHIVEDIR'}, "emails?listname=gen-obit&page=$page"));
+	} elsif($ENV{'MLARCHIVE_DIR'}) {
 		@lines = read_file(File::Spec->catfile($ENV{'MLARCHIVE_DIR'}, "emails?listname=gen-obit&page=$page"));
 	} else {
 		my $ua = shift;
