@@ -12,7 +12,7 @@ BEGIN {
 }
 
 SKIP: {
-	skip 'Database not installed', 9, if(!-r 'lib/Genealogy/ObituaryDailyTimes/database/obituaries.sql');
+	skip 'Database not installed', 10, if(!-r 'lib/Genealogy/ObituaryDailyTimes/database/obituaries.sql');
 
 	if($ENV{'TEST_VERBOSE'}) {
 		Genealogy::ObituaryDailyTimes::DB::init(logger => MyLogger->new());
