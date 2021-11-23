@@ -1,6 +1,6 @@
 #!/usr/bin/env perl
 
-# There's a problem with 
+# There's a problem with
 #	https://mlarchives.rootsweb.com/listindexes/emails?listname=gen-obit
 #	on my desktop it gives protocol errors
 #	on my phone it redirects to ancestry.com

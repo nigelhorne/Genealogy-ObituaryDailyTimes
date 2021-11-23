@@ -1,5 +1,9 @@
 Revision history for Genealogy::ObituaryDailyTimes
 
+0.07
+	Remove the column called "VARCHAR"
+	Fix test for Coppage now that the database has more than one entry for John Coppage
+
 0.06	Thu Apr  8 09:00:35 EDT 2021
 	Reduce the amount of memory that bin/create_db uses
 	Error if 'last' is not given to search()
