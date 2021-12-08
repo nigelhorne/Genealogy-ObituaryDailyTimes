@@ -2,6 +2,9 @@
 
 # Create SQLite3 from https://sites.rootsweb.com/~obituary/ and
 #	https://mlarchives.rootsweb.com/listindexes/emails?listname=gen-obit
+#
+# -f:	force a build, otherwise it won't build on CPAN smokers or if the
+# 	database is less than a day old
 
 # If mlarchives starts to fail to download, try looking at bin/ml_from_cache
 
@@ -35,7 +38,12 @@ BEGIN {
 	}
 }
 
-exit if($ENV{'AUTOMATED_TESTING'});
+my $force_flag;
+if(defined($ARGV[0]) && ($ARGV[0] eq '-f')) {
+	$force_flag++;
+} elsif($ENV{'AUTOMATED_TESTING'}) {
+	exit;
+}
 
 my $dir = 'lib/Genealogy/ObituaryDailyTimes/database';
 my $filename = File::Spec->catdir($dir, 'obituaries.sql');
@@ -46,7 +54,7 @@ if(!-d $dir) {
 }
 
 if(-r $filename) {
-	if((-s $filename) > 0) {
+	if(((-s $filename) > 0) && !$force_flag) {
 		# Don't bother downloading if the file is less than a day old
 		exit if(-M $filename < 1);
 	}
