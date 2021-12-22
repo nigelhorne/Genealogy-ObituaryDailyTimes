@@ -181,7 +181,7 @@ sub _open {
 								col_names => $args{'column_names'},
 							},
 						},
-					}, { PrintError=>1,RaiseError=>1,AutoCommit=>0 }
+					}
 				);
 			} else {
 				$dbh = DBI->connect("dbi:CSV:csv_sep_char=$sep_char");
