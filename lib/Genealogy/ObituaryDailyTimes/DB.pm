@@ -107,6 +107,8 @@ sub set_logger {
 	}
 
 	$self->{'logger'} = $args{'logger'};
+
+	return $self;
 }
 
 # Open the database.
@@ -288,6 +290,8 @@ sub _open {
 	$self->{$table} = $dbh;
 	my @statb = stat($slurp_file);
 	$self->{'_updated'} = $statb[9];
+
+	return $self;
 }
 
 # Returns a reference to an array of hash references of all the data meeting
@@ -581,6 +585,12 @@ sub AUTOLOAD {
 		} else {
 			if($self->{'logger'}) {
 				$self->{'logger'}->debug("AUTOLOAD params $key isn't defined");
+			}
+			if($done_where) {
+				$query .= " AND $key IS NULL";
+			} else {
+				$query .= " WHERE $key IS NULL";
+				$done_where = 1;
 			}
 		}
 	}
