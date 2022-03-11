@@ -121,7 +121,14 @@ while(freelists($ua, 'v26no' . sprintf('%03d', $issue))) {
 
 flush($dbh);
 
+$issue = 1;
+while(freelists($ua, 'v27no' . sprintf('%03d', $issue))) {
+	$issue++;
+}
+
 print "\n";
+
+flush($dbh);
 
 $dbh->commit();
 $dbh->disconnect();

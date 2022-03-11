@@ -4,6 +4,7 @@ Revision history for Genealogy::ObituaryDailyTimes
 	Remove the column called "VARCHAR"
 	Fix test for Coppage now that the database has more than one entry for John Coppage
 	Added '-f' option to bin/create_db.PL to force a database build
+	Added volume 27
 
 0.06	Thu Apr  8 09:00:35 EDT 2021
 	Reduce the amount of memory that bin/create_db uses
