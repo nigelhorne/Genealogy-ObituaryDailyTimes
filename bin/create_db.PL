@@ -131,6 +131,7 @@ print "\n";
 flush($dbh);
 
 $dbh->commit();
+$dbh->prepare('CREATE INDEX name_index ON obituaries(first, last)')->execute();
 $dbh->disconnect();
 
 sub mlarchives($$) {
