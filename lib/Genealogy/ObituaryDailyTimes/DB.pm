@@ -1,7 +1,7 @@
 package Genealogy::ObituaryDailyTimes::DB;
 
 # Author Nigel Horne: njh@bandsman.co.uk
-# Copyright (C) 2015-2021, Nigel Horne
+# Copyright (C) 2015-2022, Nigel Horne
 
 # Usage is subject to licence terms.
 # The licence terms of this software are as follows:
@@ -395,6 +395,7 @@ sub selectall_hash {
 
 		my @rc;
 		while(my $href = $sth->fetchrow_hashref()) {
+			# FIXME: Doesn't store in the cache
 			return $href if(!wantarray);
 			push @rc, $href;
 		}
