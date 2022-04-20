@@ -366,6 +366,9 @@ sub selectall_hash {
 	if(!$self->{no_entry}) {
 		$query .= ' ORDER BY entry';
 	}
+	if(!wantarray) {
+		$query .= ' LIMIT 1';
+	}
 	if($self->{'logger'}) {
 		if(defined($query_args[0])) {
 			$self->{'logger'}->debug("selectall_hash $query: ", join(', ', @query_args));
