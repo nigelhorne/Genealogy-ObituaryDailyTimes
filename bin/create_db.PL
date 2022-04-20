@@ -54,9 +54,9 @@ if(!-d $dir) {
 }
 
 if(-r $filename) {
-	if(((-s $filename) > 0) && !$force_flag) {
-		# Don't bother downloading if the file is less than a day old
-		exit if(-M $filename < 1);
+	# Don't bother downloading if the file is less than a day old
+	if(((-s $filename) > 0) && (-M $filename < 1) && !$force_flag) {
+		exit;
 	}
 	unlink $filename;
 }
