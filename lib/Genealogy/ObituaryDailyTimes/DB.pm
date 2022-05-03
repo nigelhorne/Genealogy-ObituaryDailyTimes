@@ -1,5 +1,11 @@
 package Genealogy::ObituaryDailyTimes::DB;
 
+=head1
+
+Genealogy::ObituaryDailyTimes::DB
+
+=cut
+
 # Author Nigel Horne: njh@bandsman.co.uk
 # Copyright (C) 2015-2022, Nigel Horne
 
