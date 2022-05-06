@@ -132,6 +132,7 @@ flush($dbh);
 
 $dbh->commit();
 $dbh->prepare('CREATE INDEX name_index ON obituaries(first, last)')->execute();
+$dbh->do('pragma optimize');
 $dbh->disconnect();
 
 sub mlarchives($$) {
