@@ -80,13 +80,28 @@ sub search {
 	if(wantarray) {
 		my @obituaries = @{$self->{'obituaries'}->selectall_hashref(\%params)};
 		foreach my $obit(@obituaries) {
-			$obit->{'url'} = 'https://' . $obit->{'url'};
+			$obit->{'url'} = _create_url($obit);
 		}
 		return @obituaries;
 	}
 	my $obit = $self->{'obituaries'}->fetchrow_hashref(\%params);
-	$obit->{'url'} = 'https://' . $obit->{'url'};
+	$obit->{'url'} = _create_url($obit);
 	return $obit;
+}
+
+sub _create_url {
+	my $obit = shift;
+	my $source = $obit->{'source'};
+	my $page = $obit->{'page'};
+	my $url;
+
+	if($source eq 'M') {
+		$url = "https://mlarchives.rootsweb.com/listindexes/emails?listname=gen-obit&page=$page";
+	} elsif($source eq 'F') {
+		$url = "https://www.freelists.org/post/obitdailytimes/Obituary-Daily-Times-$page";
+	} else {
+		Carp::croak(__PACKAGE__, ": Invalid source, '$source'");
+	}
 }
 
 =head1 AUTHOR
