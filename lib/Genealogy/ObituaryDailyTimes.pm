@@ -79,9 +79,14 @@ sub search {
 
 	if(wantarray) {
 		my @obituaries = @{$self->{'obituaries'}->selectall_hashref(\%params)};
+		foreach my $obit(@obituaries) {
+			$obit->{'url'} = 'https://' . $obit->{'url'};
+		}
 		return @obituaries;
 	}
-	return $self->{'obituaries'}->fetchrow_hashref(\%params);
+	my $obit = $self->{'obituaries'}->fetchrow_hashref(\%params);
+	$obit->{'url'} = 'https://' . $obit->{'url'};
+	return $obit;
 }
 
 =head1 AUTHOR

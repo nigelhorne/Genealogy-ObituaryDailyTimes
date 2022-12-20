@@ -1,5 +1,8 @@
 Revision history for Genealogy::ObituaryDailyTimes
 
+0.08
+	Reduce database size by about 40MB
+
 0.07	Thu Apr  7 09:24:57 EDT 2022
 	Remove the column called "VARCHAR"
 	Fix test for Coppage now that the database has more than one entry for John Coppage

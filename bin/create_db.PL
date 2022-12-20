@@ -91,7 +91,7 @@ die "$filename: $!" if(!defined($dbh));
 
 $dbh->do('PRAGMA cache_size = -65536');	# 64MB
 $dbh->do('PRAGMA journal_mode = OFF');
-$dbh->do('CREATE TABLE obituaries(first VARCHAR, middle VARCHAR, last VARCHAR NOT NULL, maiden VARCHAR, age INTEGER, place VARCHAR, newspaper VARCHAR NOT NULL, date DATE NOT NULL, url VARCHAR NOT NULL)');
+$dbh->do('CREATE TABLE obituaries(first VARCHAR, middle VARCHAR, last VARCHAR NOT NULL, maiden VARCHAR, age INTEGER, place VARCHAR, newspaper VARCHAR NOT NULL, date DATE NOT NULL, url VARCHAR(72) NOT NULL)');
 
 my @queue;
 my $page = 1;
@@ -419,6 +419,8 @@ sub flush($)
 		} else {
 			$query .= 'NULL,';
 		}
+		$columns{'url'} =~ s/^https:\/\///;
+		die $columns{'url'} if(length($columns{'url'}) >= 72);
 		$query .= "'" . $columns{'newspaper'} . "','" . $columns{'url'} . "')";
 	}
 
