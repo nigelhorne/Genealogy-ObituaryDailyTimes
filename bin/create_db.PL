@@ -25,7 +25,7 @@ use autodie qw(:all);
 
 sub freelists($$);
 sub mlarchives($$);
-sub queue($$$$$$$$$$);
+sub queue($$$$$$$$$);
 sub flush($);
 sub normalise_name($);
 
@@ -91,7 +91,6 @@ die "$filename: $!" if(!defined($dbh));
 
 $dbh->do('PRAGMA cache_size = -65536');	# 64MB
 $dbh->do('PRAGMA journal_mode = OFF');
-# $dbh->do('CREATE TABLE obituaries(first VARCHAR, middle VARCHAR, last VARCHAR NOT NULL, maiden VARCHAR, age INTEGER, place VARCHAR, newspaper VARCHAR NOT NULL, date DATE NOT NULL, source CHAR, page INTEGER, url VARCHAR(72) NOT NULL)');
 $dbh->do('CREATE TABLE obituaries(first VARCHAR, middle VARCHAR, last VARCHAR NOT NULL, maiden VARCHAR, age INTEGER, place VARCHAR, newspaper VARCHAR NOT NULL, date DATE NOT NULL, source CHAR, page INTEGER)');
 
 my @queue;
@@ -250,7 +249,7 @@ sub mlarchives($$) {
 		# $age //= '';
 
 		# print "$line->>>>>>>>>>\n";
-		queue($first, normalise_name($last), $maiden, $age, $place, $date, $newspaper, 'M', $page, $url) if($last =~ /^[A-Z]/);
+		queue($first, normalise_name($last), $maiden, $age, $place, $date, $newspaper, 'M', $page) if($last =~ /^[A-Z]/);
 		# print "\"$last\",\"$first\",\"$maiden\",\"$age\",\"$place\",\"$date\",\"$newspaper\"\n" if($last =~ /^[A-Z]/);
 		$rc = 1;
 	}
@@ -342,16 +341,16 @@ sub freelists($$) {
 		# print "$line:\n",
 			# "\t\"$last\",\"$first\",\"$age\",\"$place\",\"$date\",\"$newspaper\"\n" if($last =~ /^[A-Z]/);
 			# # "\t\"$last\",\"$first\",\"$maiden\",\"$age\",\"$place\",\"$date\",\"$newspaper\"\n" if($last =~ /^[A-Z]/);
-		queue($first, normalise_name($last), $maiden, $age, $place, $date, $newspaper, 'F', $issue, $url) if($last =~ /^[A-Z]/);
+		queue($first, normalise_name($last), $maiden, $age, $place, $date, $newspaper, 'F', $issue) if($last =~ /^[A-Z]/);
 		$rc = 1;
 	}
 	die "Couldn't parse $url" if(!defined($rc));
 	return 1;
 }
 
-sub queue($$$$$$$$$$)
+sub queue($$$$$$$$$)
 {
-	my ($first, $last, $maiden, $age, $place, $date, $newspaper, $source, $page, $url) = @_;
+	my ($first, $last, $maiden, $age, $place, $date, $newspaper, $source, $page) = @_;
 
 	# If we don't know the date of publication, it's not easy to find
 	return unless(defined($date));
@@ -366,7 +365,6 @@ sub queue($$$$$$$$$$)
 		place => $place,
 		source => $source,
 		page => $page,
-		url => $url
 	);
 
 	if(defined($age) && ($age ne '')) {
@@ -386,7 +384,6 @@ sub flush($)
 
 	while(my $row = pop @queue) {
 		if(!defined($query)) {
-			# $query = 'INSERT INTO obituaries(first, middle, last, maiden, age, place, date, newspaper, url) VALUES (';
 			$query = 'INSERT INTO obituaries(first, middle, last, maiden, age, place, date, newspaper, source, page) VALUES (';
 		} else {
 			$query .= ',(';
@@ -423,9 +420,6 @@ sub flush($)
 		} else {
 			$query .= 'NULL,';
 		}
-		# $columns{'url'} =~ s/^https:\/\///;
-		# die $columns{'url'} if(length($columns{'url'}) >= 72);
-		# $query .= "'" . $columns{'newspaper'} . "','" . $columns{'url'} . "')";
 		$query .= "'" . $columns{'newspaper'} . "','" . $columns{'source'} . "','" . $columns{'page'} . "')";
 	}
 
