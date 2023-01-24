@@ -10,7 +10,7 @@ use Genealogy::ObituaryDailyTimes::DB::obituaries;
 
 =head1 NAME
 
-Genealogy::ObituaryDailyTimes - Compare a Gedcom against the Obituary Daily Times
+Genealogy::ObituaryDailyTimes - Lookup an entry in the Obituary Daily Times
 
 =head1 VERSION
 
