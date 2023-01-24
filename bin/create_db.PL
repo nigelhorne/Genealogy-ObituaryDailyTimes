@@ -50,7 +50,7 @@ my $filename = File::Spec->catdir($dir, 'obituaries.sql');
 my %normalised;
 
 if(!-d $dir) {
-	mkdir $dir;
+	mkdir $dir, 0755;
 }
 
 if(-r $filename) {
