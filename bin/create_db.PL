@@ -259,8 +259,8 @@ sub mlarchives($$) {
 
 sub freelists($$) {
 	my $ua = shift;
-	my $issue = shift;
-	my $url = "https://www.freelists.org/post/obitdailytimes/Obituary-Daily-Times-$issue";
+	my $page = shift;
+	my $url = "https://www.freelists.org/post/obitdailytimes/Obituary-Daily-Times-$page";
 
 	$| = 1;
 	printf "%-70s\r", $url;
@@ -317,7 +317,7 @@ sub freelists($$) {
 		}
 		# print __LINE__, ": $line: ($stage): $name, $age, $place, $newspaper, $date, $tag\n";
 		# use Data::Dumper;
-		# print __LINE__, ": $issue: ", Data::Dumper->new([split(/;\s?/, $line)])->Dump();
+		# print __LINE__, ": $page ", Data::Dumper->new([split(/;\s?/, $line)])->Dump();
 		next unless(defined($name));
 		my ($last, $first) = split(',\s', $name);
 		next unless(defined($last));
@@ -341,7 +341,7 @@ sub freelists($$) {
 		# print "$line:\n",
 			# "\t\"$last\",\"$first\",\"$age\",\"$place\",\"$date\",\"$newspaper\"\n" if($last =~ /^[A-Z]/);
 			# # "\t\"$last\",\"$first\",\"$maiden\",\"$age\",\"$place\",\"$date\",\"$newspaper\"\n" if($last =~ /^[A-Z]/);
-		queue($first, normalise_name($last), $maiden, $age, $place, $date, $newspaper, 'F', $issue) if($last =~ /^[A-Z]/);
+		queue($first, normalise_name($last), $maiden, $age, $place, $date, $newspaper, 'F', $page) if($last =~ /^[A-Z]/);
 		$rc = 1;
 	}
 	die "Couldn't parse $url" if(!defined($rc));
