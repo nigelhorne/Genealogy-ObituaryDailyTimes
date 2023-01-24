@@ -4,7 +4,7 @@
 #	https://mlarchives.rootsweb.com/listindexes/emails?listname=gen-obit
 #
 # -f:	force a build, otherwise it won't build on CPAN smokers or if the
-# 	database is less than a day old
+#	database is less than a day old
 
 # If mlarchives starts to fail to download, try looking at bin/ml_from_cache
 
@@ -393,20 +393,21 @@ sub flush($)
 		if($columns{'first'}) {
 			if($columns{'first'} =~ /(.+)\s(.+)/) {
 				# Has a middle name
-				$query .= "'$1','$2','" . $columns{'last'} . "',";
+				$query .= "'$1','$2',";
 			} else {
-				$query .= "'" . $columns{'first'} . "',NULL,'" . $columns{'last'} . "',";
+				$query .= "'" . $columns{'first'} . "',NULL,";
 			}
 		} else {
-			$query .= "NULL,NULL,'" . $columns{'last'} . "',";
+			$query .= 'NULL,NULL,';
 		}
+		$query .= "'" . $columns{'last'} . "',";
 		if($columns{'maiden'} && ($columns{'maiden'} ne ' ')) {
 			$query .= "'" . $columns{'maiden'} . "',";
 		} else {
 			$query .= 'NULL,';
 		}
 		if($columns{'age'}) {
-			$query .= "'" . $columns{'age'} . "',";
+			$query .= $columns{'age'} . ',';
 		} else {
 			$query .= 'NULL,';
 		}
@@ -420,7 +421,7 @@ sub flush($)
 		} else {
 			$query .= 'NULL,';
 		}
-		$query .= "'" . $columns{'newspaper'} . "','" . $columns{'source'} . "','" . $columns{'page'} . "')";
+		$query .= "'" . $columns{'newspaper'} . "','" . $columns{'source'} . "'," . $columns{'page'} . ')';
 	}
 
 	# $| = 1;
