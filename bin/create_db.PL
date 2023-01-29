@@ -91,7 +91,7 @@ die "$filename: $!" if(!defined($dbh));
 
 $dbh->do('PRAGMA cache_size = -65536');	# 64MB
 $dbh->do('PRAGMA journal_mode = OFF');
-$dbh->do('CREATE TABLE obituaries(first VARCHAR, middle VARCHAR, last VARCHAR NOT NULL, maiden VARCHAR, age INTEGER, place VARCHAR, newspaper VARCHAR NOT NULL, date DATE NOT NULL, source CHAR, page INTEGER)');
+$dbh->do('CREATE TABLE obituaries(first VARCHAR NOT NULL, middle VARCHAR, last VARCHAR NOT NULL, maiden VARCHAR, age INTEGER, place VARCHAR, newspaper VARCHAR NOT NULL, date DATE NOT NULL, source CHAR, page INTEGER)');
 
 my @queue;
 my $page = 1;
@@ -237,6 +237,9 @@ sub mlarchives($$) {
 		# print __LINE__, ": $page: '$line' ", Data::Dumper->new([split(/;\s?/, $line)])->Dump();
 		next unless(defined($name));
 		my ($last, $first) = split(',\s', $name);
+		next unless(defined($last));
+		next unless(defined($first));
+
 		my $maiden;
 		if($first) {
 			if($first =~ /(.+)\s\((.+)\)$/) {
@@ -368,8 +371,11 @@ sub queue($$$$$$$$$)
 	);
 
 	if(defined($age) && ($age ne '')) {
+		return if($age =~ /\D/);
+		$age =~ s/\s+//g;
 		$columns{'age'} = $age;
 	}
+
 	if($maiden) {
 		$columns{'maiden'} = $maiden;
 	}
@@ -380,9 +386,46 @@ sub flush($)
 {
 	my $dbh = shift;
 
+	# Remove duplicates
+	my %seen;
+	my @deduped;
+
+	foreach my $item(@queue) {
+		# my $first = $item->{'first'};
+		# if(!defined($first)) {
+			# $item->{'first'} = '';
+		# }
+		my $maiden = $item->{'maiden'};
+		if(!defined($maiden)) {
+			$item->{'maiden'} = '';
+		}
+		my $age = $item->{'age'};
+		if(!defined($age)) {
+			$item->{'age'} = '';
+		}
+# use Data::Dumper;
+# print Data::Dumper->new([$item])->Dump();
+		my $k = join('|', @$item{qw /first last maiden age place date newspaper source page/ });
+		# if(!defined($first)) {
+			# delete $item->{'first'};
+		# }
+		if(!defined($maiden)) {
+			delete $item->{'maiden'};
+		}
+		if($item->{'age'} eq '') {
+			delete $item->{'age'};
+		}
+		unless($seen{$k}) {
+			push @deduped, $item;
+			$seen{$k} = 1;
+		} else {
+			# print "$k\n";
+		}
+	}
+
 	my $query;
 
-	while(my $row = pop @queue) {
+	while(my $row = pop @deduped) {
 		if(!defined($query)) {
 			$query = 'INSERT INTO obituaries(first, middle, last, maiden, age, place, date, newspaper, source, page) VALUES (';
 		} else {
@@ -442,6 +485,8 @@ sub flush($)
 sub normalise_name($)
 {
 	my $name = shift;
+	$name =~ s/\"//g;
+
 	my $key = lc($name);
 
 	if($normalised{$key}) {
