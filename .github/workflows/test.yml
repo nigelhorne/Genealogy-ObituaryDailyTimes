@@ -14,6 +14,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        os:
           - macos-latest
           - ubuntu-22.04
           - ubuntu-20.04
@@ -31,7 +32,8 @@ jobs:
       - name: Install Dependencies
         run: |
           cpanm -iqn --skip-satisfied File::Spec ExtUtils::MakeMaker
-          cpanm -iqn --skip-satisfied Test::Pod::Spelling::CommonMistakes Test::Portability::Files Test::Carp
+          cpanm -iqn --skip-satisfied Test::Pod::Spelling::CommonMistakes
+          cpanm -iqn --skip-satisfied Test::Portability::Files Test::Carp
           cpanm -iqn --skip-satisfied --installdeps --notest .
       - name: Run Tests
         run: prove -l -b t
