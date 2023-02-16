@@ -10,7 +10,8 @@ BEGIN {
 
 require_ok('Genealogy::ObituaryDailyTimes') || print 'Bail out!';
 
-if(!-r 'lib/Genealogy/ObituaryDailyTimes/database/obituaries.sql') {
+# Smoker testing can do sanity checking without building the database
+if((!$ENV{'AUTOMATED_TESTING'}) && (!-r 'lib/Genealogy/ObituaryDailyTimes/database/obituaries.sql')) {
 	diag('Database not installed');
 	print 'Bail out!';
 }
