@@ -1,7 +1,7 @@
 #!perl -wT
 
 use strict;
-use Test::Most tests => 11;
+use Test::Most tests => 12;
 
 use lib 'lib';
 use lib 't/lib';
@@ -12,7 +12,7 @@ BEGIN {
 }
 
 SKIP: {
-	skip 'Database not installed', 10 if(!-r 'lib/Genealogy/ObituaryDailyTimes/database/obituaries.sql');
+	skip 'Database not installed', 11 if(!-r 'lib/Genealogy/ObituaryDailyTimes/database/obituaries.sql');
 
 	if($ENV{'TEST_VERBOSE'}) {
 		Genealogy::ObituaryDailyTimes::DB::init(logger => MyLogger->new());
@@ -26,6 +26,7 @@ SKIP: {
 	}
 
 	ok(scalar(@smiths) >= 1);
+
 	# FIXME, test either last == Smith or maiden == Smith
 	is($smiths[0]->{'last'}, 'Smith', 'Returned Smiths');
 
@@ -34,7 +35,7 @@ SKIP: {
 
 	my @coppage = $search->search({ first => 'John', middle => 'W', last => 'Coppage' });
 
-	ok(scalar(@coppage) > 0, 'At least one John Coppage');
+	cmp_ok(scalar(@coppage), '>', 0, 'At least one John Coppage');
 	is(grep($_->{'middle'} eq 'W', @coppage), scalar(@coppage), 'Every match has the correct middle initial');
 	is(grep($_->{'url'} eq 'https://www.freelists.org/post/obitdailytimes/Obituary-Daily-Times-v26no080', @coppage), 1, 'Find the expected URL exactly one time');
 
@@ -42,10 +43,19 @@ SKIP: {
 		diag(Data::Dumper->new([\@coppage])->Dump());
 	}
 
+	# V28
+	my @macfarlane = $search->search({ first => 'Morley Alexander', middle => 'Victor', last => 'MacFarlane', age => 85 });
+
+	if($ENV{'TEST_VERBOSE'}) {
+		diag(Data::Dumper->new([\@macfarlane])->Dump());
+	}
+
+	is(grep($_->{'url'} eq 'https://www.freelists.org/post/obitdailytimes/Obituary-Daily-Times-v28no008', @macfarlane), 1, 'Find the expected URL exactly one time');
+
 	# Continuity line
-	my $ackles = $search->search({ first => 'Almetta', middle => 'Ivaleen', last => 'Adams' });
-	is($ackles->{'maiden'}, 'Paterson', 'Picks up maiden name');
-	is($ackles->{'url'}, 'https://www.freelists.org/post/obitdailytimes/Obituary-Daily-Times-v25no101', 'Check Coppage URL');
+	my $adams = $search->search({ first => 'Almetta', middle => 'Ivaleen', last => 'Adams' });
+	is($adams->{'maiden'}, 'Paterson', 'Picks up maiden name');
+	is($adams->{'url'}, 'https://www.freelists.org/post/obitdailytimes/Obituary-Daily-Times-v25no101', 'Check Adams URL');
 
 	my @empty = $search->search(last => 'xyzzy');
 	is(scalar(@empty), 0, 'Search for xyzzy should return an empty list');

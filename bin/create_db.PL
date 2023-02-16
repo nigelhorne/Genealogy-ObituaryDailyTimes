@@ -91,7 +91,7 @@ die "$filename: $!" if(!defined($dbh));
 
 $dbh->do('PRAGMA cache_size = -65536');	# 64MB
 $dbh->do('PRAGMA journal_mode = OFF');
-$dbh->do('CREATE TABLE obituaries(first VARCHAR NOT NULL, middle VARCHAR, last VARCHAR NOT NULL, maiden VARCHAR, age INTEGER, place VARCHAR, newspaper VARCHAR NOT NULL, date DATE NOT NULL, source CHAR, page VARCHAR NOT NULL)');
+$dbh->do('CREATE TABLE obituaries(first VARCHAR NOT NULL, middle VARCHAR, last VARCHAR NOT NULL, maiden VARCHAR, age INTEGER, place VARCHAR, newspaper VARCHAR NOT NULL, date DATE NOT NULL, source CHAR NOT NULL, page VARCHAR NOT NULL)');
 
 my @queue;
 my $page = 1;
@@ -123,6 +123,13 @@ flush($dbh);
 
 $issue = 1;
 while(freelists($ua, 'v27no' . sprintf('%03d', $issue))) {
+	$issue++;
+}
+
+flush($dbh);
+
+$issue = 1;
+while(freelists($ua, 'v28no' . sprintf('%03d', $issue))) {
 	$issue++;
 }
 
@@ -284,7 +291,11 @@ sub freelists($$) {
 	# print $data;
 	# exit;
 
-	my @lines = split(/<br>|<br \/>$/ms, $data);
+	# my @lines = split(/<br>|<br \/>/ms, $data);
+	$data =~ s/<br>/\n/g;
+	$data =~ s/<br \/>/\n/g;
+	$data =~ s/\n\n+/\n/g;
+	my @lines = split(/\n/ms, $data);
 
 	my $rc;
 
@@ -307,8 +318,11 @@ sub freelists($$) {
 		$line =~ s/'/''/g;
 		my ($name, $age, $place, $newspaper, $date, $tag) = split(/;\s?/, $line);
 		if((!defined($tag)) || ($tag eq '')) {
+			# Handle when the information is split across more
+			# than one line ("cont" means "continuation")
 			my $cont = shift(@lines);
 
+			# print __LINE__, ": continuation '$cont'\n";
 			$cont =~ s/^\n//;
 			last if($cont =~ /^\-\-\-\-\-\-\-\-/);
 			$cont =~ s/&nbsp;/ /g;
@@ -343,7 +357,7 @@ sub freelists($$) {
 
 		# print "$line:\n",
 			# "\t\"$last\",\"$first\",\"$age\",\"$place\",\"$date\",\"$newspaper\"\n" if($last =~ /^[A-Z]/);
-			# # "\t\"$last\",\"$first\",\"$maiden\",\"$age\",\"$place\",\"$date\",\"$newspaper\"\n" if($last =~ /^[A-Z]/);
+			# "\t\"$last\",\"$first\",\"$maiden\",\"$age\",\"$place\",\"$date\",\"$newspaper\"\n" if($last =~ /^[A-Z]/);
 		queue($first, normalise_name($last), $maiden, $age, $place, $date, $newspaper, 'F', $page) if($last =~ /^[A-Z]/);
 		$rc = 1;
 	}
@@ -354,6 +368,8 @@ sub freelists($$) {
 sub queue($$$$$$$$$)
 {
 	my ($first, $last, $maiden, $age, $place, $date, $newspaper, $source, $page) = @_;
+
+	die $source if(($source ne 'F') && ($source ne 'M'));
 
 	# If we don't know the date of publication, it's not easy to find
 	return unless(defined($date));
@@ -464,6 +480,8 @@ sub flush($)
 		} else {
 			$query .= 'NULL,';
 		}
+		my $source = $columns{'source'};
+		die $source if(($source ne 'F') && ($source ne 'M'));
 		$query .= "'" . $columns{'newspaper'} . "','" . $columns{'source'} . "','" . $columns{'page'} . "')";
 	}
 

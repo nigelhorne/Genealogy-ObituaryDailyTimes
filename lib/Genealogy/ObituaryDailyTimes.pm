@@ -84,9 +84,11 @@ sub search {
 		}
 		return @obituaries;
 	}
-	my $obit = $self->{'obituaries'}->fetchrow_hashref(\%params);
-	$obit->{'url'} = _create_url($obit);
-	return $obit;
+	if(defined(my $obit = $self->{'obituaries'}->fetchrow_hashref(\%params))) {
+		$obit->{'url'} = _create_url($obit);
+		return $obit;
+	}
+	return;	# undef
 }
 
 sub _create_url {
@@ -94,6 +96,15 @@ sub _create_url {
 	my $source = $obit->{'source'};
 	my $page = $obit->{'page'};
 
+	if(!defined($page)) {
+		use Data::Dumper;
+		::diag(Data::Dumper->new([$obit])->Dump());
+		Carp::croak(__PACKAGE__, ': undefined $page');
+	}
+	if(!defined($source)) {
+		Carp::croak(__PACKAGE__, ": $page: undefined source");
+	}
+		
 	if($source eq 'M') {
 		return "https://mlarchives.rootsweb.com/listindexes/emails?listname=gen-obit&page=$page";
 	}
