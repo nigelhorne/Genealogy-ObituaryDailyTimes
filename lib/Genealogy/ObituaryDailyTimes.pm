@@ -104,7 +104,7 @@ sub _create_url {
 	if(!defined($source)) {
 		Carp::croak(__PACKAGE__, ": $page: undefined source");
 	}
-		
+
 	if($source eq 'M') {
 		return "https://mlarchives.rootsweb.com/listindexes/emails?listname=gen-obit&page=$page";
 	}
