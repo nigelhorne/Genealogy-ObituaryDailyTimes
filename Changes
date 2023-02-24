@@ -1,6 +1,6 @@
 Revision history for Genealogy::ObituaryDailyTimes
 
-0.08
+0.08	Fri Feb 24 18:03:24 EST 2023
 	Halved the size of the database
 	Avoid adding duplicates into the database
 	Added volume 28
