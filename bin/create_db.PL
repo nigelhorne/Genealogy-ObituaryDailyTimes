@@ -361,7 +361,7 @@ sub freelists($$) {
 		queue($first, normalise_name($last), $maiden, $age, $place, $date, $newspaper, 'F', $page) if($last =~ /^[A-Z]/);
 		$rc = 1;
 	}
-	die "Couldn't parse $url" if(!defined($rc));
+	die "Couldn't parse $url (stage == $stage)" if(!defined($rc));
 	return 1;
 }
 
