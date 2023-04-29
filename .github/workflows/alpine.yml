@@ -35,7 +35,7 @@ jobs:
           git clone --recurse-submodules $GITHUB_SERVER_URL/$GITHUB_REPOSITORY.git
           cd $GITHUB_WORKSPACE
           cpanm -iqn File::Spec ExtUtils::MakeMaker
-          cpanm -iqn LWP::UserAgent::WithCache Module::Info File::pfopen
+          cpanm -iqn B::Utils LWP::UserAgent::WithCache Module::Info File::pfopen
           cpanm -iqn HTTP::Cache::Transparent Lingua::EN::NameCase Test::Carp
           cpanm -iqn --installdeps .
       - name: Make module
