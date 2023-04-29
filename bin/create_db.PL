@@ -302,7 +302,7 @@ sub freelists($$) {
 	my $stage = 0;
 	while(my $line = shift(@lines)) {
 		# LAST NAME, First Name (MAIDEN); Age; Place of Death; Newspaper Name; Newspaper date; tagname
-
+		# print "$stage: $line\n";
 		$line =~ s/^\n//;
 		next if($line eq '');
 		if($line =~ /\-\-\-\-\-\-\-\-/) {
@@ -310,6 +310,7 @@ sub freelists($$) {
 			last if($stage >= 3);
 			$line =~ s/^.*\-+//;
 			next if($line eq '');
+			next if($line eq '<br/>');
 		}
 		next if($stage != 2);
 		$line =~ s/&nbsp;/ /g;
@@ -330,6 +331,7 @@ sub freelists($$) {
 			$cont =~ s/&gt;/>/g;
 			$line =~ s/&quot;/"/g;
 			$line .= $cont;
+			# print __LINE__, ": line '$line'\n";
 			($name, $age, $place, $newspaper, $date, $tag) = split(/;\s?/, $line);
 		}
 		# print __LINE__, ": $line: ($stage): $name, $age, $place, $newspaper, $date, $tag\n";
@@ -342,7 +344,9 @@ sub freelists($$) {
 
 		# Parsing completely broken
 		# e.g. https://www.freelists.org/post/obitdailytimes/Obituary-Daily-Times-v25no010
+		# print __LINE__, "\n";
 		last unless(defined($newspaper));
+		# print __LINE__, "\n";
 
 		my $maiden;
 		if($first) {
@@ -357,7 +361,7 @@ sub freelists($$) {
 
 		# print "$line:\n",
 			# "\t\"$last\",\"$first\",\"$age\",\"$place\",\"$date\",\"$newspaper\"\n" if($last =~ /^[A-Z]/);
-			# "\t\"$last\",\"$first\",\"$maiden\",\"$age\",\"$place\",\"$date\",\"$newspaper\"\n" if($last =~ /^[A-Z]/);
+			# "\t\"$last\",\"$first\",\"$maiden\",\"$age\",\"$place\",\"$date\",\"$newspaper\"\n" if(defined($maiden) && ($last =~ /^[A-Z]/));
 		queue($first, normalise_name($last), $maiden, $age, $place, $date, $newspaper, 'F', $page) if($last =~ /^[A-Z]/);
 		$rc = 1;
 	}

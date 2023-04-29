@@ -142,10 +142,6 @@ L<https://metacpan.org/release/Genealogy-ObituaryDailyTimes>
 
 L<https://rt.cpan.org/NoAuth/Bugs.html?Dist=Genealogy-ObituaryDailyTimes>
 
-=item * CPANTS
-
-L<http://cpants.cpanauthors.org/dist/Genealogy-ObituaryDailyTimes>
-
 =item * CPAN Testers' Matrix
 
 L<http://matrix.cpantesters.org/?dist=Genealogy-ObituaryDailyTimes>
