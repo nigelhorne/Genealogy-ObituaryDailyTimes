@@ -25,7 +25,8 @@ jobs:
           apk upgrade
           apk add perl perl-app-cpanminus make gzip git
           apk add perl-test-most perl-test-nowarnings perl-dbi perl-html-parser
-          apk add perl-lwp-protocol-https perl-dbd-sqlite
+          apk add perl-lwp-protocol-https perl-dbd-sqlite perl-file-slurp
+          apk add perl-ipc-system-simple perl-digest-sha1 perl-cache-cache
           perl -V
           # cpanm -iqn ExtUtils::MakeMaker File::Spec Test::Most
           # cpanm -iqn Sub::Identify Log::Any
@@ -34,7 +35,8 @@ jobs:
           git clone --recurse-submodules $GITHUB_SERVER_URL/$GITHUB_REPOSITORY.git
           cd $GITHUB_WORKSPACE
           cpanm -iqn File::Spec ExtUtils::MakeMaker
-          cpanm -iqn LWP::UserAgent::WithCache Module::Info
+          cpanm -iqn LWP::UserAgent::WithCache Module::Info File::pfopen
+          cpanm -iqn HTTP::Cache::Transparent Lingua::EN::NameCase Test::Carp
           cpanm -iqn --installdeps .
       - name: Make module
         run: |
