@@ -23,7 +23,7 @@ jobs:
         run: |
           apk update
           apk upgrade
-          apk add perl perl-app-cpanminus make gzip git gcc perl-dev musl‑dev
+          apk add perl perl-app-cpanminus make gzip git gcc perl-dev musl-dev
           apk add perl-test-most perl-test-nowarnings perl-dbi perl-html-parser
           apk add perl-lwp-protocol-https perl-dbd-sqlite perl-file-slurp
           apk add perl-ipc-system-simple perl-digest-sha1 perl-cache-cache
