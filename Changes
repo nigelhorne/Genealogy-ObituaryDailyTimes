@@ -2,6 +2,7 @@ Revision history for Genealogy::ObituaryDailyTimes
 
 0.09
 	create_db failed on 5.36.1
+	freelists now separate lines by <br/> instead of <br />
 
 0.08	Fri Feb 24 18:03:24 EST 2023
 	Halved the size of the database

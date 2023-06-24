@@ -32,7 +32,8 @@ sub normalise_name($);
 BEGIN {
 	$SIG{__WARN__} = sub {
 		my $warning = shift;
-		if($warning =~ /^Use of uninitialized value/) {
+		if(($warning =~ /^Use of uninitialized value/) ||
+		   ($warning =~ /isn't numeric in numeric eq /i)) {
 			die $warning;
 		}
 	}
@@ -54,7 +55,7 @@ if(!-d $dir) {
 }
 
 if(-r $filename) {
-	# Don't bother downloading if the file is less than a day old
+	# Don't bother building if the current file is less than a day old
 	if(((-s $filename) > 0) && (-M $filename < 1) && !$force_flag) {
 		exit;
 	}
@@ -293,7 +294,7 @@ sub freelists($$) {
 
 	# my @lines = split(/<br>|<br \/>/ms, $data);
 	$data =~ s/<br>/\n/g;
-	$data =~ s/<br \/>/\n/g;
+	$data =~ s/<br ?\/>/\n/g;
 	$data =~ s/\n\n+/\n/g;
 	my @lines = split(/\n/ms, $data);
 
