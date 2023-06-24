@@ -18,10 +18,10 @@ jobs:
         os:
           - name: freebsd
             version: '13.0'
-            pkginstall: pkg install -y p5-ExtUtils-MakeMaker p5-DBD-SQLite p5-File-Slurp
+            pkginstall: pkg install -y p5-ExtUtils-MakeMaker p5-DBD-SQLite p5-File-Slurp p5-Protocol-https
           - name: openbsd
             version: '7.1'
-            pkginstall: pkg_add p5-DBD-SQLite p5-File-Slurp
+            pkginstall: pkg_add p5-DBD-SQLite p5-File-Slurp p5-Protocol-https
 
     steps:
       - uses: actions/checkout@main
