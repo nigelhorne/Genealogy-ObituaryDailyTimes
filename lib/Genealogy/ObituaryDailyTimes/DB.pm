@@ -7,7 +7,7 @@ Genealogy::ObituaryDailyTimes::DB
 =cut
 
 # Author Nigel Horne: njh@bandsman.co.uk
-# Copyright (C) 2015-2022, Nigel Horne
+# Copyright (C) 2015-2023, Nigel Horne
 
 # Usage is subject to licence terms.
 # The licence terms of this software are as follows:
@@ -346,7 +346,7 @@ sub selectall_hash {
 			if($self->{'logger'}) {
 				$self->{'logger'}->fatal("selectall_hash $query: argument is not a string");
 			}
-			throw Error::Simple("$query: argument is not a string");
+			throw Error::Simple("$query: argument is not a string: " . ref($arg));
 		}
 		if(!defined($arg)) {
 			my @call_details = caller(0);
