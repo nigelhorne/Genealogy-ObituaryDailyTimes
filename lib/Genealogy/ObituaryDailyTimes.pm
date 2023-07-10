@@ -32,8 +32,9 @@ our $VERSION = '0.09';
 
 Creates a Genealogy::ObituaryDailyTimes object.
 
-Takes an optional argument, directory, that is the directory containing obituaries.sql.
-
+Takes two optionals arguments:
+	directory: that is the directory containing obituaries.sql
+	logger: an object to send log messages to
 =cut
 
 sub new {
