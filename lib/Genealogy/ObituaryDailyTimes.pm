@@ -35,6 +35,7 @@ Creates a Genealogy::ObituaryDailyTimes object.
 Takes two optionals arguments:
 	directory: that is the directory containing obituaries.sql
 	logger: an object to send log messages to
+
 =cut
 
 sub new {
