@@ -57,6 +57,9 @@ sub new {
 	my $directory = $args{'directory'} || Module::Info->new_from_loaded(__PACKAGE__)->file();
 	$directory =~ s/\.pm$//;
 
+	# The database is updated daily
+	$args{'cache_duration'} ||= '1 day';
+
 	Genealogy::ObituaryDailyTimes::DB::init(directory => File::Spec->catfile($directory, 'database'), %args);
 	return bless { }, $class;
 }
