@@ -1,5 +1,8 @@
 Revision history for Genealogy::ObituaryDailyTimes
 
+0.11
+	Added first, last, age as an index
+
 0.10	Sun Oct 15 16:04:03 EDT 2023
 	Latest DB.pm from NJH-Snippets
 	Allow new() to take a ref to a hash of arguments

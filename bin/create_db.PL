@@ -141,6 +141,7 @@ flush($dbh);
 
 $dbh->commit();
 $dbh->prepare('CREATE INDEX name_index ON obituaries(first, last)')->execute();
+$dbh->prepare('CREATE INDEX name_age_index ON obituaries(first, last, age)')->execute();
 $dbh->do('pragma optimize');
 $dbh->disconnect();
 

@@ -1,8 +1,5 @@
 package Genealogy::ObituaryDailyTimes;
 
-# TODO: add a key with first, last and age:
-# cache get for namespace='Default', key='SELECT * FROM obituaries WHERE age = ? AND first = ? AND last = ? 46, Thomas, Knowler', cache='File', time='0ms': MISS (not in cache)
-
 use warnings;
 use strict;
 use Carp;
