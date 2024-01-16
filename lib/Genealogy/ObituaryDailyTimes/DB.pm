@@ -7,7 +7,7 @@ Genealogy::ObituaryDailyTimes::DB
 =cut
 
 # Author Nigel Horne: njh@bandsman.co.uk
-# Copyright (C) 2015-2023, Nigel Horne
+# Copyright (C) 2015-2024, Nigel Horne
 
 # Usage is subject to licence terms.
 # The licence terms of this software are as follows:
@@ -274,7 +274,6 @@ sub _open {
 			# Text::CSV::Slurp->import();
 			# $self->{'data'} = Text::CSV::Slurp->load(file => $slurp_file, %options);
 
-			if(0) {
 			require Text::xSV::Slurp;
 			Text::xSV::Slurp->import();
 
@@ -301,7 +300,6 @@ sub _open {
 			$self->{'data'} = ();
 			foreach my $d(@data) {
 				$self->{'data'}[$i++] = $d;
-			}
 			}
 			$self->{'type'} = 'CSV';
 		} else {
