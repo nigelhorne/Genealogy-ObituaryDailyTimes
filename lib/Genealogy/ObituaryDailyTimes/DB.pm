@@ -638,8 +638,9 @@ sub AUTOLOAD {
 			}
 		}
 	}
-	$query .= " ORDER BY $column";
-	if(!wantarray) {
+	if(wantarray) {
+		$query .= " ORDER BY $column";
+	} else {
 		$query .= ' LIMIT 1';
 	}
 	if($self->{'logger'}) {
