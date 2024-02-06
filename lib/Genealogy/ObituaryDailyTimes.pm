@@ -61,7 +61,7 @@ sub new {
 		$args{'directory'} = File::Spec->catfile($directory, 'data');
 	}
 	if(!-d $args{'directory'}) {
-		Carp::carp(__PACKAGE__, ': ', $args{'directory'}, 'is not a directory');
+		Carp::carp(__PACKAGE__, ': ', $args{'directory'}, ' is not a directory');
 		return;
 	}
 

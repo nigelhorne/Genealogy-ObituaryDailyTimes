@@ -8,6 +8,8 @@ on:
     tags-ignore:
       - '*'
   pull_request:
+  schedule:
+    - cron: '12 23 7 * *'
 jobs:
   build:
     runs-on: ${{ matrix.os }}
@@ -35,7 +37,13 @@ jobs:
           cpanm -iqn --skip-satisfied Test::Pod::Spelling::CommonMistakes
           cpanm -iqn --skip-satisfied Test::Portability::Files Test::Carp
           cpanm -iqn --skip-satisfied --installdeps --notest .
+      - name: Make Module
+        run: |
+          # find . -name build.log | xargs cat
+          perl Makefile.PL
+          make
       - name: Run Tests
         run: prove -l -b t
         env:
+          AUTHOR_TESTING: 1
           AUTOMATED_TESTING: 1
