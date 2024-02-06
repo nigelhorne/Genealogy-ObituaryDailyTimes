@@ -33,7 +33,7 @@ SKIP: {
 	is($smiths[0]->{'last'}, 'Smith', 'Returned Smiths');
 
 	my $baal = $search->search({ first => 'Eric', last => 'Baal' });
-	is($baal->{'url'}, 'https://mlarchives.rootsweb.com/listindexes/emails?listname=gen-obit&page=96', 'Check Baal URL');
+	cmp_ok($baal->{'url'}, 'eq', 'https://mlarchives.rootsweb.com/listindexes/emails?listname=gen-obit&page=96', 'Check Baal URL');
 
 	my @coppage = $search->search({ first => 'John', middle => 'W', last => 'Coppage' });
 
