@@ -7,6 +7,7 @@ use ExtUtils::MakeMaker 6.64;	# 6.64 for TEST_REQUIRES
 my $prereqs = {
 	'autodie' => 0,
 	'Carp' => 0,
+	'Database::Abstraction' => 0.04,
 	'DBD::SQLite' => 0,
 	'DBD::SQLite::Constants' => 0,
 	'Error::Simple' => 0,
@@ -47,6 +48,7 @@ WriteMakefile(
 		'Test::Carp' => 0,
 		'Test::Most' => 0,
 		'Test::NoWarnings' => 0,
+		'Test::Needs' => 0
 		# 'Test::Kwalitee' => 0,
 		'IPC::System::Simple' => 0,
 	}, PREREQ_PM => $prereqs,

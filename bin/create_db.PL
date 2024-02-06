@@ -47,7 +47,7 @@ if(defined($ARGV[0]) && ($ARGV[0] eq '-f')) {
 	exit;
 }
 
-my $dir = 'lib/Genealogy/ObituaryDailyTimes/database';
+my $dir = 'lib/Genealogy/ObituaryDailyTimes/data';
 my $filename = File::Spec->catdir($dir, 'obituaries.sql');
 my %normalised;
 

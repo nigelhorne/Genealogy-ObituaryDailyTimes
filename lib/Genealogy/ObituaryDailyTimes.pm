@@ -5,8 +5,7 @@ use strict;
 use Carp;
 use File::Spec;
 use Module::Info;
-use Genealogy::ObituaryDailyTimes::DB;
-use Genealogy::ObituaryDailyTimes::DB::obituaries;
+use Genealogy::ObituaryDailyTimes::obituaries;
 
 =head1 NAME
 
@@ -61,8 +60,10 @@ sub new {
 	# The database is updated daily
 	$args{'cache_duration'} ||= '1 day';
 
-	Genealogy::ObituaryDailyTimes::DB::init(directory => File::Spec->catfile($directory, 'database'), %args);
-	return bless { }, $class;
+	return bless {
+		directory => File::Spec->catfile($directory, 'data'),
+		%args
+	}, $class;
 }
 
 =head2 search
@@ -86,7 +87,7 @@ sub search {
 		return;
 	}
 
-	$self->{'obituaries'} ||= Genealogy::ObituaryDailyTimes::DB::obituaries->new(no_entry => 1);
+	$self->{'obituaries'} ||= Genealogy::ObituaryDailyTimes::obituaries->new(no_entry => 1, %{$self});
 
 	if(!defined($self->{'obituaries'})) {
 		Carp::croak("Can't open the obituaries database");
