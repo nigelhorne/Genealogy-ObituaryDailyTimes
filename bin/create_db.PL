@@ -149,7 +149,8 @@ $dbh->disconnect();
 sub mlarchives($$) {
 	my @lines;
 
-	my $url = "https://mlarchives.rootsweb.com/listindexes/emails?listname=gen-obit&page=$page";
+	# my $url = "https://mlarchives.rootsweb.com/listindexes/emails?listname=gen-obit&page=$page";
+	my $url = "https://wayback.archive-it.org/20669/20231102044925/https://mlarchives.rootsweb.com/listindexes/emails?listname=gen-obit&page=$page";
 
 	$| = 1;
 	printf "%-70s\r", $url;

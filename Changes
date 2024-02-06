@@ -5,6 +5,7 @@ Revision history for Genealogy::ObituaryDailyTimes
 	Renamed database to data
 	Use Database::Abstraction
 	Improved argument checking for 'directory'
+	Try using the Wayback machine archive
 
 0.10	Sun Oct 15 16:04:03 EDT 2023
 	Latest DB.pm from NJH-Snippets
