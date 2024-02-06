@@ -144,7 +144,10 @@ Nigel Horne, C<< <njh at bandsman.co.uk> >>
 
 =head1 SEE ALSO
 
-The Obituary Daily Times, L<https://sites.rootsweb.com/~obituary/>
+The Obituary Daily Times, L<https://sites.rootsweb.com/~obituary/>,
+Archived Rootsweb data, L<https://wayback.archive-it.org/20669/20231102044925/https://mlarchives.rootsweb.com/listindexes/emails?listname=gen-obit>,
+Recent data L<https://www.freelists.org/list/obitdailytimes>,
+Older data L<https://obituaries.rootsweb.com/obits/searchObits>.
 
 =head1 SUPPORT
 
