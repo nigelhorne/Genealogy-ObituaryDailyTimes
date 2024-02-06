@@ -8,6 +8,7 @@ my @dirs = (
 	'lib/Genealogy/ObituaryDailyTimes/data'
 );
 
+# FIXME: AUTOMATED_TESTING - create the empty directory in blib
 foreach my $dir(@dirs) {
 	if(! -d $dir) {
 		print "Creating the download directory $dir\n";

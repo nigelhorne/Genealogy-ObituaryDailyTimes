@@ -42,6 +42,7 @@ jobs:
           # find . -name build.log | xargs cat
           perl Makefile.PL
           make
+	  mkdir blib/Genealogy/ObituaryDailyTimes/data
       - name: Run Tests
         run: prove -l -b t
         env:
