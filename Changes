@@ -4,6 +4,7 @@ Revision history for Genealogy::ObituaryDailyTimes
 	Added first, last, age as an index
 	Renamed database to data
 	Use Database::Abstraction
+	Improved argument checking for 'directory'
 
 0.10	Sun Oct 15 16:04:03 EDT 2023
 	Latest DB.pm from NJH-Snippets

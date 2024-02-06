@@ -54,15 +54,21 @@ sub new {
 		return bless { %{$class}, %args }, ref($class);
 	}
 
-	my $directory = $args{'directory'} || Module::Info->new_from_loaded(__PACKAGE__)->file();
-	$directory =~ s/\.pm$//;
+	if(!(my $directory = $args{'directory'})) {
+		# If the directory argument isn't given, see if we can find the data
+		$directory ||= Module::Info->new_from_loaded(__PACKAGE__)->file();
+		$directory =~ s/\.pm$//;
+		$args{'directory'} = File::Spec->catfile($directory, 'data');
+	}
+	if(!-d $args{'directory'}) {
+		Carp::carp(__PACKAGE__, ': ', $args{'directory'}, 'is not a directory');
+		return;
+	}
 
-	# The database is updated daily
-	$args{'cache_duration'} ||= '1 day';
-
+	# cache_duration can be overriden by the args
 	return bless {
-		directory => File::Spec->catfile($directory, 'data'),
-		%args
+		cache_duration => '1 day',	# The database is updated daily
+		%args,
 	}, $class;
 }
 

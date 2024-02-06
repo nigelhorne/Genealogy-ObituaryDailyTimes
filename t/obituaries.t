@@ -14,10 +14,12 @@ BEGIN {
 SKIP: {
 	skip 'Database not installed', 11 if(!-r 'lib/Genealogy/ObituaryDailyTimes/data/obituaries.sql');
 
+	my $search;
 	if($ENV{'TEST_VERBOSE'}) {
-		Genealogy::ObituaryDailyTimes::DB::init(logger => MyLogger->new());
+		$search = new_ok('Genealogy::ObituaryDailyTimes' => [ logger => MyLogger->new() ]);
+	} else {
+		$search = new_ok('Genealogy::ObituaryDailyTimes');
 	}
-	my $search = new_ok('Genealogy::ObituaryDailyTimes');
 
 	my @smiths = $search->search(last => 'Smith');
 
