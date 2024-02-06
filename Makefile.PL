@@ -4,6 +4,17 @@ use strict;
 use warnings;
 use ExtUtils::MakeMaker 6.64;	# 6.64 for TEST_REQUIRES
 
+my @dirs = (
+	'lib/Genealogy/ObituaryDailyTimes/data'
+);
+
+foreach my $dir(@dirs) {
+	if(! -d $dir) {
+		print "Creating the download directory $dir\n";
+		mkdir $dir, 0755 || die "$dir: $@";
+	}
+}
+
 my $prereqs = {
 	'autodie' => 0,
 	'Carp' => 0,
