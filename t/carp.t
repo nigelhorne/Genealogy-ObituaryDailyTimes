@@ -14,6 +14,8 @@ SKIP: {
 
 	my $search = new_ok('Genealogy::ObituaryDailyTimes');
 
+	Test::Carp->import();
+
 	does_carp_that_matches(sub { my @empty = $search->search(); }, qr/^Value for 'last' is mandatory/);
 	does_carp_that_matches(sub { my @empty = $search->search(last => undef); }, qr/^Value for 'last' is mandatory/);
 	does_carp_that_matches(sub { my @empty = $search->search({ last => undef }); }, qr/^Value for 'last' is mandatory/);
