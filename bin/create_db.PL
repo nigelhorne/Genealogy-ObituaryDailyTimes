@@ -40,20 +40,22 @@ BEGIN {
 	}
 }
 
+my %normalised;
 my $force_flag;
+my $dir = 'lib/Genealogy/ObituaryDailyTimes/data';
+
+if(!-d $dir) {
+	# Make the data directory, even on AUTOMATED TESTING environments
+	mkdir $dir, 0755;
+}
+
 if(defined($ARGV[0]) && ($ARGV[0] eq '-f')) {
 	$force_flag++;
 } elsif($ENV{'AUTOMATED_TESTING'}) {
 	exit;
 }
 
-my $dir = 'lib/Genealogy/ObituaryDailyTimes/data';
 my $filename = File::Spec->catdir($dir, 'obituaries.sql');
-my %normalised;
-
-if(!-d $dir) {
-	mkdir $dir, 0755;
-}
 
 if(-r $filename) {
 	# Don't bother building if the current file is less than a day old
