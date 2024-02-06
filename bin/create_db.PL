@@ -136,6 +136,14 @@ while(freelists($ua, 'v28no' . sprintf('%03d', $issue))) {
 	$issue++;
 }
 
+flush($dbh);
+
+$issue = 1;
+# 2024
+while(freelists($ua, 'v29no' . sprintf('%03d', $issue))) {
+	$issue++;
+}
+
 print "\n";
 
 flush($dbh);
