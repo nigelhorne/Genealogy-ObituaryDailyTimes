@@ -45,7 +45,6 @@ jobs:
           # find . -name build.log | xargs cat
           perl Makefile.PL
           make
-          mkdir blib/Genealogy/ObituaryDailyTimes/data
         env:
           AUTHOR_TESTING: 1
           AUTOMATED_TESTING: 1
