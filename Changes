@@ -7,6 +7,7 @@ Revision history for Genealogy::ObituaryDailyTimes
 	Improved argument checking for 'directory'
 	Try using the Wayback machine archive
 	Get the 2024 data from Freelists
+	"make realclean" now removes the database
 
 0.10	Sun Oct 15 16:04:03 EDT 2023
 	Latest DB.pm from NJH-Snippets

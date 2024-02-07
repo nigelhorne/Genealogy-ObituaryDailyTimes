@@ -13,6 +13,10 @@ foreach my $dir(@dirs) {
 	if(! -d $dir) {
 		print "Creating the download directory $dir\n";
 		mkdir $dir, 0755 || die "$dir: $@";
+		if($ENV{'AUTOMATED_TESTING'}) {
+			# So that the directory is copied to blib for testing
+			open(my $dummy, '>', "$dir/dummy");
+		}
 	}
 }
 
@@ -65,8 +69,8 @@ WriteMakefile(
 		'IPC::System::Simple' => 0,
 	}, PREREQ_PM => $prereqs,
 	dist => { COMPRESS => 'gzip -9f', SUFFIX => 'gz', },
-	clean => {
-		FILES => 'Genealogy-ObituaryDailyTimes-* lib/Genealogy/ObituaryDailyTimes/data/obituaries.sql lib/Genealogy/ObituaryDailyTimes/data'
+	realclean => {
+		FILES => 'Genealogy-ObituaryDailyTimes-* lib/Genealogy/ObituaryDailyTimes/data'
 	},
 	# META_ADD => {
 		# provides => {}
