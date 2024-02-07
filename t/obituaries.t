@@ -1,7 +1,7 @@
 #!perl -wT
 
 use strict;
-use Test::Most tests => 12;
+use Test::Most tests => 13;
 
 use lib 'lib';
 use lib 't/lib';
@@ -12,7 +12,7 @@ BEGIN {
 }
 
 SKIP: {
-	skip 'Database not installed', 11 if(!-r 'lib/Genealogy/ObituaryDailyTimes/data/obituaries.sql');
+	skip 'Database not installed', 12 if(!-r 'lib/Genealogy/ObituaryDailyTimes/data/obituaries.sql');
 
 	my $search;
 	if($ENV{'TEST_VERBOSE'}) {
@@ -33,6 +33,11 @@ SKIP: {
 	is($smiths[0]->{'last'}, 'Smith', 'Returned Smiths');
 
 	my $baal = $search->search({ first => 'Eric', last => 'Baal' });
+	ok(defined($baal));
+
+	if($ENV{'TEST_VERBOSE'}) {
+		diag(Data::Dumper->new([$baal])->Dump());
+	}
 	cmp_ok($baal->{'url'}, 'eq', 'https://mlarchives.rootsweb.com/listindexes/emails?listname=gen-obit&page=96', 'Check Baal URL');
 
 	my @coppage = $search->search({ first => 'John', middle => 'W', last => 'Coppage' });
