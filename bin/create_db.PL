@@ -197,6 +197,7 @@ sub mlarchives($$) {
 
 	my $last_line;
 	my $rc;
+	# my $entries = 0;
 
 	while(my $line = shift(@lines)) {
 		# LAST NAME, First Name (MAIDEN); Age; Place of Death; Newspaper Name; Newspaper date; tagname
@@ -210,7 +211,12 @@ sub mlarchives($$) {
 			if($stage == -1) {
 				if($line =~ /No Results/) {
 					# Last page
-					return 0;
+					return 0
+				}
+				if($line =~ /This page has not been archived here/) {
+				die;
+					# End of Wayback's archive
+					return 0
 				}
 				# Introduction to a post about to start
 				$stage = 0;
@@ -226,15 +232,21 @@ sub mlarchives($$) {
 			if($line =~ /^LAST NAME/) {
 				# The ----- probably didn't start a line
 				# e.g. https://mlarchives.rootsweb.com/listindexes/emails?listname=gen-obit&page=41
-				$stage = 0;
+				$stage = 0
 			} elsif($line =~ /Re: \[GEN-OBIT\]/) {
 				# It's a reply to a post, not an actual post
 				# e.g. https://mlarchives.rootsweb.com/listindexes/emails?listname=gen-obit&page=46
-				return 1;
+				return 1
 			} elsif($line =~ /No Results/) {
 				# Last page
-				return 0;
+				return 0
+			} elsif($line =~ /This page has not been archived here/) {
+				# End of Wayback's archive
+				return 0
 			}
+			# if($line =~ /Obituary Daily Times (v\d.+)$/) {
+				# print "$1\n" unless($1 =~ /strong>/);
+			# }
 		}
 		next unless($stage == 1);
 
@@ -274,11 +286,15 @@ sub mlarchives($$) {
 		# $age //= '';
 
 		# print "$line->>>>>>>>>>\n";
-		queue($first, normalise_name($last), $maiden, $age, $place, $date, $newspaper, 'M', $page) if($last =~ /^[A-Z]/);
+		if($last =~ /^[A-Z]/) {
+			queue($first, normalise_name($last), $maiden, $age, $place, $date, $newspaper, 'M', $page);
+			# $entries++;
+		}
 		# print "\"$last\",\"$first\",\"$maiden\",\"$age\",\"$place\",\"$date\",\"$newspaper\"\n" if($last =~ /^[A-Z]/);
 		$rc = 1;
 	}
 	die "Couldn't parse $url" if(!defined($rc));
+	# print "\n\t$entries\n";
 	return 1;
 }
 
