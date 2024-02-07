@@ -12,6 +12,9 @@ on:
     - cron: '12 23 7 * *'
 jobs:
   build:
+    env:
+      AUTHOR_TESTING: 1
+      AUTOMATED_TESTING: 1
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
@@ -43,6 +46,9 @@ jobs:
           perl Makefile.PL
           make
           mkdir blib/Genealogy/ObituaryDailyTimes/data
+        env:
+          AUTHOR_TESTING: 1
+          AUTOMATED_TESTING: 1
       - name: Run Tests
         run: prove -l -b t
         env:
