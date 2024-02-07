@@ -158,6 +158,8 @@ sub mlarchives($$) {
 	my @lines;
 
 	# my $url = "https://mlarchives.rootsweb.com/listindexes/emails?listname=gen-obit&page=$page";
+	# Ancestry has removed the archives.
+	# The first 17 pages are on Wayback machine, but the rest is lost
 	my $url = "https://wayback.archive-it.org/20669/20231102044925/https://mlarchives.rootsweb.com/listindexes/emails?listname=gen-obit&page=$page";
 
 	$| = 1;

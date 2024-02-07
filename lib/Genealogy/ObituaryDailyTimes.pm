@@ -142,6 +142,9 @@ Nigel Horne, C<< <njh at bandsman.co.uk> >>
 
 =head1 BUGS
 
+Ancestry has removed the archives.
+The first 17 pages are on Wayback machine, but the rest is lost.
+
 =head1 SEE ALSO
 
 The Obituary Daily Times, L<https://sites.rootsweb.com/~obituary/>,
