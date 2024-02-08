@@ -14,6 +14,8 @@ BEGIN {
 SKIP: {
 	skip 'Database not installed', 12 if(!-r 'lib/Genealogy/ObituaryDailyTimes/data/obituaries.sql');
 
+	Database::Abstraction::init('directory' => 'lib/Genealgy/ObituaryDailyTimes/data');
+
 	my $search;
 	if($ENV{'TEST_VERBOSE'}) {
 		$search = new_ok('Genealogy::ObituaryDailyTimes' => [ logger => MyLogger->new() ]);
