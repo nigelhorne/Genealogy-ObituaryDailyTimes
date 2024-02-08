@@ -32,6 +32,9 @@ SKIP: {
 	# FIXME, test either last == Smith or maiden == Smith
 	is($smiths[0]->{'last'}, 'Smith', 'Returned Smiths');
 
+	unless($ENV{'MLARCHIVEDIR'} || ($ENV{'MLARCHIVE_DIR'})) {
+		diag('The next test may fail since Rootsweb was partially archived on Wayback Machine');
+	}
 	my $baal = $search->search({ first => 'Eric', last => 'Baal' });
 	ok(defined($baal));
 
