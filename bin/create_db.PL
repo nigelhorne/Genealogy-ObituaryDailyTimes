@@ -97,6 +97,12 @@ $dbh->do('PRAGMA journal_mode = OFF');
 $dbh->do('CREATE TABLE obituaries(first VARCHAR NOT NULL, middle VARCHAR, last VARCHAR NOT NULL, maiden VARCHAR, age INTEGER, place VARCHAR, newspaper VARCHAR NOT NULL, date DATE NOT NULL, source CHAR NOT NULL, page VARCHAR NOT NULL)');
 
 my @queue;
+if(mlarchives($ua, 'other')) {
+	flush($dbh);
+}
+
+print ' ' x 78, "\r";
+
 my $page = 1;
 while(mlarchives($ua, $page)) {
 	$page++;
@@ -156,24 +162,36 @@ $dbh->disconnect();
 
 sub mlarchives($$) {
 	my @lines;
+	my $ua = shift;
+	my $page = shift;
 
 	# my $url = "https://mlarchives.rootsweb.com/listindexes/emails?listname=gen-obit&page=$page";
 	# Ancestry has removed the archives.
 	# The first 17 pages are on Wayback machine, but the rest is lost
 	my $url = "https://wayback.archive-it.org/20669/20231102044925/https://mlarchives.rootsweb.com/listindexes/emails?listname=gen-obit&page=$page";
 
-	$| = 1;
-	printf "%-70s\r", $url;
-	$| = 0;
+	local $| = 1;
+	printf "%-70s\r", $url if($page ne 'other');
 
 	if($ENV{'MLARCHIVEDIR'}) {
-		@lines = read_file(File::Spec->catfile($ENV{'MLARCHIVEDIR'}, "emails?listname=gen-obit&page=$page"));
+		if($page eq 'other') {
+			$url = File::Spec->catfile($ENV{'MLARCHIVEDIR'}, 'other');
+			return 0 if(!-r $url);
+			printf "%-70s\r", $url;
+			@lines = read_file($url);
+		} else {
+			@lines = read_file(File::Spec->catfile($ENV{'MLARCHIVEDIR'}, "emails?listname=gen-obit&page=$page"));
+		}
 	} elsif($ENV{'MLARCHIVE_DIR'}) {
-		@lines = read_file(File::Spec->catfile($ENV{'MLARCHIVE_DIR'}, "emails?listname=gen-obit&page=$page"));
+		if($page eq 'other') {
+			$url = File::Spec->catfile($ENV{'MLARCHIVE_DIR'}, 'other');
+			return 0 if(!-r $url);
+			printf "%-70s\r", $url;
+			@lines = read_file($url);
+		} else {
+			@lines = read_file(File::Spec->catfile($ENV{'MLARCHIVE_DIR'}, "emails?listname=gen-obit&page=$page"));
+		}
 	} else {
-		my $ua = shift;
-		my $page = shift;
-
 		my $response = $ua->get($url);
 
 		my $data;
@@ -191,6 +209,8 @@ sub mlarchives($$) {
 		$data =~ s/\r//g;
 		@lines = split(/$/ms, $data);
 	}
+
+	$| = 0;
 
 	# -1 => header, 0 => post-preamble, 1 => post
 	my $stage = -1;
@@ -214,8 +234,8 @@ sub mlarchives($$) {
 					return 0
 				}
 				if($line =~ /This page has not been archived here/) {
-				die;
 					# End of Wayback's archive
+					die;	# Debugging
 					return 0
 				}
 				# Introduction to a post about to start
@@ -227,7 +247,11 @@ sub mlarchives($$) {
 				# Introduction to a post about to start
 				$stage = 0;
 			}
-			next;
+			next
+		} elsif($line =~ /^Obituary Results/) {
+			# Contents about to start
+			$stage = 1;
+			next
 		} elsif($stage == -1) {
 			if($line =~ /^LAST NAME/) {
 				# The ----- probably didn't start a line
