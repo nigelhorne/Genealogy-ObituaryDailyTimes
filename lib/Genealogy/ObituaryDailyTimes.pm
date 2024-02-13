@@ -38,8 +38,7 @@ Takes two optional arguments:
 =cut
 
 sub new {
-	my $class = $_[0];
-	shift;
+	my $class = shift;
 	my %args = (ref($_[0]) eq 'HASH') ? %{$_[0]} : @_;
 
 	if(!defined($class)) {

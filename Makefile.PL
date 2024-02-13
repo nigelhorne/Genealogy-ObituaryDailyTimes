@@ -69,6 +69,7 @@ WriteMakefile(
 		'IPC::System::Simple' => 0,
 	}, PREREQ_PM => $prereqs,
 	dist => { COMPRESS => 'gzip -9f', SUFFIX => 'gz', },
+	clean => { FILES => 'Genealogy-ObituaryDailyTimes-*' },
 	realclean => {
 		FILES => 'Genealogy-ObituaryDailyTimes-* lib/Genealogy/ObituaryDailyTimes/data'
 	},
