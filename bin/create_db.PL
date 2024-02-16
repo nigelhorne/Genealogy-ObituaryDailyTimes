@@ -173,7 +173,7 @@ sub data
 	my $parser = Text::CSV->new();
 	while(<DATA>) {
 		$parser->parse($_);
-		my ($first, $last, $maiden, $age, $place, $date, $url) = $parser->fields();
+		my ($first, $middle, $last, $maiden, $age, $place, $date, $url) = $parser->fields();
 		# printf "%-70s\r", $url;
 		queue($first, normalise_name($last), $maiden, $age, $place, $date, $url, 'L', $url);
 	}
@@ -593,6 +593,13 @@ sub normalise_name($)
 	return $value;
 }
 
-# "first","last","maiden","age","place","date","url"
+# "first","middle","last","maiden","age","place","date","url"
 __DATA__
-"David","Erickson","",92,"Stow, OH, USA","2024-01-22","https://www.beaconjournal.com/obituaries/pwoo0723808"
+"David","","Erickson","",92,"Stow, OH, USA","2024-01-22","https://www.beaconjournal.com/obituaries/pwoo0723808"
+"Joyce","","Diver","","","2024-02-16","https://funeral-notices.co.uk/notice/diver/5174279"
+"Sheila","","Kirkham","","","2024-02-16","https://funeral-notices.co.uk/notice/kirkham/5174285"
+"Irene","","Caney","","","2024-02-16","https://funeral-notices.co.uk/notice/caney/5174301"
+"Irene","","Caney","","","2024-02-16","https://funeral-notices.co.uk/notice/caney/5174314"
+"Mary","","Clarke","","","2024-02-16","https://funeral-notices.co.uk/notice/clarke/5174319"
+"Ramesh","","Chhabra","","","2024-02-16","https://funeral-notices.co.uk/notice/chhabra/5174399"
+"Phillip","","Morris","","","2024-02-16","https://funeral-notices.co.uk/notice/morris/5174455"
