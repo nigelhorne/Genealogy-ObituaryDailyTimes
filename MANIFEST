@@ -30,3 +30,4 @@ t/pod.t
 t/snippets.t
 t/strict.t
 t/unused.t
+t/version.t

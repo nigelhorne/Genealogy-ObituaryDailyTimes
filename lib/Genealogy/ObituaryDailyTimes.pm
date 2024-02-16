@@ -127,10 +127,14 @@ sub _create_url {
 	}
 
 	if($source eq 'M') {
-		return "https://mlarchives.rootsweb.com/listindexes/emails?listname=gen-obit&page=$page";
+		# return "https://mlarchives.rootsweb.com/listindexes/emails?listname=gen-obit&page=$page";
+		return "https://wayback.archive-it.org/20669/20231102044925/https://mlarchives.rootsweb.com/listindexes/emails?listname=gen-obit&page=$page";
 	}
 	if($source eq 'F') {
 		return "https://www.freelists.org/post/obitdailytimes/Obituary-Daily-Times-$page";
+	}
+	if($source eq 'L') {
+		return $obit->{'newspaper'};
 	}
 	Carp::croak(__PACKAGE__, ": Invalid source, '$source'");
 }

@@ -32,7 +32,8 @@ my $prereqs = {
 	'File::Slurp' => 0,
 	'File::Spec' => 0,
 	'File::Temp' => 0,
-	'Module::Info' => 0
+	'Module::Info' => 0,
+	'Text::CSV' => 0
 };
 
 unless(defined($ENV{'AUTOMATED_TESTING'})) {

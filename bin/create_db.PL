@@ -20,6 +20,7 @@ use HTTP::Cache::Transparent;
 use LWP::ConnCache;
 use LWP::UserAgent::WithCache;
 use Lingua::EN::NameCase qw(nc);
+use Text::CSV;
 use Try::Tiny;
 use autodie qw(:all);
 
@@ -97,6 +98,9 @@ $dbh->do('PRAGMA journal_mode = OFF');
 $dbh->do('CREATE TABLE obituaries(first VARCHAR NOT NULL, middle VARCHAR, last VARCHAR NOT NULL, maiden VARCHAR, age INTEGER, place VARCHAR, newspaper VARCHAR NOT NULL, date DATE NOT NULL, source CHAR NOT NULL, page VARCHAR NOT NULL)');
 
 my @queue;
+
+data();
+
 if(mlarchives($ua, 'other')) {
 	flush($dbh);
 }
@@ -159,6 +163,21 @@ $dbh->prepare('CREATE INDEX name_index ON obituaries(first, last)')->execute();
 $dbh->prepare('CREATE INDEX name_age_index ON obituaries(first, last, age)')->execute();
 $dbh->do('pragma optimize');
 $dbh->disconnect();
+
+# Import the data section
+sub data
+{
+	local $| = 1;
+	printf "%-70s\r", '<DATA>';
+
+	my $parser = Text::CSV->new();
+	while(<DATA>) {
+		$parser->parse($_);
+		my ($first, $last, $maiden, $age, $place, $date, $url) = $parser->fields();
+		# printf "%-70s\r", $url;
+		queue($first, normalise_name($last), $maiden, $age, $place, $date, $url, 'L', $url);
+	}
+}
 
 sub mlarchives($$) {
 	my @lines;
@@ -428,7 +447,7 @@ sub queue($$$$$$$$$)
 {
 	my ($first, $last, $maiden, $age, $place, $date, $newspaper, $source, $page) = @_;
 
-	die $source if(($source ne 'F') && ($source ne 'M'));
+	die $source if($source !~ /M|F|L/);
 
 	# If we don't know the date of publication, it's not easy to find
 	return unless(defined($date));
@@ -478,8 +497,8 @@ sub flush($)
 		if(!defined($age)) {
 			$item->{'age'} = '';
 		}
-# use Data::Dumper;
-# print Data::Dumper->new([$item])->Dump();
+		# use Data::Dumper;
+		# print Data::Dumper->new([$item])->Dump();
 		my $k = join('|', @$item{qw /first last maiden age place date newspaper source page/ });
 		# if(!defined($first)) {
 			# delete $item->{'first'};
@@ -540,7 +559,7 @@ sub flush($)
 			$query .= 'NULL,';
 		}
 		my $source = $columns{'source'};
-		die $source if(($source ne 'F') && ($source ne 'M'));
+		die $source if($source !~ /M|F|L/);
 		$query .= "'" . $columns{'newspaper'} . "','" . $columns{'source'} . "','" . $columns{'page'} . "')";
 	}
 
@@ -573,3 +592,7 @@ sub normalise_name($)
 	$normalised{$key} = $value;
 	return $value;
 }
+
+# "first","last","maiden","age","place","date","url"
+__DATA__
+"David","Erickson","",92,"Stow, OH, USA","2024-01-22","https://www.beaconjournal.com/obituaries/pwoo0723808"
