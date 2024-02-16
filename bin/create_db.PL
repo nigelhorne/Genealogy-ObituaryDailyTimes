@@ -603,3 +603,6 @@ __DATA__
 "Mary","","Clarke","","","2024-02-16","https://funeral-notices.co.uk/notice/clarke/5174319"
 "Ramesh","","Chhabra","","","2024-02-16","https://funeral-notices.co.uk/notice/chhabra/5174399"
 "Phillip","","Morris","","","2024-02-16","https://funeral-notices.co.uk/notice/morris/5174455"
+"Marjorie","","Bray",96,"","2024-02-15","https://funeral-notices.co.uk/notice/bray/5174000"
+"Dorothy","","Daniels",,"","2024-02-15","https://funeral-notices.co.uk/notice/daniels/5174112"
+"Malva","","Ridge",88,"","2024-02-15","https://funeral-notices.co.uk/notice/ridge/5174115"
