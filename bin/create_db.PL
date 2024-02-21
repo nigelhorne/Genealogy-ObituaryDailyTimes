@@ -607,3 +607,4 @@ __DATA__
 "Marjorie","","Bray",96,"","2024-02-15","https://funeral-notices.co.uk/notice/bray/5174000"
 "Dorothy","","Daniels",,"","2024-02-15","https://funeral-notices.co.uk/notice/daniels/5174112"
 "Malva","","Ridge",88,"","2024-02-15","https://funeral-notices.co.uk/notice/ridge/5174115"
+"Paul","","Batchelor",60,"","2024-02-21","https://funeral-notices.co.uk/notice/batchelor/5175192"
