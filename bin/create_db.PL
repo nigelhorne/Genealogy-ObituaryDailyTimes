@@ -518,6 +518,7 @@ sub flush($)
 			# print "$k\n";
 		}
 	}
+	@queue = ();	# Make sure Perl really frees all memory
 
 	my $query;
 
@@ -576,7 +577,6 @@ sub flush($)
 		die "\nError in insert ($query) called from line ",
 			$call_details[2], ': ', $dbh->errstr();
 	};
-	@queue = ();	# Make sure Perl really frees all memory
 }
 
 # Reduce the very large number of calls to Lingua::EN::NameCase
