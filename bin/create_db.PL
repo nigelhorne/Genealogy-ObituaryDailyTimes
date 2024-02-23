@@ -483,10 +483,10 @@ sub flush($)
 	my $dbh = shift;
 
 	# Remove duplicates
-	my %seen;
 	my @deduped;
+	my %seen;
 
-	foreach my $item(@queue) {
+	while(my $item = pop @queue) {
 		# my $first = $item->{'first'};
 		# if(!defined($first)) {
 			# $item->{'first'} = '';
@@ -518,7 +518,8 @@ sub flush($)
 			# print "$k\n";
 		}
 	}
-	@queue = ();	# Make sure Perl really frees all memory
+	undef @queue;	# Make sure Perl really frees all memory
+	undef %seen;
 
 	my $query;
 
