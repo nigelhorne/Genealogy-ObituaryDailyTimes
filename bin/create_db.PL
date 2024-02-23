@@ -101,8 +101,10 @@ my @queue;
 
 data();
 
-if(mlarchives($ua, 'other')) {
-	flush($dbh);
+if($ENV{'MLARCHIVE_DIR'} || $ENV{'MLARCHIVEDIR'}) {
+	if(mlarchives($ua, 'other')) {
+		flush($dbh)
+	}
 }
 
 print ' ' x 78, "\r";
@@ -597,6 +599,7 @@ sub normalise_name($)
 __DATA__
 "David","","Erickson","",92,"Stow, OH, USA","2024-01-22","https://www.beaconjournal.com/obituaries/pwoo0723808"
 "Lowell","Alva","Frantz","",91,"Smithville, OH, USA","2024-12-18","https://www.the-daily-record.com/obituaries/pwoo0727773"
+"McRae","David","Gordon","",74,"Little Falls, NY, USA","2024-02-23","https://www.legacy.com/us/obituaries/legacyremembers/david-mcrae-obituary?id=54446719"
 "Joyce","","Diver","","","2024-02-16","https://funeral-notices.co.uk/notice/diver/5174279"
 "Sheila","","Kirkham","","","2024-02-16","https://funeral-notices.co.uk/notice/kirkham/5174285"
 "Irene","","Caney","","","2024-02-16","https://funeral-notices.co.uk/notice/caney/5174301"
