@@ -613,3 +613,4 @@ __DATA__
 "Dorothy",,"Daniels",,,"2024-02-15","https://funeral-notices.co.uk/notice/daniels/5174112"
 "Malva",,"Ridge",88,,"2024-02-15","https://funeral-notices.co.uk/notice/ridge/5174115"
 "Paul",,"Batchelor",60,,"2024-02-21","https://funeral-notices.co.uk/notice/batchelor/5175192"
+"Pamela",,"Lambert",82,,"2024-02-24","https://funeral-notices.co.uk/notice/lambert/5175963"
