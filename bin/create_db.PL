@@ -65,20 +65,20 @@ if(-r $filename) {
 	unlink $filename;
 }
 
-my $cachedir = $ENV{'CACHEDIR'};
-if($cachedir) {
-	mkdir $cachedir, 0700 if(!-d $cachedir);
-	$cachedir = File::Spec->catfile($cachedir, 'http-cache-transparent');
+my $cache_dir = $ENV{'CACHE_DIR'};
+if($cache_dir) {
+	mkdir $cache_dir, 0700 if(!-d $cache_dir);
+	$cache_dir = File::Spec->catfile($cache_dir, 'http-cache-transparent');
 } else {
-	$cachedir = File::Spec->catfile(File::HomeDir->my_home(), '.cache', 'http-cache-transparent');
+	$cache_dir = File::Spec->catfile(File::HomeDir->my_home(), '.cache', 'http-cache-transparent');
 }
 
 HTTP::Cache::Transparent::init({
-	BasePath => $cachedir,
+	BasePath => $cache_dir,
 	Verbose => 0,
 	NoUpdate => 60 * 60 * 24 * 7 * 31,	# The archive never changes
 	MaxAge => 30 * 24
-}) || die "$0: $cachedir: $!";
+}) || die "$0: $cache_dir: $!";
 
 print "This will take some time. It'd be best to go and make yourself a cup of tea.\n";
 
@@ -598,17 +598,20 @@ sub normalise_name($)
 
 # "first","middle","last","maiden","age","place","date","url"
 __DATA__
-"David","","Erickson","",92,"Stow, OH, USA","2024-01-22","https://www.beaconjournal.com/obituaries/pwoo0723808"
-"Lowell","Alva","Frantz","",91,"Smithville, OH, USA","2024-12-18","https://www.the-daily-record.com/obituaries/pwoo0727773"
-"McRae","David","Gordon","",74,"Little Falls, NY, USA","2024-02-23","https://www.legacy.com/us/obituaries/legacyremembers/david-mcrae-obituary?id=54446719"
-"Joyce","","Diver","","","2024-02-16","https://funeral-notices.co.uk/notice/diver/5174279"
-"Sheila","","Kirkham","","","2024-02-16","https://funeral-notices.co.uk/notice/kirkham/5174285"
-"Irene","","Caney","","","2024-02-16","https://funeral-notices.co.uk/notice/caney/5174301"
-"Irene","","Caney","","","2024-02-16","https://funeral-notices.co.uk/notice/caney/5174314"
-"Mary","","Clarke","","","2024-02-16","https://funeral-notices.co.uk/notice/clarke/5174319"
-"Ramesh","","Chhabra","","","2024-02-16","https://funeral-notices.co.uk/notice/chhabra/5174399"
-"Phillip","","Morris","","","2024-02-16","https://funeral-notices.co.uk/notice/morris/5174455"
-"Marjorie","","Bray",96,"","2024-02-15","https://funeral-notices.co.uk/notice/bray/5174000"
-"Dorothy","","Daniels",,"","2024-02-15","https://funeral-notices.co.uk/notice/daniels/5174112"
-"Malva","","Ridge",88,"","2024-02-15","https://funeral-notices.co.uk/notice/ridge/5174115"
-"Paul","","Batchelor",60,"","2024-02-21","https://funeral-notices.co.uk/notice/batchelor/5175192"
+"David",,"Erickson",,92,"Stow, OH, USA","2024-01-22","https://www.beaconjournal.com/obituaries/pwoo0723808"
+"Lowell","Alva","Frantz",,91,"Smithville, OH, USA","2024-02-18","https://www.the-daily-record.com/obituaries/pwoo0727773"
+"McRae","David","Gordon",,74,"Little Falls, NY, USA","2024-02-23","https://www.legacy.com/us/obituaries/legacyremembers/david-mcrae-obituary?id=54446719"
+"Joyce",,"Diver",,,"2024-02-16","https://funeral-notices.co.uk/notice/diver/5174279"
+"Thomas","Andrew","Dlugosz",,72,"Wyandotte, MI, USA","2024-02-25","https://www.legacy.com/us/obituaries/name/thomas-dlugosz-obituary?id=54466889"
+"Sheila",,"Kirkham",,,"2024-02-16","https://funeral-notices.co.uk/notice/kirkham/5174285"
+"Irene",,"Caney",,,"2024-02-16","https://funeral-notices.co.uk/notice/caney/5174301"
+"Irene",,"Caney",,,"2024-02-16","https://funeral-notices.co.uk/notice/caney/5174314"
+"Mary",,"Clarke",,,"2024-02-16","https://funeral-notices.co.uk/notice/clarke/5174319"
+"Ramesh",,"Chhabra",,,"2024-02-16","https://funeral-notices.co.uk/notice/chhabra/5174399"
+"Phillip",,"Morris",,,"2024-02-16","https://funeral-notices.co.uk/notice/morris/5174455"
+"Marjorie",,"Bray",96,,"2024-02-15","https://funeral-notices.co.uk/notice/bray/5174000"
+"Dorothy",,"Daniels",,,"2024-02-15","https://funeral-notices.co.uk/notice/daniels/5174112"
+"Malva",,"Ridge",88,,"2024-02-15","https://funeral-notices.co.uk/notice/ridge/5174115"
+"Paul",,"Batchelor",60,,"2024-02-21","https://funeral-notices.co.uk/notice/batchelor/5175192"
+"Pamela",,"Lambert",82,,"2024-02-24","https://funeral-notices.co.uk/notice/lambert/5175963"
+"Rodney",,"Bishop",84,"Brownwood, TX, USA","2024-02-26","https://www.brownwoodnews.com/2024/02/26/rodney-dwain-bishop/"
