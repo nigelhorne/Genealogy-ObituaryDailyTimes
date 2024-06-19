@@ -65,7 +65,7 @@ if(-r $filename) {
 	unlink $filename;
 }
 
-my $cache_dir = $ENV{'CACHE_DIR'};
+my $cache_dir = $ENV{'CACHE_DIR'} || $ENV{'CACHEDIR'};
 if($cache_dir) {
 	mkdir $cache_dir, 0700 if(!-d $cache_dir);
 	$cache_dir = File::Spec->catfile($cache_dir, 'http-cache-transparent');
@@ -111,8 +111,8 @@ print ' ' x 78, "\r";
 
 my $page = 1;
 while(mlarchives($ua, $page)) {
+	flush($dbh) if(scalar(@queue) > 10_000);
 	$page++;
-	flush($dbh) if(scalar(@queue) > 200_000);
 };
 
 print ' ' x 78, "\r";
@@ -121,6 +121,7 @@ flush($dbh);
 
 my $issue = 9;
 while(freelists($ua, 'v25no' . sprintf('%03d', $issue))) {
+	flush($dbh) if(scalar(@queue) > 10_000);
 	$issue++;
 }
 
@@ -128,6 +129,7 @@ flush($dbh);
 
 $issue = 1;
 while(freelists($ua, 'v26no' . sprintf('%03d', $issue))) {
+	flush($dbh) if(scalar(@queue) > 10_000);
 	$issue++;
 	if($issue == 52) {
 		$issue++;	# https://www.freelists.org/post/obitdailytimes/Obituary-Daily-Times-v26no052 doesn't exist
@@ -138,6 +140,7 @@ flush($dbh);
 
 $issue = 1;
 while(freelists($ua, 'v27no' . sprintf('%03d', $issue))) {
+	flush($dbh) if(scalar(@queue) > 10_000);
 	$issue++;
 }
 
@@ -145,6 +148,7 @@ flush($dbh);
 
 $issue = 1;
 while(freelists($ua, 'v28no' . sprintf('%03d', $issue))) {
+	flush($dbh) if(scalar(@queue) > 10_000);
 	$issue++;
 }
 
@@ -153,6 +157,7 @@ flush($dbh);
 $issue = 1;
 # 2024
 while(freelists($ua, 'v29no' . sprintf('%03d', $issue))) {
+	flush($dbh) if(scalar(@queue) > 10_000);
 	$issue++;
 }
 
@@ -567,6 +572,7 @@ sub flush($)
 		$query .= "'" . $columns{'newspaper'} . "','" . $columns{'source'} . "','" . $columns{'page'} . "')";
 	}
 
+	undef @deduped;	# Make sure Perl really frees all memory
 	# $| = 1;
 	# printf "%-70s\n", $query;
 	# $| = 0;
