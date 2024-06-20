@@ -1,6 +1,6 @@
 Revision history for Genealogy::ObituaryDailyTimes
 
-0.12
+0.12	Wed Jun 19 21:01:56 EDT 2024
 	t/carp.t could sometimes fail
 	Added t/version.t
 	Use directory from Database::Abstraction::init, if that is set
