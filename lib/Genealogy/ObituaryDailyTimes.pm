@@ -53,7 +53,7 @@ sub new {
 		return bless { %{$class}, %args }, ref($class);
 	}
 
-	if(!defined((my $directory = ($args{'directory'} || $Database::Abstraction::init->{'directory'})))) {
+	if(!defined((my $directory = ($args{'directory'} || $Database::Abstraction->{'directory'})))) {
 		# If the directory argument isn't given, see if we can find the data
 		$directory ||= Module::Info->new_from_loaded(__PACKAGE__)->file();
 		$directory =~ s/\.pm$//;
