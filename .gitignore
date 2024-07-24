@@ -38,3 +38,4 @@ inc/
 *.sqlite-journal
 *.sql
 *.sql-journal
+none/
