@@ -1,5 +1,8 @@
 Revision history for Genealogy::ObituaryDailyTimes
 
+0.13
+	search() can now just take one parameter which is the last name
+
 0.12	Wed Jun 19 21:01:56 EDT 2024
 	t/carp.t could sometimes fail
 	Added t/version.t

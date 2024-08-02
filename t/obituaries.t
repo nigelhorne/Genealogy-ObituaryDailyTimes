@@ -23,13 +23,13 @@ SKIP: {
 		$search = new_ok('Genealogy::ObituaryDailyTimes');
 	}
 
-	my @smiths = $search->search(last => 'Smith');
+	my @smiths = $search->search('Smith');
 
 	if($ENV{'TEST_VERBOSE'}) {
 		diag(Data::Dumper->new([\@smiths])->Dump());
 	}
 
-	ok(scalar(@smiths) >= 1);
+	cmp_ok(scalar(@smiths), '>=', 1, 'At least one Smith is found');
 
 	# FIXME, test either last == Smith or maiden == Smith
 	is($smiths[0]->{'last'}, 'Smith', 'Returned Smiths');
