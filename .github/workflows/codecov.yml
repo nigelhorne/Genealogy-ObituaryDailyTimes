@@ -30,12 +30,12 @@ jobs:
         env:
           AUTHOR_TESTING: 1
           AUTOMATED_TESTING: 1
-      - name: Download codecov
-        run: |
-          # Replace `linux` below with the appropriate OS
-          # Options are `alpine`, `linux`, `macos`, `windows`
-          # curl -Os https://uploader.codecov.io/latest/linux/codecov
-          # chmod +x codecov
+      # - name: Download codecov
+      #   run: |
+      #     Replace `linux` below with the appropriate OS
+      #     Options are `alpine`, `linux`, `macos`, `windows`
+      #     curl -Os https://uploader.codecov.io/latest/linux/codecov
+      #     chmod +x codecov
       - name: Submit codecov
         run: |
           cover -test
