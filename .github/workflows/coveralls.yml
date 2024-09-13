@@ -1,0 +1,47 @@
+---
+name: Code coverage - coveralls.io
+
+on:
+  pull_request:
+  push:
+    branches:
+      - '*'
+    tags-ignore:
+      - '*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    name: coveralls
+    container:
+      image: perl:stable
+    steps:
+      - uses: actions/checkout@v4
+      # - run: cpanm --quiet --notest --installdeps .
+      # - run: cpanm --quiet --notest App::Yath Devel::Cover Devel::Cover::Report::Coveralls UUID
+      # - run: PERL5OPT="-MDevel::Cover" yath test --qvf t/
+      - name: Install Programs
+        run: |
+          apt-get update
+          apt-get -y upgrade
+          apt-get -y install libwww-perl liblwp-protocol-https-perl cpanminus libdevel-cover-perl libmodule-build-perl
+      - name: Install Dependencies
+        run: |
+          cpanm --reinstall App::cpanminus
+          cpanm -iqn --installdeps .
+          cpanm --mirror https://cpan.org -iqn Devel::Cover::Report::Coveralls
+      - name: Build module
+        run: |
+          perl Makefile.PL
+          make
+        env:
+          AUTOMATED_TESTING: 1
+      - name: Submit coveralls
+        run: |
+          git config --global --add safe.directory /__w/CGI-Info/CGI-Info
+          cover -test
+          cover -report coveralls
+          # ./codecov -t ${{ secrets.COVERALLS_TOKEN }} -f cover_db/codecov.json
+        env:
+          GITHUB_TOKEN: ${{ secrets.COVERALLS_TOKEN }}
+          AUTOMATED_TESTING: 1
