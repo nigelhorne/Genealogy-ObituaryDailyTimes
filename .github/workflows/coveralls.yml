@@ -38,7 +38,7 @@ jobs:
           AUTOMATED_TESTING: 1
       - name: Submit coveralls
         run: |
-          git config --global --add safe.directory /__w/CGI-Info/CGI-Info
+          git config --global --add safe.directory /__w/Genealogy-ObituaryDailyTimes/Genealogy-ObituaryDailyTimes
           cover -test
           cover -report coveralls
           # ./codecov -t ${{ secrets.COVERALLS_TOKEN }} -f cover_db/codecov.json
