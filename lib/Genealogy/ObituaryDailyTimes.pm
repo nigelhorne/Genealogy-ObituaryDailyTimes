@@ -152,7 +152,7 @@ sub _get_params
 
 	if(ref($_[0]) eq 'HASH') {
 		%rc = %{$_[0]};
-	} elsif(scalar(@_) % 2 == 0) {
+	} elsif((scalar(@_) % 2) == 0) {
 		%rc = @_;
 	} elsif(scalar(@_) == 1) {
 		if(defined($default)) {
