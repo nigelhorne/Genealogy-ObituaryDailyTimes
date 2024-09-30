@@ -55,6 +55,15 @@ unless(defined($ENV{'NO_NETWORK_TESTING'})) {
 	$prereqs->{'Try::Tiny'} = 0;
 }
 
+my $dist = {
+	COMPRESS => 'gzip -9f',
+	SUFFIX => 'gz'
+};
+
+if($^O eq 'darwin') {
+	$dist->{'TAR'} = 'gtar';
+}
+
 WriteMakefile(
 	NAME		=> 'Genealogy::ObituaryDailyTimes',
 	AUTHOR		=> q{Nigel Horne <njh@bandsman.co.uk>},
@@ -77,7 +86,7 @@ WriteMakefile(
 		# 'Test::Kwalitee' => 0,
 		'IPC::System::Simple' => 0,
 	}, PREREQ_PM => $prereqs,
-	dist => { COMPRESS => 'gzip -9f', SUFFIX => 'gz', },
+	dist => $dist,
 	clean => { FILES => 'Genealogy-ObituaryDailyTimes-*' },
 	realclean => {
 		FILES => 'Genealogy-ObituaryDailyTimes-* lib/Genealogy/ObituaryDailyTimes/data'
