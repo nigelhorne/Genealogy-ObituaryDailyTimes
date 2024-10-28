@@ -454,13 +454,11 @@ sub queue($$$$$$$$$)
 {
 	my ($first, $last, $maiden, $age, $place, $date, $newspaper, $source, $page) = @_;
 
-	die $source if($source !~ /M|F|L/);
+	# Ensure source is valid and date is defined and starts with a digit
+	die $source unless $source =~ /^[MFL]$/;
+	return unless defined $date && $date =~ /^\d/;
 
-	# If we don't know the date of publication, it's not easy to find
-	return unless(defined($date));
-
-	return unless($date =~ /^\d/);
-
+	# Build columns hash with mandatory fields
 	my %columns = (
 		first => $first,
 		last => $last,
@@ -468,20 +466,27 @@ sub queue($$$$$$$$$)
 		newspaper => $newspaper,
 		place => $place,
 		source => $source,
-		page => $page,
+		page => $page
 	);
 
-	if(defined($age) && ($age ne '')) {
-		return if($age =~ /\D/);
-		$age =~ s/\s+//g;
-		$columns{'age'} = $age;
+	# Add age if it's a valid positive integer
+	# if(defined($age) && ($age ne '')) {
+		# return if($age =~ /\D/);
+		# $age =~ s/\s+//g;
+		# $columns{'age'} = $age;
+	# }
+	if(defined $age && $age =~ /^\d+$/) {
+		# $age =~ s/\s+//g;
+		$columns{age} = $age;
 	}
 
-	if($maiden) {
-		$columns{'maiden'} = $maiden;
-	}
+	# Add maiden name if provided
+	$columns{maiden} = $maiden if $maiden;
+
+	# Add entry to queue
 	push @queue, \%columns;
 }
+
 
 sub flush($)
 {
