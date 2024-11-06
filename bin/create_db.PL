@@ -597,14 +597,8 @@ sub normalise_name($)
 	my $name = shift;
 	$name =~ s/\"//g;
 
-	my $key = lc($name);
-
-	if($normalised{$key}) {
-		return $normalised{$key};
-	}
-	my $value = nc($name);
-	$normalised{$key} = $value;
-	return $value;
+	# Get the lowercased key and return existing normalised value if present
+	return $normalised{lc($name)} ||= nc($name);
 }
 
 # "first","middle","last","maiden","age","place","date","url"
