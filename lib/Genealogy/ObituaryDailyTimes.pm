@@ -83,7 +83,8 @@ sub new {
 
 =cut
 
-sub search {
+sub search
+{
 	my $self = shift;
 	my $params = $self->_get_params('last', @_);
 
