@@ -29,6 +29,7 @@ foreach my $dir(@dirs) {
 
 my $prereqs = {
 	'autodie' => 0,
+	'constant' => 0,
 	'Carp' => 0,
 	'Database::Abstraction' => 0.04,
 	'DBD::SQLite' => 0,
