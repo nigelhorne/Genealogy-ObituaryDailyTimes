@@ -71,7 +71,7 @@ sub new {
 		return;
 	}
 
-	# cache_duration can be overriden by the args
+	# cache_duration can be overridden by the args
 	return bless {
 		cache_duration => '1 day',	# The database is updated daily
 		%args,
