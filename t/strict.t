@@ -9,4 +9,4 @@ use Test::Needs 'Test::Strict';
 
 Test::Strict->import();
 all_perl_files_ok();
-warnings_ok('lib/CGI/Info.pm');
+warnings_ok('lib/Genealogy/ObituaryDailyTimes/obituaries.pm');

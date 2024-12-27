@@ -147,32 +147,35 @@ sub _create_url {
 }
 
 # Helper routine to parse the arguments given to a function,
+# Processes arguments passed to methods and ensures they are in a usable format,
 #	allowing the caller to call the function in anyway that they want
 #	e.g. foo('bar'), foo(arg => 'bar'), foo({ arg => 'bar' }) all mean the same
 #	when called _get_params('arg', @_);
 sub _get_params
 {
-	my $self = shift;
+	shift;  # Discard the first argument (typically $self)
 	my $default = shift;
 
-	my %rc;
+	# Directly return hash reference if the first parameter is a hash reference
+	return $_[0] if(ref $_[0] eq 'HASH');
 
-	if(ref($_[0]) eq 'HASH') {
-		%rc = %{$_[0]};
-	} elsif((scalar(@_) % 2) == 0) {
+	my %rc;
+	my $num_args = scalar @_;
+
+	# Populate %rc based on the number and type of arguments
+	if(($num_args == 1) && (defined $default)) {
+		# %rc = ($default => shift);
+		return { $default => shift };
+	} elsif($num_args == 1) {
+		Carp::croak('Usage: ', __PACKAGE__, '->', (caller(1))[3], '()');
+	} elsif(($num_args == 0) && (defined($default))) {
+		Carp::croak('Usage: ', __PACKAGE__, '->', (caller(1))[3], "($default => \$val)");
+	} elsif(($num_args % 2) == 0) {
 		%rc = @_;
-	} elsif(scalar(@_) == 1) {
-		if(defined($default)) {
-			$rc{$default} = shift;
-		} else {
-			my @c = caller(1);
-			my $func = $c[3];	# calling function name
-			Carp::croak('Usage: ', __PACKAGE__, "->$func($default => " . '$val)');
-		}
-	} elsif((scalar(@_) == 0) && defined($default)) {
-		my @c = caller(1);
-		my $func = $c[3];	# calling function name
-		Carp::croak('Usage: ', __PACKAGE__, "->$func($default => " . '$val)');
+	} elsif($num_args == 0) {
+		return;
+	} else {
+		Carp::croak('Usage: ', __PACKAGE__, '->', (caller(1))[3], '()');
 	}
 
 	return \%rc;
