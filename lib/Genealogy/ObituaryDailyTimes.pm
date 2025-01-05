@@ -80,6 +80,20 @@ sub new {
 
 =head2 search
 
+Supports two return modes:
+
+=over 4
+
+=item * C<List context>
+
+Returns an array of hash references.
+
+=item * C<Scalar context>
+
+Returns a single hash reference.
+
+=back
+
     my $obits = Genealogy::ObituaryDailyTimes->new();
 
     # Returns an array of hashrefs
