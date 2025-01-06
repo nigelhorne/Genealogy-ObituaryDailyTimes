@@ -12,7 +12,7 @@ BEGIN {
 }
 
 SKIP: {
-	skip 'Database not installed', 13 if(!-r 'lib/Genealogy/ObituaryDailyTimes/data/obituaries.sql');
+	skip 'Database not installed', 14 if(!-r 'lib/Genealogy/ObituaryDailyTimes/data/obituaries.sql');
 
 	Database::Abstraction::init('directory' => 'lib/Genealogy/ObituaryDailyTimes/data');
 
