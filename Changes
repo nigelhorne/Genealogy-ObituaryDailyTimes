@@ -2,6 +2,7 @@ Revision history for Genealogy::ObituaryDailyTimes
 
 0.14
 	Added t/30-basics.t
+	Added volume 30 (2025)
 
 0.13	Sun Sep 15 14:52:02 EDT 2024
 	search() can now just take one parameter which is the last name

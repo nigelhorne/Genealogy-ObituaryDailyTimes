@@ -161,6 +161,15 @@ while(freelists($ua, 'v29no' . sprintf('%03d', $issue))) {
 	$issue++;
 }
 
+flush($dbh);
+
+$issue = 1;
+# 2025
+while(freelists($ua, 'v30no' . sprintf('%03d', $issue))) {
+	flush($dbh) if(scalar(@queue) > 10_000);
+	$issue++;
+}
+
 print "\n";
 
 flush($dbh);
