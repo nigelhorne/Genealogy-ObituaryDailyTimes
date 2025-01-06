@@ -12,7 +12,7 @@ Genealogy::ObituaryDailyTimes - Lookup an entry in the Obituary Daily Times
 
 # VERSION
 
-Version 0.13
+Version 0.14
 
 # SYNOPSIS
 
@@ -26,11 +26,22 @@ Version 0.13
 
 Creates a Genealogy::ObituaryDailyTimes object.
 
-Takes two optional arguments:
-	directory: that is the directory containing obituaries.sql
-	logger: an object to send log messages to
+Accepts the following optional arguments:
+
+- `directory` - The directory containing the file obituaries.sql
+- `logger` - An object to send log messages to
 
 ## search
+
+Supports two return modes:
+
+- `List context`
+
+    Returns an array of hash references.
+
+- `Scalar context`
+
+    Returns a single hash reference.
 
     my $obits = Genealogy::ObituaryDailyTimes->new();
 
@@ -81,6 +92,6 @@ You can also look for information at:
 
 # LICENSE AND COPYRIGHT
 
-Copyright 2020-2024 Nigel Horne.
+Copyright 2020-2025 Nigel Horne.
 
 This program is released under the following licence: GPL2
