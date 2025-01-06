@@ -20,11 +20,11 @@ Genealogy::ObituaryDailyTimes - Lookup an entry in the Obituary Daily Times
 
 =head1 VERSION
 
-Version 0.13
+Version 0.14
 
 =cut
 
-our $VERSION = '0.13';
+our $VERSION = '0.14';
 
 =head1 SYNOPSIS
 
@@ -38,9 +38,15 @@ our $VERSION = '0.13';
 
 Creates a Genealogy::ObituaryDailyTimes object.
 
-Takes two optional arguments:
-	directory: that is the directory containing obituaries.sql
-	logger: an object to send log messages to
+Accepts the following optional arguments:
+
+=over 4
+
+=item * C<directory> - The directory containing the file obituaries.sql
+
+=item * C<logger> - An object to send log messages to
+
+=back
 
 =cut
 
@@ -244,7 +250,7 @@ L<http://deps.cpantesters.org/?module=Genealogy::ObituaryDailyTimes>
 
 =head1 LICENSE AND COPYRIGHT
 
-Copyright 2020-2024 Nigel Horne.
+Copyright 2020-2025 Nigel Horne.
 
 This program is released under the following licence: GPL2
 
