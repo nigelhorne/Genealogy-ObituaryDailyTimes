@@ -26,12 +26,21 @@ Version 0.14
 
 Creates a Genealogy::ObituaryDailyTimes object.
 
+    my $obits = Genealogy::ObituaryDailyTimes->new();
+
 Accepts the following optional arguments:
 
 - `directory` - The directory containing the file obituaries.sql
 - `logger` - An object to send log messages to
 
 ## search
+
+Searches the database.
+
+    # Returns an array of hashrefs
+    my @smiths = $obits->search(last => 'Smith');       # You must at least define the last name to search for
+
+    print $smiths[0]->{'first'}, "\n";
 
 Supports two return modes:
 
@@ -42,13 +51,6 @@ Supports two return modes:
 - `Scalar context`
 
     Returns a single hash reference.
-
-    my $obits = Genealogy::ObituaryDailyTimes->new();
-
-    # Returns an array of hashrefs
-    my @smiths = $obits->search(last => 'Smith');       # You must at least define the last name to search for
-
-    print $smiths[0]->{'first'}, "\n";
 
 # AUTHOR
 

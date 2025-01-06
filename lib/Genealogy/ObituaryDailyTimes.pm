@@ -38,6 +38,8 @@ our $VERSION = '0.14';
 
 Creates a Genealogy::ObituaryDailyTimes object.
 
+    my $obits = Genealogy::ObituaryDailyTimes->new();
+
 Accepts the following optional arguments:
 
 =over 4
@@ -89,6 +91,13 @@ sub new {
 
 =head2 search
 
+Searches the database.
+
+    # Returns an array of hashrefs
+    my @smiths = $obits->search(last => 'Smith');	# You must at least define the last name to search for
+
+    print $smiths[0]->{'first'}, "\n";
+
 Supports two return modes:
 
 =over 4
@@ -102,13 +111,6 @@ Returns an array of hash references.
 Returns a single hash reference.
 
 =back
-
-    my $obits = Genealogy::ObituaryDailyTimes->new();
-
-    # Returns an array of hashrefs
-    my @smiths = $obits->search(last => 'Smith');	# You must at least define the last name to search for
-
-    print $smiths[0]->{'first'}, "\n";
 
 =cut
 
