@@ -3,6 +3,7 @@
 use strict;
 use warnings;
 
+use File::Temp qw(tempdir);
 use Test::Most tests => 8;
 
 # Module loads
@@ -32,8 +33,7 @@ BEGIN {
 }
 
 # Object creation
-my $directory = 'lib/Genealogy/ObituaryDailyTimes/data';
-
+my $directory = tempdir(CLEANUP => 1);
 my $obj = Genealogy::ObituaryDailyTimes->new(
 	directory => $directory,
 );
