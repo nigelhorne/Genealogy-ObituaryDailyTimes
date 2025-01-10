@@ -108,7 +108,8 @@ Returns an array of hash references.
 
 =item * C<Scalar context>
 
-Returns a single hash reference.
+Returns a single hash reference,
+or C<undef> if there is no match.
 
 =back
 

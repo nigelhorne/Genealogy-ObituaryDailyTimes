@@ -1,7 +1,7 @@
 #!perl -wT
 
 use strict;
-use Test::Most tests => 15;
+use Test::Most tests => 16;
 
 use lib 'lib';
 use lib 't/lib';
@@ -12,7 +12,7 @@ BEGIN {
 }
 
 SKIP: {
-	skip 'Database not installed', 14 if(!-r 'lib/Genealogy/ObituaryDailyTimes/data/obituaries.sql');
+	skip('Database not installed', 15) if(!-r 'lib/Genealogy/ObituaryDailyTimes/data/obituaries.sql');
 
 	Database::Abstraction::init('directory' => 'lib/Genealogy/ObituaryDailyTimes/data');
 
@@ -33,6 +33,9 @@ SKIP: {
 
 	# FIXME, test either last == Smith or maiden == Smith
 	is($smiths[0]->{'last'}, 'Smith', 'Returned Smiths');
+
+	# Test no matches returns undef
+	ok(!defined($search->search('Xyzzy')));
 
 	if($ENV{'MLARCHIVEDIR'} || ($ENV{'MLARCHIVE_DIR'})) {
 		my $baal = $search->search({ first => 'Eric', last => 'Baal' });
