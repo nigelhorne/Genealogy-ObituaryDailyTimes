@@ -104,8 +104,11 @@ my @queue;
 # Entries on funeral-notices.co.uk
 my %notices = (
 	'davis' => 5229522,
+	'dilley' => 5228874,
+	'francis-smith' => 5228220,
 	'kelly' => 5229560,
 	'kohlbeck' => 5227986,
+	'langhorst+arnold', 5225068,
 	'miles' => 5229565,
 	'mills' => 5228021,
 	'neal' => 5229546,
@@ -494,9 +497,14 @@ sub funeral_notices
 	die "Failed to fetch the webpage: ", $response->status_line unless $response->is_success;
 	my $content = $response->decoded_content();
 
-	if($content =~ /"Click here to view the tribute page for (.+?) $last"/is) {
+	my $maiden;
+	if($last =~ /(.+)\+(.+)/) {
+		$last = $1;
+		$maiden = normalise_name($2);
+	}
+	if($content =~ /"Click here to view the tribute page for (.+?) $last.*?"/is) {
 		my $first = $1;
-		my ($place, $maiden, $age, $newspaper, $date);
+		my ($place, $age, $newspaper, $date);
 		if($content =~ /aged (\d+) years/is) {
 			$age = $1;
 		} elsif($content =~ /aged (\d+)\./is) {
@@ -506,7 +514,7 @@ sub funeral_notices
 		} else {
 			warn "Can't find age in $url";
 		}
-		if($content =~ /passed away at (.+?)\s+on \d/is) {
+		if(($content =~ /passed away at (.+?)\s+on\s+\d/is) && ($1 ne 'home')) {
 			$place = $1;
 		} elsif($content =~ /<h2>(.+)<span><span class="age_container">/is) {
 			$place = $1;

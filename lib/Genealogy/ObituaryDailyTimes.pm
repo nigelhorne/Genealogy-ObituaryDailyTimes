@@ -223,10 +223,29 @@ The first 17 pages are on Wayback machine, but the rest is lost.
 
 =head1 SEE ALSO
 
-The Obituary Daily Times, L<https://sites.rootsweb.com/~obituary/>,
-Archived Rootsweb data, L<https://wayback.archive-it.org/20669/20231102044925/https://mlarchives.rootsweb.com/listindexes/emails?listname=gen-obit>,
-Recent data L<https://www.freelists.org/list/obitdailytimes>,
-Older data L<https://obituaries.rootsweb.com/obits/searchObits>.
+=over 4
+
+=item * The Obituary Daily Times
+
+L<https://sites.rootsweb.com/~obituary/>
+
+=item * Archived Rootsweb data
+
+L<https://wayback.archive-it.org/20669/20231102044925/https://mlarchives.rootsweb.com/listindexes/emails?listname=gen-obit>
+
+=item * Funeral Notices
+
+L<https://www.funeral-notices.co.uk>
+
+=item * Recent data
+
+L<https://www.freelists.org/list/obitdailytimes>
+
+=item * Older data
+
+L<https://obituaries.rootsweb.com/obits/searchObits>
+
+=back
 
 =head1 SUPPORT
 

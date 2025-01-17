@@ -50,7 +50,8 @@ Supports two return modes:
 
 - `Scalar context`
 
-    Returns a single hash reference.
+    Returns a single hash reference,
+    or `undef` if there is no match.
 
 # AUTHOR
 
@@ -63,10 +64,25 @@ The first 17 pages are on Wayback machine, but the rest is lost.
 
 # SEE ALSO
 
-The Obituary Daily Times, [https://sites.rootsweb.com/~obituary/](https://sites.rootsweb.com/~obituary/),
-Archived Rootsweb data, [https://wayback.archive-it.org/20669/20231102044925/https://mlarchives.rootsweb.com/listindexes/emails?listname=gen-obit](https://wayback.archive-it.org/20669/20231102044925/https://mlarchives.rootsweb.com/listindexes/emails?listname=gen-obit),
-Recent data [https://www.freelists.org/list/obitdailytimes](https://www.freelists.org/list/obitdailytimes),
-Older data [https://obituaries.rootsweb.com/obits/searchObits](https://obituaries.rootsweb.com/obits/searchObits).
+- The Obituary Daily Times
+
+    [https://sites.rootsweb.com/~obituary/](https://sites.rootsweb.com/~obituary/)
+
+- Archived Rootsweb data
+
+    [https://wayback.archive-it.org/20669/20231102044925/https://mlarchives.rootsweb.com/listindexes/emails?listname=gen-obit](https://wayback.archive-it.org/20669/20231102044925/https://mlarchives.rootsweb.com/listindexes/emails?listname=gen-obit)
+
+- Funeral Notices
+
+    [https://www.funeral-notices.co.uk](https://www.funeral-notices.co.uk)
+
+- Recent data
+
+    [https://www.freelists.org/list/obitdailytimes](https://www.freelists.org/list/obitdailytimes)
+
+- Older data
+
+    [https://obituaries.rootsweb.com/obits/searchObits](https://obituaries.rootsweb.com/obits/searchObits)
 
 # SUPPORT
 
