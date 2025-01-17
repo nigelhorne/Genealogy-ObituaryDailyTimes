@@ -103,6 +103,7 @@ my @queue;
 
 # Entries on funeral-notices.co.uk
 my %notices = (
+	'baker' => 5224084,
 	'davis' => 5229522,
 	'dilley' => 5228874,
 	'francis-smith' => 5228220,
@@ -113,7 +114,9 @@ my %notices = (
 	'mills' => 5228021,
 	'neal' => 5229546,
 	'phillips' => 5229503,
+	'ramshaw' => 5226320,
 	'scott' => 5229520,
+	'stankovich' => 5220381,
 	'taylor' => 5229508,
 	'thorne' => 5228123,
 );
@@ -217,7 +220,8 @@ sub data
 		$parser->parse($_);
 		my ($first, $middle, $last, $maiden, $age, $place, $date, $url) = $parser->fields();
 		# printf "%-70s\r", $url;
-		queue($first, normalise_name($last), $maiden, $age, $place, $date, $url, 'L', $url);
+		# $first, $last, $maiden, $age, $place, $date, $newspaper, $source, $page;
+		queue($first, normalise_name($last), $maiden, $age, $place, $date, 'L', 'L', $url);
 	}
 }
 
