@@ -1,7 +1,7 @@
 #!perl -wT
 
 use strict;
-use Test::Most tests => 16;
+use Test::Most tests => 17;
 
 use lib 'lib';
 use lib 't/lib';
@@ -88,6 +88,14 @@ SKIP: {
 		diag(Data::Dumper->new([$erickson])->Dump());
 	}
 	cmp_ok($erickson->{'url'}, 'eq', 'https://www.beaconjournal.com/obituaries/pwoo0723808', 'Check locally added data');
+
+	# Funeral-notices.co.uk
+	# https://funeral-notices.co.uk/notice/phillips/5229503
+	my $phillips = $search->search(first => 'Robert', last => 'Phillips', age => 81);
+	if($ENV{'TEST_VERBOSE'}) {
+		diag(Data::Dumper->new([$phillips])->Dump());
+	}
+	cmp_ok($phillips->{'url'}, 'eq', 'https://funeral-notices.co.uk/notice/phillips/5229503');
 
 	my @empty = $search->search(last => 'xyzzy');
 	is(scalar(@empty), 0, 'Search for xyzzy should return an empty list');

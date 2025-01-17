@@ -10,6 +10,8 @@
 
 use strict;
 use warnings;
+
+# use Data::Dumper;
 use DBI;
 # use DBD::SQLite::Constants qw/:file_open/;	# For SQLITE_OPEN_READONLY
 use File::HomeDir;
@@ -98,6 +100,16 @@ $dbh->do('PRAGMA journal_mode = OFF');
 $dbh->do('CREATE TABLE obituaries(first VARCHAR NOT NULL, middle VARCHAR, last VARCHAR NOT NULL, maiden VARCHAR, age INTEGER, place VARCHAR, newspaper VARCHAR NOT NULL, date DATE NOT NULL, source CHAR NOT NULL, page VARCHAR NOT NULL)');
 
 my @queue;
+
+# Entries on funeral-notices.co.uk
+my %notices = (
+	'phillips' => 5229503,
+	'scott' => 5229520
+);
+
+while(my($last, $page) = each %notices) {
+	funeral_notices($last, $page);
+}
 
 data();
 
@@ -326,7 +338,6 @@ sub mlarchives($$) {
 
 		next if((!defined($tag)) || ($tag eq ''));
 
-		# use Data::Dumper;
 		# print __LINE__, ": $page: '$line' ", Data::Dumper->new([split(/;\s?/, $line)])->Dump();
 		next unless(defined($name));
 		my ($last, $first) = split(',\s', $name);
@@ -459,9 +470,59 @@ sub freelists($$) {
 	return 1;
 }
 
+# Entries on funeral-notices.co.uk
+sub funeral_notices
+{
+	my($last, $page) = @_;
+
+	# URL of the page to scrape
+	my $url = "https://funeral-notices.co.uk/notice/$last/$page";
+
+	# Fetch the webpage
+	my $response = $ua->get($url);
+	die "Failed to fetch the webpage: ", $response->status_line unless $response->is_success;
+
+	my $content = $response->decoded_content();
+
+	if($content =~ /"Click here to view the tribute page for (.+?) $last"/is) {
+		my $first = $1;
+		my ($place, $maiden, $age, $newspaper, $date);
+		if($content =~ /aged (\d+) years/is) {
+			$age = $1;
+		} else {
+			die "Can't find age in $url";
+		}
+		if($content =~ /passed away at (.+?)\s+on \d/is) {
+			$place = $1;
+		} elsif($content =~ /<h2>(.+)<span><span class="age_container">/is) {
+			$place = $1;
+		} else {
+			die "Can't find location in $url";
+		}
+		$place .= ', United Kingdom';
+		if($content =~ /published in:<\/span> (.+)<\/h2>/is) {
+			$newspaper = $1;
+		} else {
+			die "Can't find publisher in $url";
+		}
+		if($content =~ /Published: <\/span><span>([\d\/]+)/s) {
+			$date = $1;
+		} else {
+			die "Can't find date in $url";
+		}
+		$last = normalise_name($last);
+		queue($first, $last, $maiden, $age, $place, $date, $url, 'L', $page) if($last =~ /^[A-Z]/);
+		# print Data::Dumper->new([\@queue])->Dump();
+	} else {
+		die "Can't parse $url";
+	}
+}
+
 sub queue($$$$$$$$$)
 {
 	my ($first, $last, $maiden, $age, $place, $date, $newspaper, $source, $page) = @_;
+
+	# print Data::Dumper->new([\@_])->Dump();
 
 	# Ensure source is valid and date is defined and starts with a digit
 	die $source unless $source =~ /^[MFL]$/;
@@ -582,7 +643,8 @@ sub flush($)
 			$query .= 'NULL,';
 		}
 		my $source = $columns{'source'};
-		die $source if($source !~ /M|F|L/);
+		# Ensure source is valid
+		die $source unless $source =~ /^[MFL]$/;
 		$query .= "'" . $columns{'newspaper'} . "','" . $columns{'source'} . "','" . $columns{'page'} . "')";
 	}
 
