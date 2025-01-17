@@ -104,12 +104,18 @@ my @queue;
 # Entries on funeral-notices.co.uk
 my %notices = (
 	'phillips' => 5229503,
-	'scott' => 5229520
+	'scott' => 5229520,
+	'davis' => 5229522,
+	'miles' => 5229565,
+	'taylor' => 5229508
 );
 
 while(my($last, $page) = each %notices) {
 	funeral_notices($last, $page);
 }
+
+# use Data::Dumper;
+# die Data::Dumper->new([\@queue])->Dump();
 
 data();
 
@@ -481,7 +487,6 @@ sub funeral_notices
 	# Fetch the webpage
 	my $response = $ua->get($url);
 	die "Failed to fetch the webpage: ", $response->status_line unless $response->is_success;
-
 	my $content = $response->decoded_content();
 
 	if($content =~ /"Click here to view the tribute page for (.+?) $last"/is) {
@@ -489,8 +494,10 @@ sub funeral_notices
 		my ($place, $maiden, $age, $newspaper, $date);
 		if($content =~ /aged (\d+) years/is) {
 			$age = $1;
+		} elsif($content =~ /aged (\d+)\./is) {
+			$age = $1;
 		} else {
-			die "Can't find age in $url";
+			warn "Can't find age in $url";
 		}
 		if($content =~ /passed away at (.+?)\s+on \d/is) {
 			$place = $1;
@@ -612,7 +619,7 @@ sub flush($)
 		my %columns = %{$row};
 
 		if($columns{'first'}) {
-			if($columns{'first'} =~ /(.+)\s(.+)/) {
+			if($columns{'first'} =~ /(.+)\s+(.+)/) {
 				# Has a middle name
 				$query .= "'$1','$2',";
 			} else {
