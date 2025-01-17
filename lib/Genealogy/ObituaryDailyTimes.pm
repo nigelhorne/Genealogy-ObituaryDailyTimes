@@ -166,8 +166,13 @@ sub _create_url {
 		return URLS->{'F'} . $page;
 	}
 	if($source eq 'L') {
-		my $newspaper = $obit->{'newspaper'} || Carp::croak(__PACKAGE__, ": undefined newspaper.  Newspaper much be given when source type is 'L'");
-		return $newspaper;
+		if($obit->{'newspaper'} =~ /^https?:\/\//) {
+			return $obit->{'newspaper'};
+		}
+		if($obit->{'page'} =~ /^https?:\/\//) {
+			return $obit->{'page'};
+		}
+		Carp::croak(__PACKAGE__, ": undefined newspaper.  Newspaper much be given when source type is 'L'");
 	}
 	Carp::croak(__PACKAGE__, ": Invalid source, '$source'. Valid sources are 'M', 'F' and 'L'");
 }

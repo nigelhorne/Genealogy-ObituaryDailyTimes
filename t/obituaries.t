@@ -1,7 +1,7 @@
 #!perl -wT
 
 use strict;
-use Test::Most tests => 17;
+use Test::Most tests => 18;
 
 use lib 'lib';
 use lib 't/lib';
@@ -12,7 +12,7 @@ BEGIN {
 }
 
 SKIP: {
-	skip('Database not installed', 16) if(!-r 'lib/Genealogy/ObituaryDailyTimes/data/obituaries.sql');
+	skip('Database not installed', 17) if(!-r 'lib/Genealogy/ObituaryDailyTimes/data/obituaries.sql');
 
 	Database::Abstraction::init('directory' => 'lib/Genealogy/ObituaryDailyTimes/data');
 
@@ -96,6 +96,9 @@ SKIP: {
 		diag(Data::Dumper->new([$phillips])->Dump());
 	}
 	cmp_ok($phillips->{'url'}, 'eq', 'https://funeral-notices.co.uk/notice/phillips/5229503');
+
+	my $taylor = $search->search(first => 'Margaret', middle => 'Elizabeth', last => 'Taylor');
+	cmp_ok($taylor->{'url'}, 'eq', 'https://funeral-notices.co.uk/notice/taylor/5229508');
 
 	my @empty = $search->search(last => 'xyzzy');
 	is(scalar(@empty), 0, 'Search for xyzzy should return an empty list');

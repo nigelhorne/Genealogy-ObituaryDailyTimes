@@ -107,7 +107,9 @@ my %notices = (
 	'scott' => 5229520,
 	'davis' => 5229522,
 	'miles' => 5229565,
-	'taylor' => 5229508
+	'taylor' => 5229508,
+	'neal' => 5229546,
+	'kelly' => 5229560,
 );
 
 while(my($last, $page) = each %notices) {
@@ -508,17 +510,22 @@ sub funeral_notices
 		}
 		$place .= ', United Kingdom';
 		if($content =~ /published in:<\/span> (.+)<\/h2>/is) {
-			$newspaper = $1;
+			if($1 =~ /funeral-notices.co.uk\./) {
+				$newspaper = $url;
+			} else {
+				$newspaper = $1;
+			}
 		} else {
 			die "Can't find publisher in $url";
 		}
+		$newspaper =~ s/\.$//;
 		if($content =~ /Published: <\/span><span>([\d\/]+)/s) {
 			$date = $1;
 		} else {
 			die "Can't find date in $url";
 		}
 		$last = normalise_name($last);
-		queue($first, $last, $maiden, $age, $place, $date, $url, 'L', $page) if($last =~ /^[A-Z]/);
+		queue($first, $last, $maiden, $age, $place, $date, $newspaper, 'L', $url) if($last =~ /^[A-Z]/);
 		# print Data::Dumper->new([\@queue])->Dump();
 	} else {
 		die "Can't parse $url";
