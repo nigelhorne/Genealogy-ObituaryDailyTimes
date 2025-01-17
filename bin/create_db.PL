@@ -103,13 +103,16 @@ my @queue;
 
 # Entries on funeral-notices.co.uk
 my %notices = (
+	'davis' => 5229522,
+	'kelly' => 5229560,
+	'kohlbeck' => 5227986,
+	'miles' => 5229565,
+	'mills' => 5228021,
+	'neal' => 5229546,
 	'phillips' => 5229503,
 	'scott' => 5229520,
-	'davis' => 5229522,
-	'miles' => 5229565,
 	'taylor' => 5229508,
-	'neal' => 5229546,
-	'kelly' => 5229560,
+	'thorne' => 5228123,
 );
 
 while(my($last, $page) = each %notices) {
@@ -497,6 +500,8 @@ sub funeral_notices
 		if($content =~ /aged (\d+) years/is) {
 			$age = $1;
 		} elsif($content =~ /aged (\d+)\./is) {
+			$age = $1;
+		} elsif($content =~ /data-age="(\d+)"/is) {
 			$age = $1;
 		} else {
 			warn "Can't find age in $url";
