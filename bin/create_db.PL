@@ -120,6 +120,7 @@ my %notices = (
 	'neal' => 5229546,
 	'phillips' => 5229503,
 	'ramshaw' => 5226320,
+	'rixson' => 5229879,
 	'roberts' => 5217125,
 	'saunders' => 5203294,
 	'scott' => 5229520,
