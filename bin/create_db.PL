@@ -1,7 +1,8 @@
 #!/usr/bin/env perl
 
-# Create SQLite3 from https://sites.rootsweb.com/~obituary/ and
-#	https://mlarchives.rootsweb.com/listindexes/emails?listname=gen-obit
+# Create SQLite3 from https://sites.rootsweb.com/~obituary/,
+#	https://mlarchives.rootsweb.com/listindexes/emails?listname=gen-obit and
+#	https://www.funeral-notices.co.uk
 #
 # -f:	force a build, otherwise it won't build on CPAN smokers or if the
 #	database is less than a day old
@@ -103,14 +104,17 @@ my @queue;
 
 # Entries on funeral-notices.co.uk
 my %notices = (
+	'adams' => 5228592,
 	'baker' => 5224084,
 	'barnett' => 5203324,
 	'davis' => 5229522,
 	'dilley' => 5228874,
 	'francis-smith' => 5228220,
+	'foad' => 5215901,
 	'kelly' => 5229560,
 	'kohlbeck' => 5227986,
 	'langhorst+arnold', 5225068,
+	'leeson' => 5216037,
 	'miles' => 5229565,
 	'mills' => 5228021,
 	'neal' => 5229546,
@@ -119,9 +123,11 @@ my %notices = (
 	'roberts' => 5217125,
 	'saunders' => 5203294,
 	'scott' => 5229520,
+	'stanbridge' => 5223211,
 	'stankovich' => 5220381,
 	'taylor' => 5229508,
 	'thorne' => 5228123,
+	'wenman' => 5213708,
 	'whitehead' => 5203359,
 );
 
@@ -133,6 +139,7 @@ while(my($last, $page) = each %notices) {
 # die Data::Dumper->new([\@queue])->Dump();
 
 data();
+flush($dbh);
 
 if($ENV{'MLARCHIVE_DIR'} || $ENV{'MLARCHIVEDIR'}) {
 	if(mlarchives($ua, 'other')) {
