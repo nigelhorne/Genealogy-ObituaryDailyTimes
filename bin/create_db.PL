@@ -107,23 +107,30 @@ my %notices = (
 	'adams' => 5228592,
 	'baker' => 5224084,
 	'barnett' => 5203324,
+	'burns' => 5223636,
 	'davis' => 5229522,
 	'dilley' => 5228874,
 	'francis-smith' => 5228220,
 	'foad' => 5215901,
 	'kelly' => 5229560,
 	'kohlbeck' => 5227986,
+	'ingram' => 5224463,
 	'langhorst+arnold', 5225068,
 	'leeson' => 5216037,
 	'miles' => 5229565,
 	'mills' => 5228021,
 	'neal' => 5229546,
+	'pepler' => 5219198,
 	'phillips' => 5229503,
+	'pierce' => 5229953,
+	'pratt+dr' => 5225779,
 	'ramshaw' => 5226320,
+	'richardson' => 5225685,
 	'rixson' => 5229879,
 	'roberts' => 5217125,
 	'saunders' => 5203294,
 	'scott' => 5229520,
+	'spikin' => 5221457,
 	'stanbridge' => 5223211,
 	'stankovich' => 5220381,
 	'taylor' => 5229508,
@@ -517,6 +524,7 @@ sub funeral_notices
 	if($last =~ /(.+)\+(.+)/) {
 		$last = $1;
 		$maiden = normalise_name($2);
+		undef $maiden if($maiden eq 'Dr');
 	}
 	if($content =~ /"Click here to view the tribute page for (.+?) $last.*?"/is) {
 		my $first = $1;
