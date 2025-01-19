@@ -117,6 +117,7 @@ my %notices = (
 	'ingram' => 5224463,
 	'langhorst+arnold', 5225068,
 	'leeson' => 5216037,
+	'jones' => 5222920,
 	'miles' => 5229565,
 	'mills' => 5228021,
 	'neal' => 5229546,
@@ -531,7 +532,7 @@ sub funeral_notices
 		my ($place, $age, $newspaper, $date);
 		if($content =~ /aged (\d+) years/is) {
 			$age = $1;
-		} elsif($content =~ /aged (\d+)\./is) {
+		} elsif($content =~ /aged (\d+)[\.\s]/is) {
 			$age = $1;
 		} elsif($content =~ /data-age="(\d+)"/is) {
 			$age = $1;
