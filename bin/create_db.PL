@@ -108,6 +108,7 @@ my %notices = (
 	'baker' => 5224084,
 	'barnett' => 5203324,
 	'burns' => 5223636,
+	'cork' => 5222511,
 	'davis' => 5229522,
 	'dilley' => 5228874,
 	'francis-smith' => 5228220,
@@ -118,6 +119,7 @@ my %notices = (
 	'langhorst+arnold', 5225068,
 	'leeson' => 5216037,
 	'jones' => 5222920,
+	'mastin' => 5226187,
 	'miles' => 5229565,
 	'mills' => 5228021,
 	'neal' => 5229546,
@@ -129,6 +131,7 @@ my %notices = (
 	'richardson' => 5225685,
 	'rixson' => 5229879,
 	'roberts' => 5217125,
+	'rozier' => 5212494,
 	'saunders' => 5203294,
 	'scott' => 5229520,
 	'spikin' => 5221457,
@@ -138,6 +141,7 @@ my %notices = (
 	'thorne' => 5228123,
 	'wenman' => 5213708,
 	'whitehead' => 5203359,
+	'worley' => 5212215,
 );
 
 while(my($last, $page) = each %notices) {
