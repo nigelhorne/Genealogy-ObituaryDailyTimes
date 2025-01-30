@@ -108,12 +108,14 @@ my %notices = (
 	'atkins' => 5231188,
 	'baker' => 5224084,
 	'barnett' => 5203324,
+	'branchett' => 5213597,
 	'burdge' => 5230947,
 	'burns' => 5223636,
 	'cork' => 5222511,
 	'davis' => 5229522,
 	'dilley' => 5228874,
 	'francis-smith' => 5228220,
+	'fry' => 5231495,
 	'foad' => 5215901,
 	'kelly' => 5229560,
 	'kohlbeck' => 5227986,
@@ -123,6 +125,7 @@ my %notices = (
 	'leeson' => 5216037,
 	'jones' => 5222920,
 	'mastin' => 5226187,
+	'mc+carthy' => 5232006,
 	'midmer' => 5230960,
 	'miles' => 5229565,
 	'mills' => 5228021,
@@ -143,6 +146,7 @@ my %notices = (
 	'stankovich' => 5220381,
 	'taylor' => 5229508,
 	'thorne' => 5228123,
+	'tutt' => 5218610,
 	'upton' => 5230984,
 	'wenman' => 5213708,
 	'whitehead' => 5203359,
@@ -525,6 +529,8 @@ sub funeral_notices
 	# URL of the page to scrape
 	my $url = "https://funeral-notices.co.uk/notice/$last/$page";
 
+	my $real_last = $last;	# For scrape searching
+
 	# Fetch the webpage
 	my $response = $ua->get($url);
 	die "Failed to fetch the webpage: ", $response->status_line unless $response->is_success;
@@ -533,10 +539,19 @@ sub funeral_notices
 	my $maiden;
 	if($last =~ /(.+)\+(.+)/) {
 		$last = $1;
+		$real_last = $last;
 		$maiden = normalise_name($2);
-		undef $maiden if($maiden eq 'Dr');
+		print "$1 <=> $2 ($maiden/$last)\n";
+		if($maiden eq 'Dr') {
+			undef $maiden;
+		} elsif($last eq 'mc') {
+			$last = "Mc$maiden";
+			$real_last = "MC $maiden";
+			undef $maiden;
+		}
+		print "$last\n";
 	}
-	if($content =~ /"Click here to view the tribute page for (.+?) $last.*?"/is) {
+	if($content =~ /"Click here to view the tribute page for (.+?) $real_last.*?"/is) {
 		my $first = $1;
 		my ($place, $age, $newspaper, $date);
 		if($content =~ /aged (\d+) years/is) {

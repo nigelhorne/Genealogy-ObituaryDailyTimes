@@ -1,7 +1,7 @@
 #!perl -wT
 
 use strict;
-use Test::Most tests => 18;
+use Test::Most tests => 19;
 
 use lib 'lib';
 use lib 't/lib';
@@ -99,6 +99,20 @@ SKIP: {
 
 	my $taylor = $search->search(first => 'Margaret', middle => 'Elizabeth', last => 'Taylor');
 	cmp_ok($taylor->{'url'}, 'eq', 'https://funeral-notices.co.uk/notice/taylor/5229508');
+
+	# Verify "Mc" is imported correctly
+	my @mc_carthy = $search->search(first => 'Jean', middle => 'Emily', last => 'McCarthy');
+	diag(Data::Dumper->new([\@mc_carthy])->Dump()) if($ENV{'TEST_VERBOSE'});
+
+	my $pass = 1;
+	foreach my $entry(@mc_carthy) {
+		if($entry->{'last'} ne 'McCarthy') {
+			$pass = 0;
+			last;
+		}
+	}
+	# FIXME: Doesn't notice if any have been missed
+	ok($pass, 'McCarthy is imported');
 
 	my @empty = $search->search(last => 'xyzzy');
 	is(scalar(@empty), 0, 'Search for xyzzy should return an empty list');
