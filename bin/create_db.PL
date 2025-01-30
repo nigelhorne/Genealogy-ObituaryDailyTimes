@@ -105,6 +105,7 @@ my @queue;
 # Entries on funeral-notices.co.uk
 my %notices = (
 	'adams' => 5228592,
+	'allen' => 5232063,
 	'atkins' => 5231188,
 	'baker' => 5224084,
 	'barnett' => 5203324,
@@ -541,7 +542,7 @@ sub funeral_notices
 		$last = $1;
 		$real_last = $last;
 		$maiden = normalise_name($2);
-		print "$1 <=> $2 ($maiden/$last)\n";
+		# print "$1 <=> $2 ($maiden/$last)\n";
 		if($maiden eq 'Dr') {
 			undef $maiden;
 		} elsif($last eq 'mc') {
@@ -549,7 +550,7 @@ sub funeral_notices
 			$real_last = "MC $maiden";
 			undef $maiden;
 		}
-		print "$last\n";
+		# print "$last\n";
 	}
 	if($content =~ /"Click here to view the tribute page for (.+?) $real_last.*?"/is) {
 		my $first = $1;

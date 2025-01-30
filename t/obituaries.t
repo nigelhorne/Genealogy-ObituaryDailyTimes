@@ -7,12 +7,10 @@ use lib 'lib';
 use lib 't/lib';
 use MyLogger;
 
-BEGIN {
-	use_ok('Genealogy::ObituaryDailyTimes');
-}
+BEGIN { use_ok('Genealogy::ObituaryDailyTimes') }
 
 SKIP: {
-	skip('Database not installed', 17) if(!-r 'lib/Genealogy/ObituaryDailyTimes/data/obituaries.sql');
+	skip('Database not installed', 18) if(!-r 'lib/Genealogy/ObituaryDailyTimes/data/obituaries.sql');
 
 	Database::Abstraction::init('directory' => 'lib/Genealogy/ObituaryDailyTimes/data');
 
