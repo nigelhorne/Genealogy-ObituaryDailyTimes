@@ -77,6 +77,7 @@ sub new {
 		$directory =~ s/\.pm$//;
 		$args{'directory'} = File::Spec->catfile($directory, 'data');
 	}
+
 	if(!-d $directory) {
 		Carp::carp(__PACKAGE__, ": $directory is not a directory");
 		return;

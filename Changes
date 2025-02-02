@@ -2,6 +2,7 @@ Revision history for Genealogy::ObituaryDailyTimes
 
 0.15
 	Started to add code to index funeral-notices.co.uk
+	Added bin/extract
 
 0.14	Mon Jan  6 14:06:53 EST 2025
 	Added t/30-basics.t
