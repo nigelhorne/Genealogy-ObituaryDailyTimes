@@ -44,9 +44,11 @@ Accepts the following optional arguments:
 
 =over 4
 
+=item * C<cache> - Passed to L<Database::Abstraction>
+
 =item * C<directory> - The directory containing the file obituaries.sql
 
-=item * C<logger> - An object to send log messages to
+=item * C<logger> - Passed to L<Database::Abstraction>
 
 =back
 
@@ -220,9 +222,11 @@ Nigel Horne, C<< <njh at bandsman.co.uk> >>
 =head1 BUGS
 
 Ancestry has removed the archives.
-The first 17 pages are on Wayback machine, but the rest is lost.
+The first 18 pages are on Wayback machine, but the rest is lost.
 
 =head1 SEE ALSO
+
+L<Database::Abstraction>
 
 =over 4
 

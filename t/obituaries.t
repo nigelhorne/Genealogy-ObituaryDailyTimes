@@ -1,7 +1,8 @@
 #!perl -wT
 
 use strict;
-use Test::Most tests => 19;
+use Test::HTTPStatus;
+use Test::Most tests => 23;
 
 use lib 'lib';
 use lib 't/lib';
@@ -44,6 +45,8 @@ SKIP: {
 		}
 		# cmp_ok($baal->{'url'}, 'eq', 'https://mlarchives.rootsweb.com/listindexes/emails?listname=gen-obit&page=96', 'Check Baal URL');
 		cmp_ok($baal->{'url'}, 'eq', 'https://wayback.archive-it.org/20669/20231102044925/https://mlarchives.rootsweb.com/listindexes/emails?listname=gen-obit&page=96', 'Check Baal URL');
+		# This will fail since the Wayback machine only has the first 18 or so pages archived
+		# http_ok($baal->{'url'}, HTTP_OK);
 	} else {
 		SKIP: {
 			diag('Removed test since Rootsweb was partially archived on Wayback Machine');
@@ -79,6 +82,8 @@ SKIP: {
 	my $adams = $search->search({ first => 'Almetta', middle => 'Ivaleen', last => 'Adams' });
 	is($adams->{'maiden'}, 'Paterson', 'Picks up maiden name');
 	is($adams->{'url'}, 'https://www.freelists.org/post/obitdailytimes/Obituary-Daily-Times-v25no101', 'Check Adams URL');
+	# Gives 403 error, even though it is there
+	# http_ok($adams->{'url'}, HTTP_OK);
 
 	# Locally added data
 	my $erickson = $search->search(first => 'David', last => 'Erickson', age => 92);
@@ -86,6 +91,7 @@ SKIP: {
 		diag(Data::Dumper->new([$erickson])->Dump());
 	}
 	cmp_ok($erickson->{'url'}, 'eq', 'https://www.beaconjournal.com/obituaries/pwoo0723808', 'Check locally added data');
+	http_ok($erickson->{'url'}, HTTP_OK);
 
 	# Funeral-notices.co.uk
 	# https://funeral-notices.co.uk/notice/phillips/5229503
@@ -94,13 +100,16 @@ SKIP: {
 		diag(Data::Dumper->new([$phillips])->Dump());
 	}
 	cmp_ok($phillips->{'url'}, 'eq', 'https://funeral-notices.co.uk/notice/phillips/5229503');
+	http_ok($phillips->{'url'}, HTTP_OK);
 
 	my $taylor = $search->search(first => 'Margaret', middle => 'Elizabeth', last => 'Taylor');
 	cmp_ok($taylor->{'url'}, 'eq', 'https://funeral-notices.co.uk/notice/taylor/5229508');
+	http_ok($taylor->{'url'}, HTTP_OK);
 
 	# Verify "Mc" is imported correctly
 	my @mc_carthy = $search->search(first => 'Jean', middle => 'Emily', last => 'McCarthy');
 	diag(Data::Dumper->new([\@mc_carthy])->Dump()) if($ENV{'TEST_VERBOSE'});
+	http_ok($mc_carthy[0]->{'url'}, HTTP_OK);
 
 	my $pass = 1;
 	foreach my $entry(@mc_carthy) {
