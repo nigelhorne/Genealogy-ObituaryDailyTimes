@@ -107,7 +107,6 @@ my @queue;
 my %notices = (
 	'adams' => 5228592,
 	'allen' => 5232063,
-	'anscombe' => 5235745,
 	'atkins' => 5231188,
 	'baker' => 5224084,
 	'barber' => 5211783,
