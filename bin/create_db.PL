@@ -103,118 +103,28 @@ $dbh->do('CREATE TABLE obituaries(first VARCHAR NOT NULL, middle VARCHAR, last V
 my @queue;
 
 # Entries on funeral-notices.co.uk
-# TODO:  download and read in this list, rather than hardcoding it
-my %notices = (
-	'adams' => 5228592,
-	'allen' => 5232063,
-	'atkins' => 5231188,
-	'baker' => 5224084,
-	'barber' => 5211783,
-	'barnett' => 5203324,
-	'binnersley' => 5232426,
-	'branchett' => 5213597,
-	'bridges' => 5233769,
-	'burdge' => 5230947,
-	'burns' => 5223636,
-	'card' => 5233686,
-	'case' => 5234650,
-	'christian' => 5232370,
-	'constable' => 5234689,
-	'cork' => 5222511,
-	'dale' => 5233424,
-	'darroch' => 5234751,
-	'davidson' => 5211832,
-	'davis' => 5229522,
-	'dilley' => 5228874,
-	'diver' => 5233366,
-	'dr+john' => 5231933,
-	'downes' => 5233496,
-	'duncan' => 5233826,
-	'eglesfield' => 5233679,
-	'english' => 5197046,
-	'francis-smith' => 5228220,
-	'fry' => 5231495,
-	'foad' => 5215901,
-	'gillow' => 5211212,
-	'godden' => 5211431,
-	'green' => 5210885,
-	'greenstreet' => 5211227,
-	'harris' => 5232997,
-	'harris' => 5233503,
-	'harrison' => 5232579,
-	'heron' => 5210921,
-	'halls' => 5196999,
-	'hills' => 5211817,
-	'huggins' => 5232417,
-	'ingram' => 5224463,
-	'langhorst+arnold', 5225068,
-	'law' => 5230873,
-	'leigh' => 5210964,
-	'kelly' => 5229560,
-	'kohlbeck' => 5227986,
-	'leeson' => 5216037,
-	'lincoln' => 5234617,
-	'jacobs' => 5235365,
-	'jones' => 5222920,
-	'mastin' => 5226187,
-	'mc+carthy' => 5232006,
-	'maltby' => 5233680,
-	'mcintosh' => 5235837,
-	'midmer' => 5230960,
-	'miles' => 5229565,
-	'mills' => 5228021,
-	'moore' => 5233823,
-	'munday' => 5235101,
-	'nash' => 5235940,
-	'neal' => 5229546,
-	'newell' => 5233689,
-	'norley' => 5234959,
-	'ould' => 5196980,
-	'ovais' => 5233482,
-	'patman' => 5233999,
-	'pepler' => 5219198,
-	'phillips' => 5229503,
-	'pearcey' => 5232361,
-	'pierce' => 5229953,
-	'pratt+dr' => 5225779,
-	'robinson' => 5235003,
-	'ramshaw' => 5226320,
-	'reid' => 5232922,
-	'relf' => 5232513,
-	'richardson' => 5225685,
-	'richter' => 5232876,
-	'rixson' => 5229879,
-	'roberts' => 5217125,
-	'robinson' => 5234778,
-	'rozier' => 5212494,
-	'sandy' => 5233505,
-	'saunders' => 5203294,
-	'saxby' => 5197261,
-	'scott' => 5229520,
-	'spiers' => 5233475,
-	'spiers' => 5233476,
-	'spikin' => 5221457,
-	'stanbridge' => 5223211,
-	'stankovich' => 5220381,
-	'steen' => 5234710,
-	'steven+jon' => 5197247,
-	'stonham' => 5234551,
-	'sudder' => 5234066,
-	'taylor' => 5229508,
-	'thorne' => 5228123,
-	'thompson' => 5232347,
-	'todd' => 5210924,
-	'tutt' => 5218610,
-	'upton' => 5230984,
-	'utteridge' => 5232384,
-	'vidler' => 5235009,
-	'washington' => 5232745,
-	'webb' => 5232908,
-	'wenman' => 5213708,
-	'whitehead' => 5203359,
-	'williams' => 5233685,
-	'worley' => 5212215,
-);
+
+my %notices;
+my $url = 'https://www.nigelhorne.com/downloads/obt.txt';
+my $response = $ua->get($url);
+my $data;
+if($response->is_success()) {
+	$data = $response->decoded_content();
+} else {
+	die "$url: ", $response->status_line();
+}
+
+# Parse the downloaded file
+$data =~ s/\r//g;
+foreach my $line (split/^/ms, $data) {
+	chomp $line;
+	print "$line\n";
+	if($line =~ /^'(.+)' => (\d+),$/) {
+		$notices{$1} = $2;
+	} else {
+		die "$url: can't parse $line";
+	}
+}
 
 while(my($last, $page) = each %notices) {
 	funeral_notices($last, $page);
