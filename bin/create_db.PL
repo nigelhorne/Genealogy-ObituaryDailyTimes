@@ -118,7 +118,6 @@ if($response->is_success()) {
 $data =~ s/\r//g;
 foreach my $line (split/^/ms, $data) {
 	chomp $line;
-	print "$line\n";
 	if($line =~ /^'(.+)' => (\d+),$/) {
 		$notices{$1} = $2;
 	} else {

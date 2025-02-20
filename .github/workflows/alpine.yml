@@ -39,15 +39,16 @@ jobs:
           cpanm -ivn B::Utils LWP::UserAgent::WithCache Module::Info File::pfopen
           cpanm -iqn --installdeps .
       - name: Make module
+        env:
+          AUTOMATED_TESTING: 1
         run: |
           # find ~ -name build.log | xargs cat
           cd $GITHUB_WORKSPACE
           perl Makefile.PL
           make AUTOMATED_TESTING=1
       - name: Run Tests
+        env:
+          AUTOMATED_TESTING: 1
         run: |
           cd $GITHUB_WORKSPACE
           make test AUTHOR_TESTING=1 AUTOMATED_TESTING=1
-        env:
-          AUTHOR_TESTING: 1
-          AUTOMATED_TESTING: 1
