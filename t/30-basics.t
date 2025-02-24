@@ -76,9 +76,13 @@ subtest 'Testing search() method' => sub {
 	ok(!@results, 'Search fails gracefully when last name is not provided');
 
 	# Test with valid last name
-	@results = $obj->search(last => 'Smith');
+	@results = $obj->search('Smith');
 	isa_ok(\@results, 'ARRAY', 'Search returns an array');
+	cmp_ok(scalar(@results), '>', 0, 'At least one Smith is returned');
 	pass('Search handles valid inputs correctly');
+	foreach my $result(@results) {
+		cmp_ok($result->{'last'}, 'eq', 'Smith', 'Only Smiths are returned');
+	}
 
 	# Test with additional parameters
 	@results = $obj->search(last => 'Smith', first => 'John');

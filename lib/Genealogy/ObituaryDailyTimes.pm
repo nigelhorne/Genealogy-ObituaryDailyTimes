@@ -187,29 +187,29 @@ sub _create_url {
 #	when called _get_params('arg', @_);
 sub _get_params
 {
-	shift;  # Discard the first argument (typically $self)
+	my $self = shift;
 	my $default = shift;
 
 	# Directly return hash reference if the first parameter is a hash reference
-	return $_[0] if(ref $_[0] eq 'HASH');
+	return $_[0] if(ref($_[0]) eq 'HASH');
 
 	my %rc;
-	my $num_args = scalar @_;
+	my $num_args = scalar(@_);
 
 	# Populate %rc based on the number and type of arguments
-	if(($num_args == 1) && (defined $default)) {
+	if(($num_args == 1) && defined($default)) {
 		# %rc = ($default => shift);
 		return { $default => shift };
 	} elsif($num_args == 1) {
-		Carp::croak('Usage: ', __PACKAGE__, '->', (caller(1))[3], '()');
-	} elsif(($num_args == 0) && (defined($default))) {
-		Carp::croak('Usage: ', __PACKAGE__, '->', (caller(1))[3], "($default => \$val)");
+		Carp::croak('Usage: ', ref($self), '->', (caller(1))[3], '()');
+	} elsif(($num_args == 0) && defined($default)) {
+		Carp::croak('Usage: ', ref($self), '->', (caller(1))[3], "($default => \$val)");
 	} elsif(($num_args % 2) == 0) {
 		%rc = @_;
 	} elsif($num_args == 0) {
 		return;
 	} else {
-		Carp::croak('Usage: ', __PACKAGE__, '->', (caller(1))[3], '()');
+		Carp::croak('Usage: ', ref($self), '->', (caller(1))[3], '()');
 	}
 
 	return \%rc;
