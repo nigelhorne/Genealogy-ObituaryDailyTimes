@@ -43,5 +43,5 @@ $finder->find(\$content);
 
 # Sort by name order and print the URLs
 foreach my $entry (sort { $a->{'name'} cmp $b->{'name'} } @entries) {
-	print "'", $entry->{'name'}, '" => "', $entry->{'id'}, "\"\n";
+	print "'", $entry->{'name'}, "' => ", $entry->{'id'}, "\n";
 }
