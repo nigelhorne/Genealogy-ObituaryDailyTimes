@@ -2,10 +2,12 @@ package Genealogy::ObituaryDailyTimes;
 
 use warnings;
 use strict;
+
 use Carp;
 use File::Spec;
 use Module::Info;
 use Genealogy::ObituaryDailyTimes::obituaries;
+use Params::Get;
 use Scalar::Util;
 
 use constant URLS => {
@@ -20,11 +22,11 @@ Genealogy::ObituaryDailyTimes - Lookup an entry in the Obituary Daily Times
 
 =head1 VERSION
 
-Version 0.14
+Version 0.15
 
 =cut
 
-our $VERSION = '0.14';
+our $VERSION = '0.15';
 
 =head1 SYNOPSIS
 
@@ -121,7 +123,7 @@ or C<undef> if there is no match.
 sub search
 {
 	my $self = shift;
-	my $params = $self->_get_params('last', @_);
+	my $params = Params::Get::get_params('last', @_);
 
 	if(!defined($params->{'last'})) {
 		Carp::carp("Value for 'last' is mandatory");
@@ -178,41 +180,6 @@ sub _create_url {
 		Carp::croak(__PACKAGE__, ": undefined newspaper.  Newspaper much be given when source type is 'L'");
 	}
 	Carp::croak(__PACKAGE__, ": Invalid source, '$source'. Valid sources are 'M', 'F' and 'L'");
-}
-
-# Helper routine to parse the arguments given to a function,
-# Processes arguments passed to methods and ensures they are in a usable format,
-#	allowing the caller to call the function in anyway that they want
-#	e.g. foo('bar'), foo(arg => 'bar'), foo({ arg => 'bar' }) all mean the same
-#	when called _get_params('arg', @_);
-sub _get_params
-{
-	my $self = shift;
-	my $default = shift;
-
-	# Directly return hash reference if the first parameter is a hash reference
-	return $_[0] if(ref($_[0]) eq 'HASH');
-
-	my %rc;
-	my $num_args = scalar(@_);
-
-	# Populate %rc based on the number and type of arguments
-	if(($num_args == 1) && defined($default)) {
-		# %rc = ($default => shift);
-		return { $default => shift };
-	} elsif($num_args == 1) {
-		Carp::croak('Usage: ', ref($self), '->', (caller(1))[3], '()');
-	} elsif(($num_args == 0) && defined($default)) {
-		Carp::croak('Usage: ', ref($self), '->', (caller(1))[3], "($default => \$val)");
-	} elsif(($num_args % 2) == 0) {
-		%rc = @_;
-	} elsif($num_args == 0) {
-		return;
-	} else {
-		Carp::croak('Usage: ', ref($self), '->', (caller(1))[3], '()');
-	}
-
-	return \%rc;
 }
 
 =head1 AUTHOR

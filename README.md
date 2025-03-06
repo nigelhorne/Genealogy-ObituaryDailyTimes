@@ -12,7 +12,7 @@ Genealogy::ObituaryDailyTimes - Lookup an entry in the Obituary Daily Times
 
 # VERSION
 
-Version 0.14
+Version 0.15
 
 # SYNOPSIS
 
@@ -30,8 +30,9 @@ Creates a Genealogy::ObituaryDailyTimes object.
 
 Accepts the following optional arguments:
 
+- `cache` - Passed to [Database::Abstraction](https://metacpan.org/pod/Database%3A%3AAbstraction)
 - `directory` - The directory containing the file obituaries.sql
-- `logger` - An object to send log messages to
+- `logger` - Passed to [Database::Abstraction](https://metacpan.org/pod/Database%3A%3AAbstraction)
 
 ## search
 
@@ -60,9 +61,11 @@ Nigel Horne, `<njh at bandsman.co.uk>`
 # BUGS
 
 Ancestry has removed the archives.
-The first 17 pages are on Wayback machine, but the rest is lost.
+The first 18 pages are on Wayback machine, but the rest is lost.
 
 # SEE ALSO
+
+[Database::Abstraction](https://metacpan.org/pod/Database%3A%3AAbstraction)
 
 - The Obituary Daily Times
 

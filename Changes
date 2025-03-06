@@ -1,6 +1,6 @@
 Revision history for Genealogy::ObituaryDailyTimes
 
-0.15
+0.15	Thu Mar  6 07:45:33 EST 2025
 	Started to add code to index funeral-notices.co.uk
 	Added bin/extract
 	Use Test::HTTPStatus
