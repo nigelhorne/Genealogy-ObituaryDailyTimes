@@ -6,7 +6,7 @@ use warnings;
 use File::Spec;
 use File::Temp qw(tempdir);
 use FindBin qw($Bin);
-use Test::Most tests => 8;
+use Test::Most;
 
 # Module loads
 BEGIN { use_ok('Genealogy::ObituaryDailyTimes') }
