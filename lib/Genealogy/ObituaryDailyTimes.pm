@@ -4,6 +4,7 @@ use warnings;
 use strict;
 
 use Carp;
+use Config::Auto;
 use File::Spec;
 use Module::Info;
 use Genealogy::ObituaryDailyTimes::obituaries;
@@ -30,6 +31,8 @@ our $VERSION = '0.15';
 
 =head1 SYNOPSIS
 
+Looks up obituares from the Obituary Daily Times and other places.
+
     use Genealogy::ObituaryDailyTimes;
     my $info = Genealogy::ObituaryDailyTimes->new();
     # ...
@@ -48,6 +51,12 @@ Accepts the following optional arguments:
 
 =item * C<cache> - Passed to L<Database::Abstraction>
 
+=item * C<config_file>
+
+Points to a configuration file which contains the parameters to C<new()>.
+The file can be in any common format including C<YAML>, C<XML>, and C<INI>.
+This allows the parameters to be set at run time.
+
 =item * C<directory> - The directory containing the file obituaries.sql
 
 =item * C<logger> - Passed to L<Database::Abstraction>
@@ -56,7 +65,8 @@ Accepts the following optional arguments:
 
 =cut
 
-sub new {
+sub new
+{
 	my $class = shift;
 	my %args = (ref($_[0]) eq 'HASH') ? %{$_[0]} : @_;
 
@@ -72,6 +82,13 @@ sub new {
 	} elsif(Scalar::Util::blessed($class)) {
 		# If $class is an object, clone it with new arguments
 		return bless { %{$class}, %args }, ref($class);
+	}
+
+	# Load the configuration from a config file, if provided
+	if(exists($args{'config_file'})) {
+		my $config = Config::Auto::parse($args{'config_file'});
+		# my $config = YAML::XS::LoadFile($args{'config_file'});
+		%args = (%{$config}, %args);
 	}
 
 	my $directory = $args{'directory'} || $Database::Abstraction{'defaults'}{'directory'};
