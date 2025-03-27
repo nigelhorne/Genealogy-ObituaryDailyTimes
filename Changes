@@ -3,6 +3,7 @@ Revision history for Genealogy::ObituaryDailyTimes
 0.16
 	Entries taken down on funeral-notices.co.uk do not return 404
 	Added config_file argument to new()
+	If just one argument is given it is taken to be "directory"
 
 0.15	Thu Mar  6 07:45:33 EST 2025
 	Started to add code to index funeral-notices.co.uk

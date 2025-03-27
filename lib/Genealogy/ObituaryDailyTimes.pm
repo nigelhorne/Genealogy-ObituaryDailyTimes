@@ -57,7 +57,10 @@ Points to a configuration file which contains the parameters to C<new()>.
 The file can be in any common format including C<YAML>, C<XML>, and C<INI>.
 This allows the parameters to be set at run time.
 
-=item * C<directory> - The directory containing the file obituaries.sql
+=item * C<directory>
+
+The directory containing the file obituaries.sql.
+If only one argument is given to C<new()>, it is taken to be C<directory>.
 
 =item * C<logger> - Passed to L<Database::Abstraction>
 
@@ -68,7 +71,16 @@ This allows the parameters to be set at run time.
 sub new
 {
 	my $class = shift;
-	my %args = (ref($_[0]) eq 'HASH') ? %{$_[0]} : @_;
+	my %args;
+
+	# Handle hash or hashref arguments
+	if(ref($_[0]) eq 'HASH') {
+		%args = %{$_[0]};
+	} elsif((scalar(@_) % 2) == 0) {
+		%args = @_;
+	} elsif(scalar(@_) == 1) {
+		$args{'directory'} = shift;
+	}
 
 	if(!defined($class)) {
 		if((scalar keys %args) > 0) {
@@ -85,9 +97,11 @@ sub new
 	}
 
 	# Load the configuration from a config file, if provided
-	if(exists($args{'config_file'})) {
-		my $config = Config::Auto::parse($args{'config_file'});
+	if(exists($args{'config_file'}) && (my $config = Config::Auto::parse($args{'config_file'}))) {
 		# my $config = YAML::XS::LoadFile($args{'config_file'});
+		if($config->{$class}) {
+			$config = $config->{$class};
+		}
 		%args = (%{$config}, %args);
 	}
 
