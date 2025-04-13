@@ -608,7 +608,6 @@ sub queue($$$$$$$$$)
 	push @queue, \%columns;
 }
 
-
 sub flush($)
 {
 	my $dbh = shift;
