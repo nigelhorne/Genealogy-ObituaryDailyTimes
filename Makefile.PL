@@ -32,6 +32,7 @@ my $prereqs = {
 	'constant' => 0,
 	'Carp' => 0,
 	'Config::Auto' => 0,
+	'Data::Reuse' => 0,
 	'Database::Abstraction' => 0.04,
 	'DBD::SQLite' => 0,
 	'DBD::SQLite::Constants' => 0,

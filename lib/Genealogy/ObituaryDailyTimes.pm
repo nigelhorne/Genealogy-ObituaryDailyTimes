@@ -5,6 +5,7 @@ use strict;
 
 use Carp;
 use Config::Auto;
+use Data::Reuse;
 use File::Spec;
 use Module::Info;
 use Genealogy::ObituaryDailyTimes::obituaries;
@@ -161,7 +162,7 @@ sub search
 		return;
 	}
 
-	$self->{'obituaries'} ||= Genealogy::ObituaryDailyTimes::obituaries->new(no_entry => 1, %{$self});
+	$self->{'obituaries'} ||= Genealogy::ObituaryDailyTimes::obituaries->new(no_entry => 1, no_fixate => 1, %{$self});
 
 	if(!defined($self->{'obituaries'})) {
 		Carp::croak("Can't open the obituaries database");
@@ -176,6 +177,7 @@ sub search
 	}
 	if(defined(my $obit = $self->{'obituaries'}->fetchrow_hashref($params))) {
 		$obit->{'url'} = _create_url($obit);
+		Data::Reuse::fixate(%{$obit});
 		return $obit;
 	}
 	return;	# undef
