@@ -32,7 +32,7 @@ our $VERSION = '0.16';
 
 =head1 SYNOPSIS
 
-Looks up obituares from the Obituary Daily Times and other places.
+Looks up obituaries from the Obituary Daily Times and other places.
 
     use Genealogy::ObituaryDailyTimes;
     my $info = Genealogy::ObituaryDailyTimes->new();

@@ -19,6 +19,8 @@ Version 0.16
 
 # SYNOPSIS
 
+Looks up obituaries from the Obituary Daily Times and other places.
+
     use Genealogy::ObituaryDailyTimes;
     my $info = Genealogy::ObituaryDailyTimes->new();
     # ...
@@ -34,7 +36,17 @@ Creates a Genealogy::ObituaryDailyTimes object.
 Accepts the following optional arguments:
 
 - `cache` - Passed to [Database::Abstraction](https://metacpan.org/pod/Database%3A%3AAbstraction)
-- `directory` - The directory containing the file obituaries.sql
+- `config_file`
+
+    Points to a configuration file which contains the parameters to `new()`.
+    The file can be in any common format including `YAML`, `XML`, and `INI`.
+    This allows the parameters to be set at run time.
+
+- `directory`
+
+    The directory containing the file obituaries.sql.
+    If only one argument is given to `new()`, it is taken to be `directory`.
+
 - `logger` - Passed to [Database::Abstraction](https://metacpan.org/pod/Database%3A%3AAbstraction)
 
 ## search
