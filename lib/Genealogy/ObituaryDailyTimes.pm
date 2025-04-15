@@ -4,7 +4,7 @@ use warnings;
 use strict;
 
 use Carp;
-use Config::Auto;
+use Config::Abstraction;
 use Data::Reuse;
 use File::Spec;
 use Module::Info;
@@ -98,7 +98,7 @@ sub new
 	}
 
 	# Load the configuration from a config file, if provided
-	if(exists($args{'config_file'}) && (my $config = Config::Auto::parse($args{'config_file'}))) {
+	if(exists($args{'config_file'}) && (my $config = Config::Abstraction->new(config_dirs => ['/'], config_file => $args{'config_file'})->all())) {
 		# my $config = YAML::XS::LoadFile($args{'config_file'});
 		if($config->{$class}) {
 			$config = $config->{$class};

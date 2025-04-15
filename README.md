@@ -1,6 +1,9 @@
+Genealogy::ObituaryDailyTimes
+=============================
+
 [![Appveyor status](https://ci.appveyor.com/api/projects/status/w2kcdehjtofvt55t?svg=true)](https://ci.appveyor.com/project/nigelhorne/genealogy-obituarydailytimes)
 [![CPAN](https://img.shields.io/cpan/v/Genealogy-ObituaryDailyTimes.svg)](http://search.cpan.org/~nhorne/Genealogy-ObituaryDailyTimes/)
-[![Github Actions Status](https://github.com/nigelhorne/Genealogy-ObituaryDailyTimes/workflows/.github/workflows/all.yml/badge.svg)](https://github.com/nigelhorne/Genealogy-ObituaryDailyTimes/actions)
+![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/nigelhorne/genealogy-obituarydailytimes/test.yml?branch=master)
 [![Kritika Analysis Status](https://kritika.io/users/nigelhorne/repos/7086407966497872/heads/master/status.svg)](https://kritika.io/users/nigelhorne/repos/7086407966497872/heads/master/)
 [![Kwalitee](https://cpants.cpanauthors.org/dist/Genealogy-ObituaryDailyTimes.png)](http://cpants.cpanauthors.org/dist/Genealogy-ObituaryDailyTimes)
 [![Travis Status](https://www.travis-ci.com/nigelhorne/Genealogy-ObituaryDailyTimes.svg?branch=master)](https://www.travis-ci.com/nigelhorne/Genealogy-ObituaryDailyTimes)
