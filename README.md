@@ -15,7 +15,7 @@ Genealogy::ObituaryDailyTimes - Lookup an entry in the Obituary Daily Times
 
 # VERSION
 
-Version 0.15
+Version 0.16
 
 # SYNOPSIS
 

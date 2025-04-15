@@ -24,11 +24,11 @@ Genealogy::ObituaryDailyTimes - Lookup an entry in the Obituary Daily Times
 
 =head1 VERSION
 
-Version 0.15
+Version 0.16
 
 =cut
 
-our $VERSION = '0.15';
+our $VERSION = '0.16';
 
 =head1 SYNOPSIS
 
