@@ -50,6 +50,8 @@ my $prereqs = {
 };
 
 unless(defined($ENV{'NO_NETWORK_TESTING'})) {
+use File::Temp qw/tempfile tempdir/;
+use YAML::XS qw/DumpFile/;
 	$prereqs->{'DBI'} = 0;
 	$prereqs->{'File::HomeDir'} = 0;
 	$prereqs->{'HTML::Entities'} = 0;
@@ -85,6 +87,7 @@ WriteMakefile(
 	PL_FILES => (defined($ENV{'AUTOMATED_TESTING'}) ? {} : {'bin/create_db.PL' => 'bin/create_db'}),
 	TEST_REQUIRES => {
 		'FindBin' => 0,
+		'File::Temp' => 0,
 		'Test::Carp' => 0,
 		'Test::DescribeMe' => 0,
 		'Test::Most' => 0,
@@ -93,6 +96,7 @@ WriteMakefile(
 		'Test::HTTPStatus' => 0,
 		# 'Test::Kwalitee' => 0,
 		'IPC::System::Simple' => 0,
+		'YAML::XS' => 0
 	}, PREREQ_PM => $prereqs,
 	dist => $dist,
 	clean => { FILES => 'Genealogy-ObituaryDailyTimes-*' },

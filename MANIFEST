@@ -15,6 +15,7 @@ t/10-new.t
 t/30-basics.t
 t/carp.t
 t/comment-spelling.t
+t/config_file.t
 t/coverage.t
 t/critic.t
 t/eof.t
