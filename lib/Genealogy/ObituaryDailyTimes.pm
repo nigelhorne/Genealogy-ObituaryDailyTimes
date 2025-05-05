@@ -9,7 +9,7 @@ use Data::Reuse;
 use File::Spec;
 use Module::Info;
 use Genealogy::ObituaryDailyTimes::obituaries;
-use Params::Get;
+use Params::Get 0.04;
 use Scalar::Util;
 
 use constant URLS => {

@@ -44,7 +44,7 @@ my $prereqs = {
 	'File::Spec' => 0,
 	'File::Temp' => 0,
 	'Module::Info' => 0,
-	'Params::Get' => 0,
+	'Params::Get' => 0.04,
 	'Scalar::Util' => 0,
 	'Text::CSV' => 0
 };
