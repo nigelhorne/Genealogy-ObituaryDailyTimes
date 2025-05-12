@@ -4,6 +4,7 @@ use warnings;
 use strict;
 
 use Carp;
+use Class::Debug 0.02;
 use Config::Abstraction;
 use Data::Reuse;
 use File::Spec;
@@ -98,13 +99,7 @@ sub new
 	}
 
 	# Load the configuration from a config file, if provided
-	if(exists($args{'config_file'}) && (my $config = Config::Abstraction->new(config_dirs => [''], config_file => $args{'config_file'}, env_prefix => "${class}::")->all())) {
-		# my $config = YAML::XS::LoadFile($args{'config_file'});
-		if($config->{$class}) {
-			$config = $config->{$class};
-		}
-		%args = (%{$config}, %args);
-	}
+	%args = %{Class::Debug::setup($class, \%args)};
 
 	my $directory = $args{'directory'} || $Database::Abstraction{'defaults'}{'directory'};
 	if(!defined($directory)) {

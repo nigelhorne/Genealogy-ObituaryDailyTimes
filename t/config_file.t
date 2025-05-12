@@ -40,9 +40,9 @@ subtest 'Environment test' => sub {
 };
 
 # Nonexistent config file is ignored
-lives_ok {
-	Genealogy::ObituaryDailyTimes->new(config_file => '/nonexistent/path/to/config.yml');
-} 'Does not throw error for nonexistent config file';
+throws_ok {
+	Genealogy::ObituaryDailyTimes->new(config_file => '/nonexistent/path/to/config.yml', config_dirs => ['']);
+} qr/Can't load configuration from/, 'Throws error for nonexistent config file';
 
 # Malformed config file (not a hashref)
 my ($badfh, $badfile) = tempfile();
@@ -50,15 +50,15 @@ print $badfh "--- Just a list\n- foo\n- bar\n";
 close $badfh;
 
 throws_ok {
-	Genealogy::ObituaryDailyTimes->new(config_file => $badfile);
-} qr/Can't locate object method|HASH/, 'Throws error if config is not a hashref';
+	Genealogy::ObituaryDailyTimes->new(config_file => $badfile, config_dirs => ['']);
+} qr /Can't load configuration from/, 'Throws error if config is not a hashref';
 
 # Config file exists but has no key for the class
 my $nofield_file = File::Spec->catdir($tempdir, 'nokey.yml');
 DumpFile($nofield_file, {
 	NotTheClass => { directory => $tempdir }
 });
-$obj = Genealogy::ObituaryDailyTimes->new(config_file => $nofield_file);
+$obj = Genealogy::ObituaryDailyTimes->new(config_file => $nofield_file, config_dirs => ['']);
 ok($obj, 'Object created with config that lacks class key');
 like($obj->{directory}, qr/lib.Genealogy.ObituaryDailyTimes.data$/, 'Falls back to default if class key missing (uses directory directly)');
 
@@ -67,7 +67,11 @@ my $bad_dir_file = File::Spec->catdir($tempdir, 'baddir.yml');
 DumpFile($bad_dir_file, {
 	$class_name => { directory => '/definitely/does/not/exist' }
 });
-my $obj2 = Genealogy::ObituaryDailyTimes->new(config_file => $bad_dir_file);
-ok(!defined $obj2, 'Returns undef if directory from config file is invalid');
+
+lives_ok {
+	$obj = Genealogy::ObituaryDailyTimes->new(config_file => $bad_dir_file, config_dirs => [''])
+} 'Throws no error if directory in config file is invalid';
+
+ok(!defined($obj), 'Returns undef if directory in config file is invalid');
 
 done_testing();
