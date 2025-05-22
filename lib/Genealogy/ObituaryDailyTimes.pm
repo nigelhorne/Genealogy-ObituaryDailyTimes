@@ -76,9 +76,9 @@ sub new
 	my %args;
 
 	# Handle hash or hashref arguments
-	if(scalar(@_) == 1) {
-		$args{'directory'} = shift;
-	} elsif(my $params = Params::Get::get_params(undef, \@_)) {
+	if((scalar(@_) == 1) && !ref($_[0])) {
+		$args{'directory'} = $_[0];
+	} elsif(my $params = Params::Get::get_params(undef, @_)) {
 		%args = %{$params};
 	}
 
