@@ -76,12 +76,10 @@ sub new
 	my %args;
 
 	# Handle hash or hashref arguments
-	if(ref($_[0]) eq 'HASH') {
-		%args = %{$_[0]};
-	} elsif((scalar(@_) % 2) == 0) {
-		%args = @_;
-	} elsif(scalar(@_) == 1) {
+	if(scalar(@_) == 1) {
 		$args{'directory'} = shift;
+	} elsif(my $params = Params::Get::get_params(undef, \@_)) {
+		%args = %{$params};
 	}
 
 	if(!defined($class)) {
@@ -110,7 +108,7 @@ sub new
 	}
 
 	if(!-d $directory) {
-		Carp::carp(__PACKAGE__, ": $directory is not a directory");
+		Carp::carp("$class: $directory is not a directory");
 		return;
 	}
 
