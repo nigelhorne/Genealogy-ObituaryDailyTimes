@@ -10,11 +10,11 @@ Genealogy::ObituaryDailyTimes::obituaries
 
 =head1 VERSION
 
-Version 0.15
+Version 0.16
 
 =cut
 
-our $VERSION = '0.15';
+our $VERSION = '0.16';
 
 our @ISA = ('Database::Abstraction');
 
