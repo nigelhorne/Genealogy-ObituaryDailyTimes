@@ -102,7 +102,7 @@ sub new
 	my $directory = $args{'directory'} || $Database::Abstraction{'defaults'}{'directory'};
 	if(!defined($directory)) {
 		# If the directory argument isn't given, see if we can find the data
-		$directory = Module::Info->new_from_loaded(__PACKAGE__)->file();
+		$directory = Module::Info->new_from_loaded($class)->file();
 		$directory =~ s/\.pm$//;
 		$args{'directory'} = File::Spec->catfile($directory, 'data');
 	}
