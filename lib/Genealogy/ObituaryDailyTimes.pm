@@ -4,12 +4,11 @@ use warnings;
 use strict;
 
 use Carp;
-use Class::Debug 0.02;
-use Config::Abstraction;
 use Data::Reuse;
 use File::Spec;
-use Module::Info;
 use Genealogy::ObituaryDailyTimes::obituaries;
+use Module::Info;
+use Object::Configure;
 use Params::Get 0.04;
 use Scalar::Util;
 
@@ -97,7 +96,7 @@ sub new
 	}
 
 	# Load the configuration from a config file, if provided
-	%args = %{Class::Debug::setup($class, \%args)};
+	%args = %{Object::Configure::configure($class, \%args)};
 
 	my $directory = $args{'directory'} || $Database::Abstraction{'defaults'}{'directory'};
 	if(!defined($directory)) {
