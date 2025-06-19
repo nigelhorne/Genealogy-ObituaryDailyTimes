@@ -16,7 +16,7 @@ my $config_file = File::Spec->catdir($tempdir, 'config.yml');
 
 # Write a fake config with a directory that exists
 my $fake_directory = $tempdir; # just use the tempdir itself
-my $class_name = 'Genealogy::ObituaryDailyTimes';
+my $class_name = 'Genealogy__ObituaryDailyTimes';
 
 DumpFile($config_file, {
 	$class_name => { directory => $fake_directory }
@@ -30,7 +30,7 @@ isa_ok($obj, 'Genealogy::ObituaryDailyTimes');
 is($obj->{directory}, $fake_directory, 'Directory was read from config file');
 
 subtest 'Environment test' => sub {
-	local $ENV{'Genealogy::ObituaryDailyTimes::directory'} = '/';
+	local $ENV{'Genealogy__ObituaryDailyTimes__directory'} = '/';
 
 	$obj = Genealogy::ObituaryDailyTimes->new(config_file => $config_file);
 
@@ -39,7 +39,7 @@ subtest 'Environment test' => sub {
 	is($obj->{directory}, '/', 'Read config directory from the environment');
 };
 
-# Nonexistent config file is ignored
+# Nonexistent config file dies
 throws_ok {
 	Genealogy::ObituaryDailyTimes->new(config_file => '/nonexistent/path/to/config.yml', config_dirs => ['']);
 } qr/Can't load configuration from/, 'Throws error for nonexistent config file';

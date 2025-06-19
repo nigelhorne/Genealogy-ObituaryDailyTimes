@@ -8,7 +8,7 @@ use Data::Reuse;
 use File::Spec;
 use Genealogy::ObituaryDailyTimes::obituaries;
 use Module::Info;
-use Object::Configure;
+use Object::Configure 0.10;
 use Params::Get 0.04;
 use Scalar::Util;
 
