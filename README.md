@@ -1,5 +1,5 @@
-Genealogy::ObituaryDailyTimes
-=============================
+Genealogy::Obituary::Fetch
+==========================
 
 [![Appveyor status](https://ci.appveyor.com/api/projects/status/w2kcdehjtofvt55t?svg=true)](https://ci.appveyor.com/project/nigelhorne/genealogy-obituarydailytimes)
 [![CPAN](https://img.shields.io/cpan/v/Genealogy-ObituaryDailyTimes.svg)](http://search.cpan.org/~nhorne/Genealogy-ObituaryDailyTimes/)
@@ -11,7 +11,7 @@ Genealogy::ObituaryDailyTimes
 
 # NAME
 
-Genealogy::ObituaryDailyTimes - Lookup an entry in the Obituary Daily Times
+Genealogy::Obituary::Lookup - Lookup an obituary
 
 # VERSION
 
@@ -19,19 +19,19 @@ Version 0.16
 
 # SYNOPSIS
 
-Looks up obituaries from the Obituary Daily Times and other places.
+Looks up obituaries
 
-    use Genealogy::ObituaryDailyTimes;
-    my $info = Genealogy::ObituaryDailyTimes->new();
+    use Genealogy::Obituary::Lookup;
+    my $info = Genealogy::Obituary::Lookup->new();
     # ...
 
 # SUBROUTINES/METHODS
 
 ## new
 
-Creates a Genealogy::ObituaryDailyTimes object.
+Creates a Genealogy::Obituary::Lookup object.
 
-    my $obits = Genealogy::ObituaryDailyTimes->new();
+    my $obits = Genealogy::Obituary::Lookup->new();
 
 Accepts the following optional arguments:
 
@@ -104,27 +104,29 @@ The first 18 pages are on Wayback machine, but the rest is lost.
 
 # SUPPORT
 
+This module is provided as-is without any warranty.
+
 You can find documentation for this module with the perldoc command.
 
-    perldoc Genealogy::ObituaryDailyTimes
+    perldoc Genealogy::Obituary::Lookup
 
 You can also look for information at:
 
 - MetaCPAN
 
-    [https://metacpan.org/release/Genealogy-ObituaryDailyTimes](https://metacpan.org/release/Genealogy-ObituaryDailyTimes)
+    [https://metacpan.org/release/Genealogy-Obituary-Lookup](https://metacpan.org/release/Genealogy-Obituary-Lookup)
 
 - RT: CPAN's request tracker
 
-    [https://rt.cpan.org/NoAuth/Bugs.html?Dist=Genealogy-ObituaryDailyTimes](https://rt.cpan.org/NoAuth/Bugs.html?Dist=Genealogy-ObituaryDailyTimes)
+    [https://rt.cpan.org/NoAuth/Bugs.html?Dist=Genealogy-Obituary-Lookup](https://rt.cpan.org/NoAuth/Bugs.html?Dist=Genealogy-Obituary-Lookup)
 
 - CPAN Testers' Matrix
 
-    [http://matrix.cpantesters.org/?dist=Genealogy-ObituaryDailyTimes](http://matrix.cpantesters.org/?dist=Genealogy-ObituaryDailyTimes)
+    [http://matrix.cpantesters.org/?dist=Genealogy-Obituary-Lookup](http://matrix.cpantesters.org/?dist=Genealogy-Obituary-Lookup)
 
 - CPAN Testers Dependencies
 
-    [http://deps.cpantesters.org/?module=Genealogy::ObituaryDailyTimes](http://deps.cpantesters.org/?module=Genealogy::ObituaryDailyTimes)
+    [http://deps.cpantesters.org/?module=Genealogy::Obituary::Lookup](http://deps.cpantesters.org/?module=Genealogy::Obituary::Lookup)
 
 # LICENSE AND COPYRIGHT
 

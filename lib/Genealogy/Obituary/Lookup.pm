@@ -165,6 +165,7 @@ sub search
 		foreach my $obit(@obituaries) {
 			$obit->{'url'} = _create_url($obit);
 		}
+		Data::Reuse::fixate(@obituaries);
 		return @obituaries;
 	}
 	if(defined(my $obit = $self->{'obituaries'}->fetchrow_hashref($params))) {
@@ -245,6 +246,8 @@ L<https://obituaries.rootsweb.com/obits/searchObits>
 =back
 
 =head1 SUPPORT
+
+This module is provided as-is without any warranty.
 
 You can find documentation for this module with the perldoc command.
 
