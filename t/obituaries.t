@@ -8,18 +8,18 @@ use lib 'lib';
 use lib 't/lib';
 use MyLogger;
 
-BEGIN { use_ok('Genealogy::ObituaryDailyTimes') }
+BEGIN { use_ok('Genealogy::Obituary::Lookup') }
 
 SKIP: {
-	skip('Database not installed', 22) if(!-r 'lib/Genealogy/ObituaryDailyTimes/data/obituaries.sql');
+	skip('Database not installed', 22) if(!-r 'lib/Genealogy/Obituary/Lookup/data/obituaries.sql');
 
-	Database::Abstraction::init('directory' => 'lib/Genealogy/ObituaryDailyTimes/data');
+	Database::Abstraction::init('directory' => 'lib/Genealogy/Obituary/Lookup/data');
 
 	my $search;
 	if($ENV{'TEST_VERBOSE'}) {
-		$search = new_ok('Genealogy::ObituaryDailyTimes' => [ logger => MyLogger->new() ]);
+		$search = new_ok('Genealogy::Obituary::Lookup' => [ logger => MyLogger->new() ]);
 	} else {
-		$search = new_ok('Genealogy::ObituaryDailyTimes');
+		$search = new_ok('Genealogy::Obituary::Lookup');
 	}
 
 	my @smiths = $search->search('Smith');

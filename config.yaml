@@ -1,5 +1,5 @@
 ---
-# Configuration for Genealogy::ObituaryDailyTimes
+# Configuration for Genealogy::Obituary::Lookup
 
 # Directory where the database files are stored
 directory: /

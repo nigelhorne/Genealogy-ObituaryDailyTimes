@@ -24,9 +24,9 @@ if($@) {
 
 	# $Devel::FIXME::REPAIR_INC = 1;
 
-	use_ok('Genealogy::ObituaryDailyTimes');
+	use_ok('Genealogy::Obituary::Lookup');
 
-	# ok($messages[0] !~ /lib\/Genealogy\/ObituaryDailyTimes.pm/);
+	# ok($messages[0] !~ /lib\/Genealogy\/Obituary\/Lookup.pm/);
 	cmp_ok(scalar(@messages), '==', 0, 'No FIXMEs found');
 
 	done_testing(3);
@@ -35,7 +35,7 @@ if($@) {
 sub Devel::FIXME::rules {
 	sub {
 		my $self = shift;
-		return shout($self) if $self->{file} =~ /lib\/Genealogy\/ObituaryDailyTimes/;
+		return shout($self) if $self->{file} =~ /lib\/Genealogy\/Obituary\/Lookup/;
 		return Devel::FIXME::DROP();
 	}
 }

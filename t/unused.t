@@ -6,6 +6,6 @@ use Test::DescribeMe qw(author);
 use Test::Most;
 use Test::Needs { 'warnings::unused' => '0.04' };
 
-use_ok('Genealogy::ObituaryDailyTimes');
-new_ok('Genealogy::ObituaryDailyTimes');
+use_ok('Genealogy::Obituary::Lookup');
+new_ok('Genealogy::Obituary::Lookup');
 plan(tests => 2);

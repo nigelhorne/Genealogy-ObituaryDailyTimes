@@ -12,7 +12,7 @@ if(defined($ENV{'GITHUB_ACTION'}) || defined($ENV{'CIRCLECI'}) || defined($ENV{'
 	$ENV{'AUTOMATED_TESTING'} = 1;
 	$ENV{'NO_NETWORK_TESTING'} = 1;
 } elsif(!$ENV{'NO_NETWORK_TESTING'}) {
-	push @dirs, 'lib/Genealogy/ObituaryDailyTimes/data';
+	push @dirs, 'lib/Genealogy/Obituary/Lookup/data';
 }
 
 # FIXME: AUTOMATED_TESTING - create the empty directory in blib
@@ -73,10 +73,10 @@ if($^O eq 'darwin') {
 }
 
 WriteMakefile(
-	NAME		=> 'Genealogy::ObituaryDailyTimes',
+	NAME		=> 'Genealogy::Obituary::Lookup',
 	AUTHOR		=> q{Nigel Horne <njh@bandsman.co.uk>},
-	VERSION_FROM	=> 'lib/Genealogy/ObituaryDailyTimes.pm',	# finds $VERSION in the module
-	ABSTRACT_FROM	=> 'lib/Genealogy/ObituaryDailyTimes.pm',
+	VERSION_FROM	=> 'lib/Genealogy/Obituary/Lookup.pm',	# finds $VERSION in the module
+	ABSTRACT_FROM	=> 'lib/Genealogy/Obituary/Lookup.pm',
 	((defined($ExtUtils::MakeMaker::VERSION) &&
 	 ($ExtUtils::MakeMaker::VERSION >= 6.3002))
 	  ? ('LICENSE'=> 'GPL')
@@ -99,9 +99,9 @@ WriteMakefile(
 		'YAML::XS' => 0
 	}, PREREQ_PM => $prereqs,
 	dist => $dist,
-	clean => { FILES => 'Genealogy-ObituaryDailyTimes-*' },
+	clean => { FILES => 'Genealogy-Obituary-Lookup-*' },
 	realclean => {
-		FILES => 'Genealogy-ObituaryDailyTimes-* lib/Genealogy/ObituaryDailyTimes/data'
+		FILES => 'Genealogy-Obituary-Lookup-* lib/Genealogy/Obituary-Lookup/data'
 	},
 	# META_ADD => {
 		# provides => {}
@@ -111,15 +111,15 @@ WriteMakefile(
 		resources => {
 			repository => {
 				type => 'git',
-				url => 'git://github.com/nigelhorne/Genealogy-ObituaryDailyTimes.git',
-				web => 'https://github.com/nigelhorne/Genealogy-ObituaryDailyTimes',
-				repository => 'https://github.com/nigelhorne/Genealogy-ObituaryDailyTimes',
+				url => 'git://github.com/nigelhorne/Genealogy-Obituary-Lookup.git',
+				web => 'https://github.com/nigelhorne/Genealogy-Obituary-Lookup',
+				repository => 'https://github.com/nigelhorne/Genealogy-Obituary-Lookup',
 			},
 			bugtracker => {
-				# web => 'https://rt.cpan.org/Public/Dist/Display.html?Name=Genealogy-ObituaryDailyTimes',
-				# mailto => 'bug-Genealogy-ObituaryDailyTimes@rt.cpan.org'
-				web => 'https://github.com/nigelhorne/Genealogy-ObituaryDailyTimes/issues',
-				mailto => 'bug-Genealogy-ObituaryDailyTimes@rt.cpan.org'
+				# web => 'https://rt.cpan.org/Public/Dist/Display.html?Name=Genealogy-Obituary-Lookup',
+				# mailto => 'bug-Genealogy-Obituary-Lookup@rt.cpan.org'
+				web => 'https://github.com/nigelhorne/Genealogy-Obituary-Lookup/issues',
+				mailto => 'bug-Genealogy-Obituary-Lookup@rt.cpan.org'
 			}, homepage => 'https://sites.rootsweb.com/~obituary',
 		},
 	},

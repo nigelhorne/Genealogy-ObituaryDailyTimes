@@ -6,7 +6,7 @@ use warnings;
 use Test::DescribeMe qw(author);
 use Test::Most tests => 4;
 
-use constant URL => 'https://api.github.com/repos/nigelhorne/Genealogy-ObituaryDailyTimes/issues';
+use constant URL => 'https://api.github.com/repos/nigelhorne/Genealogy-Obituary-Lookup/issues';
 use constant SITE =>'api.github.com';
 
 RT: {
@@ -16,7 +16,7 @@ RT: {
 		if($@) {
 			diag('WWW::RT::CPAN required to check for open tickets');
 			skip('WWW::RT::CPAN required to check for open tickets', 3);
-		} elsif(my @rc = @{WWW::RT::CPAN::list_dist_active_tickets(dist => 'Genealogy-ObituaryDailyTimes')}) {
+		} elsif(my @rc = @{WWW::RT::CPAN::list_dist_active_tickets(dist => 'Genealogy-Obituary-Lookup')}) {
 			cmp_ok($rc[0], '==', 200);
 			cmp_ok($rc[1], 'eq', 'OK');
 			my @tickets = $rc[2] ? @{$rc[2]} : ();

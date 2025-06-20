@@ -1,4 +1,4 @@
-package Genealogy::ObituaryDailyTimes;
+package Genealogy::Obituary::Lookup;
 
 use warnings;
 use strict;
@@ -6,7 +6,7 @@ use strict;
 use Carp;
 use Data::Reuse;
 use File::Spec;
-use Genealogy::ObituaryDailyTimes::obituaries;
+use Genealogy::Obituary::Lookup::obituaries;
 use Module::Info;
 use Object::Configure 0.10;
 use Params::Get 0.04;
@@ -20,7 +20,7 @@ use constant URLS => {
 
 =head1 NAME
 
-Genealogy::ObituaryDailyTimes - Lookup an entry in the Obituary Daily Times
+Genealogy::Obituary::Lookup - Lookup an obituary
 
 =head1 VERSION
 
@@ -32,19 +32,19 @@ our $VERSION = '0.16';
 
 =head1 SYNOPSIS
 
-Looks up obituaries from the Obituary Daily Times and other places.
+Looks up obituaries
 
-    use Genealogy::ObituaryDailyTimes;
-    my $info = Genealogy::ObituaryDailyTimes->new();
+    use Genealogy::Obituary::Lookup;
+    my $info = Genealogy::Obituary::Lookup->new();
     # ...
 
 =head1 SUBROUTINES/METHODS
 
 =head2 new
 
-Creates a Genealogy::ObituaryDailyTimes object.
+Creates a Genealogy::Obituary::Lookup object.
 
-    my $obits = Genealogy::ObituaryDailyTimes->new();
+    my $obits = Genealogy::Obituary::Lookup->new();
 
 Accepts the following optional arguments:
 
@@ -83,7 +83,7 @@ sub new
 
 	if(!defined($class)) {
 		if((scalar keys %args) > 0) {
-			# Use Genealogy::ObituaryDailyTimes->new, not Genealogy::ObituaryDailyTimes::new
+			# Use Genealogy::Obituary::Lookup->new, not Genealogy::Obituary::Lookup::new
 			carp(__PACKAGE__, ' use ->new() not ::new() to instantiate');
 			return;
 		}
@@ -154,7 +154,7 @@ sub search
 		return;
 	}
 
-	$self->{'obituaries'} ||= Genealogy::ObituaryDailyTimes::obituaries->new(no_entry => 1, no_fixate => 1, %{$self});
+	$self->{'obituaries'} ||= Genealogy::Obituary::Lookup::obituaries->new(no_entry => 1, no_fixate => 1, %{$self});
 
 	if(!defined($self->{'obituaries'})) {
 		Carp::croak("Can't open the obituaries database");
@@ -248,7 +248,7 @@ L<https://obituaries.rootsweb.com/obits/searchObits>
 
 You can find documentation for this module with the perldoc command.
 
-    perldoc Genealogy::ObituaryDailyTimes
+    perldoc Genealogy::Obituary::Lookup
 
 You can also look for information at:
 
@@ -256,19 +256,19 @@ You can also look for information at:
 
 =item * MetaCPAN
 
-L<https://metacpan.org/release/Genealogy-ObituaryDailyTimes>
+L<https://metacpan.org/release/Genealogy-Obituary-Lookup>
 
 =item * RT: CPAN's request tracker
 
-L<https://rt.cpan.org/NoAuth/Bugs.html?Dist=Genealogy-ObituaryDailyTimes>
+L<https://rt.cpan.org/NoAuth/Bugs.html?Dist=Genealogy-Obituary-Lookup>
 
 =item * CPAN Testers' Matrix
 
-L<http://matrix.cpantesters.org/?dist=Genealogy-ObituaryDailyTimes>
+L<http://matrix.cpantesters.org/?dist=Genealogy-Obituary-Lookup>
 
 =item * CPAN Testers Dependencies
 
-L<http://deps.cpantesters.org/?module=Genealogy::ObituaryDailyTimes>
+L<http://deps.cpantesters.org/?module=Genealogy::Obituary::Lookup>
 
 =back
 

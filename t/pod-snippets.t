@@ -7,7 +7,7 @@ use Test::DescribeMe qw(author);
 use Test::Most;
 use Test::Needs 'Test::Pod::Snippets';
 
-my @modules = qw/ Genealogy::ObituaryDailyTimes /;
+my @modules = qw/ Genealogy::Obituary::Lookup /;
 Test::Pod::Snippets->import();
 Test::Pod::Snippets->new()->runtest(module => $_, testgroup => 1) for @modules;
 

@@ -1,4 +1,4 @@
-package Genealogy::ObituaryDailyTimes::obituaries;
+package Genealogy::Obituary::Lookup::obituaries;
 
 use strict;
 use warnings;
@@ -6,7 +6,7 @@ use Database::Abstraction;
 
 =head1 NAME
 
-Genealogy::ObituaryDailyTimes::obituaries
+Genealogy::Obituary::Lookup::obituaries
 
 =head1 VERSION
 

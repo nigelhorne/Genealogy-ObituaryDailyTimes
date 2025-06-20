@@ -46,7 +46,7 @@ BEGIN {
 
 my %normalised;
 my $force_flag;
-my $dir = 'lib/Genealogy/ObituaryDailyTimes/data';
+my $dir = 'lib/Genealogy/Obituary/Lookup/data';
 
 if(defined($ARGV[0]) && ($ARGV[0] eq '-f')) {
 	$force_flag++;

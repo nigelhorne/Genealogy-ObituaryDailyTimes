@@ -3,6 +3,7 @@ Revision history for Genealogy::ObituaryDailyTimes
 0.17
 	Use Object::Configure
 	Use Params::Get in new()
+	Changed from Genealogy::ObituaryDailyTimes to Genealogy::Obituary::Lookup
 
 0.16	Tue Apr 15 08:25:19 EDT 2025
 	Entries taken down on funeral-notices.co.uk do not return 404
