@@ -46,12 +46,11 @@ my $prereqs = {
 	'Object::Configure' => 0.10,
 	'Params::Get' => 0.04,
 	'Scalar::Util' => 0,
-	'Text::CSV' => 0
+	'Text::CSV' => 0,
+	'YAML::XS' => 0,
 };
 
 unless(defined($ENV{'NO_NETWORK_TESTING'})) {
-use File::Temp qw/tempfile tempdir/;
-use YAML::XS qw/DumpFile/;
 	$prereqs->{'DBI'} = 0;
 	$prereqs->{'File::HomeDir'} = 0;
 	$prereqs->{'HTML::Entities'} = 0;
