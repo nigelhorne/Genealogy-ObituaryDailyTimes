@@ -172,36 +172,14 @@ while(freelists($ua, 'v26no' . sprintf('%03d', $issue))) {
 
 flush($dbh);
 
-$issue = 1;
-while(freelists($ua, 'v27no' . sprintf('%03d', $issue))) {
-	flush($dbh) if(scalar(@queue) > 10_000);
-	$issue++;
-}
+foreach my $volume(27, 28, 29, 30) {
+	$issue = 1;
+	while(freelists($ua, "v${volume}no" . sprintf('%03d', $issue))) {
+		flush($dbh) if(scalar(@queue) > 10_000);
+		$issue++;
+	}
 
-flush($dbh);
-
-$issue = 1;
-while(freelists($ua, 'v28no' . sprintf('%03d', $issue))) {
-	flush($dbh) if(scalar(@queue) > 10_000);
-	$issue++;
-}
-
-flush($dbh);
-
-$issue = 1;
-# 2024
-while(freelists($ua, 'v29no' . sprintf('%03d', $issue))) {
-	flush($dbh) if(scalar(@queue) > 10_000);
-	$issue++;
-}
-
-flush($dbh);
-
-$issue = 1;
-# 2025
-while(freelists($ua, 'v30no' . sprintf('%03d', $issue))) {
-	flush($dbh) if(scalar(@queue) > 10_000);
-	$issue++;
+	flush($dbh);
 }
 
 print "\n";
