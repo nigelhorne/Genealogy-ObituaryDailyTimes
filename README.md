@@ -15,7 +15,7 @@ Genealogy::Obituary::Lookup - Lookup an obituary
 
 # VERSION
 
-Version 0.16
+Version 0.17
 
 # SYNOPSIS
 

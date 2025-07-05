@@ -108,18 +108,19 @@ WriteMakefile(
 	META_MERGE => {	# https://perldoc.perl.org/CPAN::Meta::Spec
 		'meta-spec' => { version => 2 },
 		resources => {
+			homepage => 'https://metacpan.org/pod/Genealogy::Obituary::Lookup',
 			repository => {
+				repository => 'https://github.com/nigelhorne/Genealogy-Obituary-Lookup',
 				type => 'git',
 				url => 'git://github.com/nigelhorne/Genealogy-Obituary-Lookup.git',
 				web => 'https://github.com/nigelhorne/Genealogy-Obituary-Lookup',
-				repository => 'https://github.com/nigelhorne/Genealogy-Obituary-Lookup',
-			},
-			bugtracker => {
+				# license    => 'http://dev.perl.org/licenses/',
+			}, bugtracker => {
+				mailto => 'bug-Genealogy-Obituary-Lookup@rt.cpan.org',
+				url => 'https://github.com/nigelhorne/Genealogy-Obituary-Lookup/issues',
 				# web => 'https://rt.cpan.org/Public/Dist/Display.html?Name=Genealogy-Obituary-Lookup',
-				# mailto => 'bug-Genealogy-Obituary-Lookup@rt.cpan.org'
-				web => 'https://github.com/nigelhorne/Genealogy-Obituary-Lookup/issues',
-				mailto => 'bug-Genealogy-Obituary-Lookup@rt.cpan.org'
-			}, homepage => 'https://sites.rootsweb.com/~obituary',
+				web => 'https://github.com/nigelhorne/Genealogy-Obituary-Lookup/issues'
+			}
 		},
 	},
 	# PPM_INSTALL_EXEC	=> 'perl',
