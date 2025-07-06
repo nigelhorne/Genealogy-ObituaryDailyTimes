@@ -1,13 +1,13 @@
-Genealogy::Obituary::Fetch
-==========================
+Genealogy::Obituary::Lookup
+===========================
 
 [![Appveyor status](https://ci.appveyor.com/api/projects/status/w2kcdehjtofvt55t?svg=true)](https://ci.appveyor.com/project/nigelhorne/genealogy-obituarydailytimes)
-[![CPAN](https://img.shields.io/cpan/v/Genealogy-ObituaryDailyTimes.svg)](http://search.cpan.org/~nhorne/Genealogy-ObituaryDailyTimes/)
+[![CPAN](https://img.shields.io/cpan/v/Genealogy-Obituary-Lookup.svg)](http://search.cpan.org/~nhorne/Genealogy-Obituary-Lookup/)
 ![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/nigelhorne/genealogy-obituarydailytimes/test.yml?branch=master)
 [![Kritika Analysis Status](https://kritika.io/users/nigelhorne/repos/7086407966497872/heads/master/status.svg)](https://kritika.io/users/nigelhorne/repos/7086407966497872/heads/master/)
-[![Kwalitee](https://cpants.cpanauthors.org/dist/Genealogy-ObituaryDailyTimes.png)](http://cpants.cpanauthors.org/dist/Genealogy-ObituaryDailyTimes)
-[![Travis Status](https://www.travis-ci.com/nigelhorne/Genealogy-ObituaryDailyTimes.svg?branch=master)](https://www.travis-ci.com/nigelhorne/Genealogy-ObituaryDailyTimes)
-[![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?text=Look+up+an+obituary+#perl+#gedcom+#genealogy&url=https://github.com/nigelhorne/Genealogy-ObituaryDailyTimes&via=nigelhorne)
+[![Kwalitee](https://cpants.cpanauthors.org/dist/Genealogy-Obituary-Lookup.png)](http://cpants.cpanauthors.org/dist/Genealogy-Obituary-Lookup)
+[![Travis Status](https://www.travis-ci.com/nigelhorne/Genealogy-Obituary-Lookup.svg?branch=master)](https://www.travis-ci.com/nigelhorne/Genealogy-Obituary-Lookup)
+[![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?text=Look+up+an+obituary+#perl+#gedcom+#genealogy&url=https://github.com/nigelhorne/Genealogy-Obituary-Lookup&via=nigelhorne)
 
 # NAME
 
@@ -15,7 +15,7 @@ Genealogy::Obituary::Lookup - Lookup an obituary
 
 # VERSION
 
-Version 0.17
+Version 0.18
 
 # SYNOPSIS
 
