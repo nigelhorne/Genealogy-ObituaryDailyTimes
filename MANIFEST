@@ -3,8 +3,8 @@ bin/extract
 bin/ml_from_cache
 Changes
 config.yaml
-lib/Genealogy/ObituaryDailyTimes.pm
-lib/Genealogy/ObituaryDailyTimes/obituaries.pm
+lib/Genealogy/Obituary/Lookup.pm
+lib/Genealogy/Obituary/Lookup/obituaries.pm
 LICENSE
 Makefile.PL
 MANIFEST			This list of files

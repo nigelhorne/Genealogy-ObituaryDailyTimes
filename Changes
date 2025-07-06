@@ -1,5 +1,8 @@
 Revision history for Genealogy::Obituary::Lookup
 
+0.18
+	Updated the MANIFEST with the new module name (Fixes Github#9)
+
 0.17	Sat Jul  5 09:00:03 EDT 2025
 	Use Object::Configure
 	Use Params::Get in new()
