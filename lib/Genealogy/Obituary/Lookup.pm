@@ -98,16 +98,15 @@ sub new
 	# Load the configuration from a config file, if provided
 	%args = %{Object::Configure::configure($class, \%args)};
 
-	my $directory = $args{'directory'} || $Database::Abstraction{'defaults'}{'directory'};
-	if(!defined($directory)) {
+	if(!defined((my $directory = ($args{'directory'} || $Genealogy::Obituary::Lookup::obituaries->{'directory'})))) {
 		# If the directory argument isn't given, see if we can find the data
 		$directory = Module::Info->new_from_loaded($class)->file();
 		$directory =~ s/\.pm$//;
 		$args{'directory'} = File::Spec->catfile($directory, 'data');
 	}
 
-	if(!-d $directory) {
-		Carp::carp("$class: $directory is not a directory");
+	unless((-d $args{'directory'}) && (-r $args{'directory'})) {
+		Carp::carp("$class: $args{directory} is not a directory");
 		return;
 	}
 
