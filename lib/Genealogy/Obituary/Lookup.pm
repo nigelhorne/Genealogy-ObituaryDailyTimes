@@ -110,6 +110,13 @@ sub new
 		return;
 	}
 
+	# Validate logger object has required methods
+	if(defined $args{'logger'}) {
+		unless(Scalar::Util::blessed($args{'logger'}) && $args{'logger'}->can('info') && $args{'logger'}->can('error')) {
+			Carp::croak("Logger must be an object with info() and error() methods");
+		}
+	}
+
 	# cache_duration can be overridden by the args
 	return bless {
 		cache_duration => '1 day',	# The database is updated daily
