@@ -155,10 +155,14 @@ sub search
 	my $self = shift;
 	my $params = Params::Get::get_params('last', @_);
 
-	if(!defined($params->{'last'})) {
+	# Validate required parameters thoroughly
+	unless((defined($params->{'last'})) && (length($params->{'last'}) > 0)) {
 		Carp::carp("Value for 'last' is mandatory");
 		return;
 	}
+
+	# Sanitize input to prevent SQL injection
+	$params->{'last'} =~ s/[^\w\s\-']//g;	# Allow only word chars, spaces, hyphens, apostrophes
 
 	$self->{'obituaries'} ||= Genealogy::Obituary::Lookup::obituaries->new(no_entry => 1, no_fixate => 1, %{$self});
 
