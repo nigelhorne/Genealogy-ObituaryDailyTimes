@@ -9,7 +9,8 @@ use File::Spec;
 use Genealogy::Obituary::Lookup::obituaries;
 use Module::Info;
 use Object::Configure 0.10;
-use Params::Get 0.04;
+use Params::Get 0.13;
+use Return::Set;
 use Scalar::Util;
 
 use constant URLS => {
@@ -181,7 +182,8 @@ sub search
 	if(defined(my $obit = $self->{'obituaries'}->fetchrow_hashref($params))) {
 		$obit->{'url'} = _create_url($obit);
 		Data::Reuse::fixate(%{$obit});
-		return $obit;
+
+		return Return::Set::set_return($obit, { 'type' => 'hashref', 'min' => 1 });
 	}
 	return;	# undef
 }

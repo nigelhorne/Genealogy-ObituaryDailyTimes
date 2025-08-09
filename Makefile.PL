@@ -45,6 +45,7 @@ my $prereqs = {
 	'Module::Info' => 0,
 	'Object::Configure' => 0.10,
 	'Params::Get' => 0.04,
+	'Return::Set' => 0,
 	'Scalar::Util' => 0,
 	'Text::CSV' => 0,
 	'YAML::XS' => 0,
