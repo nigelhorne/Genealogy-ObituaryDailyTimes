@@ -5,7 +5,6 @@ use strict;
 
 use Carp;
 use Data::Reuse;
-use Database::Abstraction;
 use File::Spec;
 use Genealogy::Obituary::Lookup::obituaries;
 use Module::Info;
@@ -100,7 +99,7 @@ sub new
 	# Load the configuration from a config file, if provided
 	%args = %{Object::Configure::configure($class, \%args)};
 
-	if(!defined(my $directory = ($args{'directory'} || $Genealogy::Obituary::Lookup::obituaries->{'directory'} || $Database::Abstraction{'defaults'}{'directory'}))) {
+	if(!defined(my $directory = ($args{'directory'} || $Genealogy::Obituary::Lookup::obituaries->{'directory'}))) {
 		# If the directory argument isn't given, see if we can find the data
 		$directory = Module::Info->new_from_loaded($class)->file();
 		$directory =~ s/\.pm$//;
